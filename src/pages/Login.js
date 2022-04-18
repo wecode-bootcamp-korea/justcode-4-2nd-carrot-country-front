@@ -1,53 +1,60 @@
 import React from "react";
 import styled from "styled-components";
 import {CLIENT_PORT} from "config.js";
+import { Link } from "react-router-dom";
 // import { Link } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 
-const LoginPage = styled.div`
-display: inline-block;
-`
 const LoginBox = styled.div`
-display: flex;
-justify-content: center;
-flex-direction: column;
+display: inline-block;
 width: 350px;
-height: 500px;
-border: 2px solid gray;
+height: 450px;
+border: 2px solid #e4e4e4;
 border-radius: 8px;
-padding: 0px 10px;
+text-align: center;
+flex-direction: column;
+padding: 50px 10px;
 `;
-// const Logo = styled.div`
-// background-image: url(${Logo});
-// `;
+
 const Email = styled.input`
 width: 250px;
 padding: 13px;
-margin: 10px;
+margin: 20px 10px 5px 10px;
 border: 1px solid gray;
 border-radius: 5px;
+background-color: #f6f6f6;
 `;
+
 const Password = styled.input`
 width: 250px;
 padding: 13px;
 margin: 10px;
 border: 1px solid gray;
 border-radius: 5px;
+background-color: #f6f6f6;
 `;
+
 const LoginBtn = styled.button`
+width: 90%;
+margin-top: 20px;
+padding: 8px 0px;
 cursor: pointer;
-font-size: 20px;
+font-size: 18px;
+border-radius: 5px;
+border: 1px solid lightgray;
+background-color: #ef8d27f7;
 `;
-const UsersignupBtn = styled.button`
-cursor: pointer;
-font-size: 20px;
+
+const Usersignup = styled.div`
+margin-top: 180px;
+font-size: 15px;
+text-align: center;
 `;
 
 function Login() {
   // console.log(1,CLIENT_PORT);
 
   return (
-    <LoginPage>
       <LoginBox>
       <img
         src={`${CLIENT_PORT}/images/logo/logo1.png`}
@@ -57,9 +64,8 @@ function Login() {
       <Email type="text" placeholder="이메일을 입력하세요"/>
       <Password type="number" placeholder="비밀번호를 입력하세요"/>
       <LoginBtn>로그인</LoginBtn>
-      <UsersignupBtn>회원가입</UsersignupBtn>
+      <Usersignup>계정이 없으신가요? <>회원가입</></Usersignup>
       </LoginBox>
-    </LoginPage>
   );
 }
 
