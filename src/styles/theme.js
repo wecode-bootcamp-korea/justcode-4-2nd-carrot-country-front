@@ -1,5 +1,5 @@
 const theme = {
-  signColor: "#FF8A3D",
+  signColor: '#FF8A3D',
 };
 
 export default theme;

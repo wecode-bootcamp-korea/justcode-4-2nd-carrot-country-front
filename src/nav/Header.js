@@ -1,5 +1,5 @@
-import React from "react";
-import { CLIENT_PORT } from "config";
+import React from 'react';
+import { CLIENT_PORT } from 'config';
 
 function Header() {
   return (
