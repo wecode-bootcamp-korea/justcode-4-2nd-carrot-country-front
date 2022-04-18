@@ -1,16 +1,16 @@
-import { createStore } from "redux";
+import { createStore } from 'redux';
 
 const initalState = {
   user: {
-    id: "",
-    name: "",
+    id: '',
+    name: '',
   },
 };
 const reducer = (state = initalState, action) => {
   let newState = state;
 
   switch (action.type) {
-    case "LOGIN":
+    case 'LOGIN':
       newState = {
         ...state,
         user: {
