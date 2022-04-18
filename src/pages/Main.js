@@ -1,23 +1,36 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import List from 'components/List';
-
-import styled from 'styled-components';
+import { CLIENT_PORT } from 'config';
+import { MainWrapper, TopArticle, BottomArticle } from 'pages/MainStyles';
+import { useNavigate } from 'react-router';
 
 function Main() {
-  const userStore = useSelector(state => state.user);
+  const navigate = useNavigate();
+
+  function handleNavigate(path) {
+    navigate(path);
+  }
+
   return (
-    <Section>
-      Main {userStore.name}
-      <Link to="/login">Login 이동</Link>
-      <List />
-    </Section>
+    <MainWrapper>
+      <TopArticle>
+        <img src={`${CLIENT_PORT}/images/thump/banner-a.png`} alt="banner" />
+      </TopArticle>
+      <BottomArticle>
+        <section>
+          <img src={`${CLIENT_PORT}/images/thump/banner-b.png`} alt="banner" />
+        </section>
+        <section>
+          <h1>우리동네</h1>
+          <h1>중고 직거래 마켓</h1>
+          <p>동네 주민들과 가깝고 따뜻한 거래를 지금 경험해보세요.</p>
+          <div>
+            <button onClick={() => handleNavigate('/')}>인기매물 보기</button>
+            <button onClick={() => handleNavigate('/')}>동네 정보 보기</button>
+          </div>
+        </section>
+      </BottomArticle>
+    </MainWrapper>
   );
 }
-
-const Section = styled.div`
-  background-color: ${props => props.theme.signColor};
-`;
 
 export default Main;
