@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CLIENT_PORT } from 'config';
-import { IoSearchOutline } from 'react-icons/io5';
-
 import {
   HeaderSize,
   HeaderWrapper,
@@ -12,6 +9,8 @@ import {
   NavMenu,
   ChatButton,
 } from './HeaderStyled';
+import { CLIENT_PORT } from 'config';
+import { IoSearchOutline } from 'react-icons/io5';
 
 function Header() {
   const navigate = useNavigate();
