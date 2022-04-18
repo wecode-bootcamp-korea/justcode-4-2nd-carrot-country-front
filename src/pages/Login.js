@@ -1,12 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 function Login() {
   const dispatch = useDispatch();
 
   const handleSignup = () => {
-    dispatch({ type: "LOGIN", params: { id: "1", name: "홍길동" } });
+    dispatch({ type: 'LOGIN', params: { id: '1', name: '홍길동' } });
   };
 
   return (
