@@ -5,8 +5,8 @@ import store from 'store/store';
 import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
-import Login from 'pages/login/Login';
-import Signup from 'pages/signup/Signup';
+import Login from 'components/login/Login';
+import Signup from 'components/signup/Signup';
 
 function App() {
   return (
