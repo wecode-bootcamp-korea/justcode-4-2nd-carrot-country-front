@@ -6,6 +6,7 @@ import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/Main';
 import Login from 'pages/Login';
+import UserProfile from 'components/UserProfile';
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
       <Provider store={store}>
         <Header />
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<UserProfile />} />
           <Route path="/login" element={<Login />} />
         </Routes>
         <Footer />

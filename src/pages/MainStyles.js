@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const MainWrapper = styled.main`
   img {
@@ -96,7 +96,7 @@ const BottomArticle = styled.article`
         font-weight: 600;
         color: #ffff;
         cursor: pointer;
-        background: ${(props) => props.theme.signColor};
+        background: ${props => props.theme.signColor};
         &:hover {
           background: #ff8a3d82;
         }
