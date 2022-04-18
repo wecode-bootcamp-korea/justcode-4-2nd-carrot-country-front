@@ -1,7 +1,7 @@
 import React from 'react';
 import { CLIENT_PORT } from 'config';
 
-import { MainWrapper } from 'components/UserProfileStyles';
+import { MainWrapper } from 'components/profile/UserProfileStyle';
 
 function UserProfile(props) {
   const { user } = props;

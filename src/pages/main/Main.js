@@ -1,6 +1,6 @@
 import React from 'react';
 import { CLIENT_PORT } from 'config';
-import { MainWrapper, TopArticle, BottomArticle } from 'pages/MainStyles';
+import { MainWrapper, TopArticle, BottomArticle } from 'pages/main/MainStyle';
 import { useNavigate } from 'react-router';
 
 function Main() {
