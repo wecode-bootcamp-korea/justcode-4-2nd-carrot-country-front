@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import { CLIENT_PORT } from 'config.js';
-import { Link } from 'react-router-dom';
 import Modal from 'components/modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
@@ -17,9 +16,14 @@ import {
 } from 'components/login/LoginStyle';
 
 function Login() {
+  const navigate = useNavigate();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [color, setColor] = useState('red');
+
+  const goToSignup = () => {
+    navigate('/signup');
+  };
 
   const handleLogin = () => {
     fetch('localhost:3000', {
@@ -28,7 +32,7 @@ function Login() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: id,
+        id: id,
         password: pw,
       }),
     })
@@ -38,8 +42,6 @@ function Login() {
           alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
         } else if (result.message === 'SUCCESS_LOGIN') {
           alert('환영합니다.');
-          // loginSuccess();
-          // claseModal();
         }
       });
   };
@@ -98,7 +100,7 @@ function Login() {
         </Save>
         <Usersign>
           아직 회원이 아니신가요?
-          <Usersignup>회원가입</Usersignup>
+          <Usersignup onClick={goToSignup}>회원가입</Usersignup>
         </Usersign>
       </LoginBox>
     </Modal>
