@@ -1,66 +1,48 @@
 import styled from 'styled-components';
 
 const MainWrapper = styled.main`
-  img {
-    width: 100%;
-  }
-`;
+  @media (max-width: 890px) {
+    article {
+      flex-direction: column;
+      text-align: center;
+      padding-top: 50px;
 
-const TopArticle = styled.article``;
-
-const BottomArticle = styled.article`
-  @media (max-width: 690px) {
-    flex-direction: column;
-    img {
-      width: 60%;
-    }
-    section:nth-child(2) {
-      align-items: center;
-      h1 {
-        font-size: 28px;
-      }
-      div {
-        width: 100%;
-        align-items: center;
-        flex-direction: column;
-        margin-bottom: 20px;
-        button {
-          width: 70%;
-          margin-bottom: 20px;
-        }
-      }
-    }
-  }
-  @media (min-width: 691px) and (max-width: 890px) {
-    flex-direction: column;
-    img {
-      width: 60%;
-    }
-    section:nth-child(2) {
-      align-items: center;
       h1 {
         font-size: 34px;
       }
+      img {
+        width: 450px;
+      }
+    }
+    article:nth-child(2) {
+      flex-direction: column-reverse;
+
       div {
         width: 100%;
         align-items: center;
         flex-direction: column;
         margin-bottom: 20px;
         button {
-          width: 70%;
+          width: 350px;
           margin-bottom: 20px;
         }
       }
     }
   }
   @media (min-width: 891px) {
-    flex-direction: row;
-    section:nth-child(2) {
+    article {
       flex-direction: row;
-      align-items: start;
+      justify-content: space-evenly;
+
       h1 {
         font-size: 40px;
       }
+      img {
+        width: 500px;
+      }
+    }
+
+    article:nth-child(2) {
       div {
         button {
           margin-right: 20px;
@@ -68,23 +50,44 @@ const BottomArticle = styled.article`
       }
     }
   }
-  display: flex;
-  section {
-    flex: 1;
+  article {
+    display: flex;
+
+    h1 {
+      font-weight: 600;
+    }
+    p {
+      padding-top: 30px;
+    }
+    span {
+      padding-top: 5px;
+    }
+    p,
+    span {
+      color: #666;
+    }
   }
+  article:nth-child(1) {
+    background-color: #faf7f2;
+  }
+  article:nth-child(2) {
+  }
+`;
+
+const TopArticle = styled.article`
+  section:nth-child(1) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+`;
+
+const BottomArticle = styled.article`
   section:nth-child(2) {
     display: flex;
     flex-direction: column;
     justify-content: center;
 
-    h1 {
-      transition: 0.5s;
-      font-weight: 600;
-    }
-    p {
-      padding-top: 30px;
-      color: #666;
-    }
     div {
       display: flex;
       padding-top: 30px;
