@@ -81,8 +81,8 @@ const PolicyAgreed = styled.div`
   align-items: center;
   justify-content: end;
   font-size: 13px;
+  color: ${props => (props.isChecked ? props.theme.signColor : '#8c8c8c8f')};
   svg {
-    color: ${props => (props.isChecked ? props.theme.signColor : '#8c8c8c5c')};
     cursor: pointer;
   }
   span {
