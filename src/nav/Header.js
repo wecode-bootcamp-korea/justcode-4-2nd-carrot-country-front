@@ -7,14 +7,17 @@ import {
   SearchBarWrapper,
   SearchBar,
   NavMenu,
+  NavButton,
   ChatButton,
 } from './HeaderStyled';
 import { CLIENT_PORT } from 'config';
 import { IoSearchOutline } from 'react-icons/io5';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 function Header() {
   const navigate = useNavigate();
   const [isSearchForcus, setIsSearchForcus] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
 
   const goToMain = () => {
     navigate('/');
@@ -44,7 +47,14 @@ function Header() {
           />
           <IoSearchOutline />
         </SearchBarWrapper>
-        <NavMenu>
+        <NavButton
+          onClick={() => {
+            setIsButtonClicked(prev => !prev);
+          }}
+        >
+          <AiOutlineMenu />
+        </NavButton>
+        <NavMenu isButtonClicked={isButtonClicked}>
           <li>동네매물</li>
           <li>동네소식</li>
           <li>|</li>

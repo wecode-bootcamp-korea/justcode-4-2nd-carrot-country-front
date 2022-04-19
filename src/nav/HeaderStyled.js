@@ -12,9 +12,18 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
+  padding: 15px 5px;
   max-width: 1024px;
   width: 100%;
+
+  @media (max-width: 690px) {
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+
+  @media (min-width: 891px) {
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -52,14 +61,53 @@ const SearchBar = styled.input`
 `;
 
 const NavMenu = styled.ul`
-  display: flex;
-  list-style: none;
-  cursor: pointer;
+  @media (max-width: 690px) {
+  }
 
-  li {
-    padding: 5px;
-    color: #4d5159;
-    width: max-content;
+  @media (min-width: 691px) and (max-width: 890px) {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    cursor: pointer;
+
+    li {
+      display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
+      flex-direction: column;
+      padding: 5px;
+      color: #4d5159;
+      width: max-content;
+    }
+  }
+
+  @media (min-width: 891px) {
+    display: flex;
+    list-style: none;
+    cursor: pointer;
+
+    li {
+      padding: 5px;
+      color: #4d5159;
+      width: max-content;
+    }
+  }
+`;
+
+const NavButton = styled.button`
+  @media (max-width: 690px) {
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+    border: none;
+    padding-top: 5px;
+    background-color: transparent;
+    color: ${theme.signColor};
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  @media (min-width: 891px) {
+    display: none;
   }
 `;
 
@@ -83,5 +131,6 @@ export {
   SearchBarWrapper,
   SearchBar,
   NavMenu,
+  NavButton,
   ChatButton,
 };
