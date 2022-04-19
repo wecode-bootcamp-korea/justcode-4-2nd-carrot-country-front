@@ -14,7 +14,7 @@ import {
 
 function Signup() {
   // input state
-  const [useVisible, setUseVisible] = useState(true);
+  const [useVisible, setUseVisible] = useState(false);
   const [useId, setUseId] = useState('');
   const [useIdCheck, setUseIdCheck] = useState(false);
   const [usePw, setUsePw] = useState('');
