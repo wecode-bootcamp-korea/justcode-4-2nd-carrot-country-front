@@ -5,6 +5,7 @@ const FooterSize = styled.div`
   padding: 80px 8px;
   background-color: #495057;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 0;
 `;
 
 const FooterWrap = styled.div`
