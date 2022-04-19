@@ -12,9 +12,9 @@ import {
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
 
-function Signup() {
+function Signup(props) {
   // input state
-  const [useVisible, setUseVisible] = useState(false);
+  const { visible, setVisible } = props;
   const [useId, setUseId] = useState('');
   const [useIdCheck, setUseIdCheck] = useState(false);
   const [usePw, setUsePw] = useState('');
@@ -92,8 +92,8 @@ function Signup() {
   return (
     <Modal
       title="당근가입"
-      visible={useVisible}
-      setVisible={setUseVisible}
+      visible={visible}
+      setVisible={setVisible}
       // closeBtn={true}
       // width="100px"
       // height="700px"

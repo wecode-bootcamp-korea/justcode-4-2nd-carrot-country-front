@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CLIENT_PORT } from 'config';
+import Signup from 'components/signup/Signup';
 import {
   HeaderSize,
   HeaderWrapper,
@@ -9,12 +11,11 @@ import {
   NavMenu,
   ChatButton,
 } from './HeaderStyled';
-import { CLIENT_PORT } from 'config';
 import { IoSearchOutline } from 'react-icons/io5';
-
 function Header() {
   const navigate = useNavigate();
   const [isSearchForcus, setIsSearchForcus] = useState(false);
+  const [useOpenSignup, setUseOpenSignup] = useState(false);
 
   const goToMain = () => {
     navigate('/');
@@ -49,10 +50,11 @@ function Header() {
           <li>동네소식</li>
           <li>|</li>
           <li>로그인</li>
-          <li>회원가입</li>
+          <li onClick={() => setUseOpenSignup(true)}>회원가입</li>
         </NavMenu>
         <ChatButton>당근채팅</ChatButton>
       </HeaderWrapper>
+      <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />
     </HeaderSize>
   );
 }
