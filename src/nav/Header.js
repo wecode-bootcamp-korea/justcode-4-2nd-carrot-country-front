@@ -23,6 +23,10 @@ function Header() {
     navigate('/');
   };
 
+  // const goToProducts = () => {
+  //   navigate('');
+  // };
+
   return (
     <HeaderSize>
       <HeaderWrapper>
