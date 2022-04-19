@@ -7,6 +7,7 @@ import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
 import Login from 'pages/login/Login';
 import Signup from 'pages/signup/Signup';
+import ProductRegister from 'pages/product/ProductRegister';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/product-register" element={<ProductRegister />} />
         </Routes>
         <Footer />
       </Provider>
