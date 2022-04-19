@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import theme from 'styles/theme';
-import 'styles/fonts.css';
 
 const HeaderSize = styled.div`
   display: flex;
