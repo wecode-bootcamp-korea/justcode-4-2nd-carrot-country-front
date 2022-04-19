@@ -2,19 +2,22 @@ import styled from 'styled-components';
 
 const FooterSize = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
+  padding: 80px 0;
   background-color: #495057;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+`;
+
+const FooterWrap = styled.div`
+  width: 1024px;
 `;
 
 const FooterWrapper = styled.div`
   display: flex;
-  margin: auto;
-  padding-top: 50px;
-  border-bottom: 1px solid white;
-  max-width: 1024px;
+  justify-content: space-between;
+  border-bottom: 1px solid silver;
   width: 100%;
-
-  font-family: 'Noto Sans KR', sans-serif;
 `;
 
 const LogoWrapper = styled.div`
@@ -25,7 +28,7 @@ const Info = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 25px;
-  color: white;
+  color: silver;
 
   p {
     padding-bottom: 20px;
@@ -41,29 +44,40 @@ const LinkToGitWrapper = styled.div`
     padding-bottom: 20px;
     text-decoration: none;
     color: white;
-    font-weight: lighter;
+    font-weight: 100;
   }
 `;
 
 const MoreInfoFooterWrapeer = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto;
-  max-width: 1024px;
+  padding-top: 50px;
+  font-size: 14px;
+  color: silver;
 `;
 
-const EmailsWrapper = styled.div``;
+const EmailsWrapper = styled.div`
+  padding-top: 10px;
+  padding-bottom: 10px;
+`;
 
-const EmailTitle = styled.span``;
+const EmailTitle = styled.span`
+  padding-right: 10px;
+  font-weight: 700;
+`;
 
-const Email = styled.span``;
+const Email = styled.span`
+  padding-right: 10px;
+  font-weight: 100;
+`;
 
 const Icons = styled.div``;
 
-const License = styled.div``;
+const License = styled.div`
+  padding: 10px 0;
+`;
 
 export {
   FooterSize,
+  FooterWrap,
   FooterWrapper,
   LogoWrapper,
   Info,
