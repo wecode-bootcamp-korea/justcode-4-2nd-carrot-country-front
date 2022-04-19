@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MdClose } from 'react-icons/md';
 
 import styled, { keyframes } from 'styled-components';
@@ -7,23 +7,34 @@ function Modal(props) {
   const { children, width, height, title, closeBtn, visible, setVisible } =
     props;
 
+  const [fadeOut, setFadeOut] = useState(false);
+
   const handleCancle = () => {
-    setVisible(false);
+    setFadeOut(true);
+    setTimeout(() => {
+      setVisible(false);
+      setFadeOut(false);
+    }, 500);
   };
 
   return (
     <MainWrapper visible={visible} onClick={() => handleCancle()}>
-      <Content width={width} height={height} onClick={e => e.stopPropagation()}>
-        <Title>
+      <Container
+        width={width}
+        height={height}
+        fadeOut={fadeOut}
+        onClick={e => e.stopPropagation()}
+      >
+        <Header>
           {!closeBtn && (
             <div>
               <MdClose size="28px" onClick={() => handleCancle()} />
             </div>
           )}
           {title && <h1>{title}</h1>}
-        </Title>
-        {children}
-      </Content>
+        </Header>
+        <Content>{children}</Content>
+      </Container>
     </MainWrapper>
   );
 }
@@ -59,37 +70,49 @@ const FadeInDown = keyframes`
     opacity: 1;
     transform: translateZ(0);
   }
+
+`;
+const FadeOutUp = keyframes`
+  from {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -20%, 0);
+  }
 `;
 
-const Content = styled.div`
+const Container = styled.div`
   @media (max-width: 690px) {
     width: 100%;
     height: 100%;
   }
-  @media (min-width: 691px) and (max-width: 890px) {
+  @media (min-width: 691px) {
     width: ${props => (props.width ? props.width : '600px')};
     height: ${props => (props.height ? props.height : '')};
   }
-  @media (min-width: 891px) {
-    width: ${props => (props.width ? props.width : '600px')};
-    height: ${props => (props.height ? props.height : '')};
-  }
-  animation: ${FadeInDown} 0.6s;
+
+  animation: ${props => (!props.fadeOut ? FadeInDown : FadeOutUp)} 0.6s;
   background-color: #fefefe;
   margin: auto;
-  border: 1px solid #888;
 `;
 
-const Title = styled.div`
+const Header = styled.div`
   padding: 40px 40px 0px;
+  font-weight: 600;
   font-size: 24px;
-
+  color: ${props => props.theme.signColor};
   div {
     text-align: end;
     svg {
       cursor: pointer;
     }
   }
+`;
+
+const Content = styled.div`
+  background-color: #ffff;
 `;
 
 export default Modal;
