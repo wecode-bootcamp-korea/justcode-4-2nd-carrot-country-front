@@ -15,21 +15,24 @@ const Register = () => {
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
   useEffect(() => {
-    if (selectedImage.length < 1) {
+    if (selectedImage.length == 0) {
       return;
     }
     if (selectedImage.length > 10) {
       alert('사진을 10개를 초과할 수 없어요');
       setSelectedImage([]);
       setImageURLs([]);
-    } else {
-      const newImageURLs = [];
-      selectedImage.forEach(image =>
-        newImageURLs.push(URL.createObjectURL(image))
-      );
-      setImageURLs(newImageURLs);
+      return;
     }
-  }, [selectedImage, imageURLs]);
+  });
+
+  useEffect(() => {
+    const newImageURLs = [];
+    selectedImage.forEach(image =>
+      newImageURLs.push(URL.createObjectURL(image))
+    );
+    setImageURLs(newImageURLs);
+  }, [selectedImage]);
 
   // useEffect(() => {
   //   if (selectedImage.length < 1) {
@@ -41,22 +44,45 @@ const Register = () => {
   //     setImageURLs([]);
   //   } else {
   //     selectedImage.forEach(image =>
-  //       setImageURLs([...imageURLs, URL.createObjectURL(image)])
+  //       setImageURLs(oldImageURLs => [
+  //         ...oldImageURLs,
+  //         URL.createObjectURL(image),
+  //       ])
   //     );
   //   }
-  // }, [selectedImage]);
 
   const onImageChange = event => {
     setSelectedImage([...event.target.files]);
   }; //파일 업로드
 
+  // const deleteImage = src => {
+  //   const imageIndex = imageURLs.indexOf(src);
+  //   if (imageURLs.length == 0) {
+  //     return;
+  //   } else {
+  //     selectedImage.splice(imageIndex, 1);
+  //     imageURLs.splice(imageIndex, 1);
+  //   }
+  // };
+
   const deleteImage = src => {
-    let imageIndex = imageURLs.indexOf(src);
-    selectedImage.splice(imageIndex, 1);
-    imageURLs.splice(imageIndex, 1);
-    if (imageURLs.length === 1) {
-      imageURLs.pop(0);
-      selectedImage.pop(0);
+    if (imageURLs.length == 0) {
+      return;
+    } else {
+      const imageIndex = imageURLs.indexOf(src);
+      setSelectedImage(prev => {
+        const arr = [...prev];
+        arr.splice(imageIndex, 1);
+        console.log('선택이미지1', arr);
+        return arr;
+      });
+      console.log('클릭후', selectedImage);
+
+      setImageURLs(prev => {
+        const arr = [...prev];
+        arr.splice(imageIndex, 1);
+        return arr;
+      });
     }
   };
 
@@ -74,11 +100,13 @@ const Register = () => {
             ref={hiddenFileInput}
             accept={'image/*'}
             multiple
-            onChange={onImageChange}
+            onChange={e => {
+              onImageChange(e);
+            }}
           />
         </PhotoButton>
-        {imageURLs.map(imageSrc => (
-          <div className="imageContainer">
+        {imageURLs.map((imageSrc, index) => (
+          <div key={index} className="imageContainer">
             <TiDelete
               className={'photoDiscard'}
               value={imageSrc}
