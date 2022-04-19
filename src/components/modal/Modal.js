@@ -1,23 +1,57 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react';
+import { MdClose } from 'react-icons/md';
+
+import styled, { keyframes } from 'styled-components';
 
 function Modal(props) {
-  const { children, width, height } = props;
+  const { children, width, height, title, closeBtn, visible, setVisible } =
+    props;
+
+  const [fadeOut, setFadeOut] = useState(false);
+
+  const handleCancle = () => {
+    setFadeOut(true);
+    setTimeout(() => {
+      setVisible(false);
+      setFadeOut(false);
+    }, 500);
+  };
+
   return (
-    <MainWrapper>
-      <Content width={width} height={height}>
-        {children}
-      </Content>
+    <MainWrapper visible={visible} onClick={() => handleCancle()}>
+      <Container
+        width={width}
+        height={height}
+        fadeOut={fadeOut}
+        onClick={e => e.stopPropagation()}
+      >
+        <Header>
+          {!closeBtn && (
+            <div>
+              <MdClose size="28px" onClick={() => handleCancle()} />
+            </div>
+          )}
+          {title && <h1>{title}</h1>}
+        </Header>
+        <Content>{children}</Content>
+      </Container>
     </MainWrapper>
   );
 }
 
-export default Modal;
-
 const MainWrapper = styled.div`
+  @media (max-width: 690px) {
+  }
+  @media (min-width: 691px) and (max-width: 890px) {
+    padding-top: 100px;
+  }
+  @media (min-width: 891px) {
+    padding-top: 100px;
+  }
+
+  display: ${props => (props.visible ? 'block' : 'none')};
   position: fixed;
   z-index: 1;
-  padding-top: 100px;
   left: 0;
   top: 0;
   width: 100%;
@@ -27,11 +61,58 @@ const MainWrapper = styled.div`
   background-color: rgba(0, 0, 0, 0.4);
 `;
 
-const Content = styled.div`
+const FadeInDown = keyframes`
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -20%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+
+`;
+const FadeOutUp = keyframes`
+  from {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -20%, 0);
+  }
+`;
+
+const Container = styled.div`
+  @media (max-width: 690px) {
+    width: 100%;
+    height: 100%;
+  }
+  @media (min-width: 691px) {
+    width: ${props => (props.width ? props.width : '600px')};
+    height: ${props => (props.height ? props.height : '')};
+  }
+
+  animation: ${props => (!props.fadeOut ? FadeInDown : FadeOutUp)} 0.6s;
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: ${props => (props.width ? props.width : '50%')};
-  height: ${props => (props.height ? props.height : '')};
 `;
+
+const Header = styled.div`
+  padding: 40px 40px 0px;
+  font-weight: 600;
+  font-size: 24px;
+  color: ${props => props.theme.signColor};
+  div {
+    text-align: end;
+    svg {
+      cursor: pointer;
+    }
+  }
+`;
+
+const Content = styled.div`
+  background-color: #ffff;
+`;
+
+export default Modal;
