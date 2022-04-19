@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import Modal from 'components/modal/Modal';
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faSmile } from '@fortawesome/free-solid-svg-icons';
 // import { Link } from "react-router-dom";
 // import { useDispatch } from "react-redux";
 
@@ -14,7 +12,6 @@ const LoginBox = styled.div`
   display: inline-block;
   width: 350px;
   height: 450px;
-  /* border: 2px solid #adadad; */
   border-radius: 8px;
   text-align: center;
   flex-direction: column;
@@ -49,10 +46,15 @@ const LoginBtn = styled.button`
   font-weight: 550;
   border-radius: 5px;
   border: 1px solid #adadad;
-  background-color: #ff8a3d82;
-  ${({ login }) => {
+  /* background-color: #ff8a3d82; */
+  background-color: #ff8a3d;
+  ${({ disabled }) =>
+    disabled &&
+    `
+    background-color: #efefef;
+  `}/* ${({ login }) => {
     return login ? `background-color: #ff8a3d82;` : `background-color: #red;`;
-  }}
+  }} */
 `;
 
 const Save = styled.p`
@@ -67,21 +69,23 @@ const Icon = styled.svg`
 
 const StyledCheckBox = styled.div`
   display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  border: ${props => (props.checked ? 'none' : 'solid 0.1rem #dddddd')};
+  margin-right: 3px;
+  width: 15px;
+  height: 15px;
+  border-radius: 4px;
+  border: solid 0.1rem #dddddd;
+  /* border: ${props => (props.checked ? 'none' : 'solid 0.1rem #dddddd')};
   background: ${props => (props.checked ? 'black' : 'white')};
-  border-radius: 0.4rem;
-  transition: all 150ms;
+  border-radius: 5px;
   ${Icon} {
     visibility: ${props => (props.checked ? 'visible' : 'hidden')};
-  }
+  } */
 `;
 
 const Usersign = styled.div`
   border-top: 1px solid #adadad;
   font-size: 14px;
-  margin-top: 140px;
+  margin-top: 120px;
   padding-top: 30px;
   text-align: center;
 `;
@@ -95,40 +99,41 @@ const Usersignup = styled.span`
 
 function Login() {
   // console.log(1,CLIENT_PORT);
+
   //기능
-  const [inputId, setInputId] = useState('');
-  const [inputPw, setInputPw] = useState('');
+  // const [inputId, setInputId] = useState('');
+  // const [inputPw, setInputPw] = useState('');
 
-  const isValidInput = inputId.includes('@') && inputPw.length > 5;
+  // const isValidInput = inputId.includes('@') && inputPw.length > 5;
 
-  const handleIdInput = e => {
-    setInputId(e.target.value);
-  };
+  // const handleIdInput = e => {
+  //   setInputId(e.target.value);
+  // };
 
-  const handlePwInput = e => {
-    setInputPw(e.target.value);
-  };
+  // const handlePwInput = e => {
+  //   setInputPw(e.target.value);
+  // };
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  const handleSignIn = () => {
-    fetch('localhost:3000/list', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        // email: id,
-        // password: pw,
-      }),
-    })
-      .then(response => response.json())
-      .then(result => console.log('결과 : ', result));
-  };
+  // const handleSignIn = () => {
+  //   fetch('localhost:3000/list', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       email: '',
+  //       password: '',
+  //     }),
+  //   })
+  //     .then(response => response.json())
+  //     .then(result => console.log('결과 : ', result));
+  // };
 
-  const goToList = () => {
-    navigate('/');
-  };
+  // const goToList = () => {
+  //   navigate('/');
+  // };
 
   return (
     <Modal width="365px">
@@ -139,30 +144,35 @@ function Login() {
           width="225px"
         />
         <Email
-          value={inputId}
+          // value={inputId}
+          // onChange={handleIdInput}
           type="text"
           placeholder="이메일을 입력하세요"
-          onChange={handleIdInput}
+          id="id"
+          name="id"
         />
         <Password
-          value={inputPw}
+          // value={inputPw}
           type="password"
           placeholder="비밀번호를 입력하세요"
-          onChange={handlePwInput}
+          id="password"
+          name="password"
+          // onChange={handlePwInput}
         />
         <LoginBtn
-          onClick={goToList}
-          login={true}
-          // className={`loginBtn ${isValidInput ? '' : 'btnDisabled'}`}
+        // onClick={goToList}
+        // login={true}
+        // className={`loginBtn ${isValidInput ? '' : 'btnDisabled'}`}
         >
           로그인
         </LoginBtn>
-        <StyledCheckBox></StyledCheckBox>
-        <Save>로그인 상태 유지</Save>
-        {/* <FontAwesomeIcon icon={faSmile} /> */}
+        <Save>
+          <StyledCheckBox></StyledCheckBox>로그인 상태 유지
+        </Save>
         <Usersign>
           아직 회원이 아니신가요?
-          <Usersignup onClick={handleSignIn}>회원가입</Usersignup>
+          {/* <Usersignup onClick={handleSignIn}>회원가입</Usersignup> */}
+          <Usersignup>회원가입</Usersignup>
         </Usersign>
       </LoginBox>
     </Modal>
