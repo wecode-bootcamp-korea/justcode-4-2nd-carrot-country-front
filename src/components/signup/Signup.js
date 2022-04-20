@@ -51,8 +51,24 @@ function Signup(props) {
     setUseName(value);
   };
   const handleCheckId = () => {
-    alert('사용 가능한 아이디 입니다.');
-    setUseIdCheck(true);
+    fetch(`${SERVER_PORT}/users/signup/duplicate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: useId,
+      }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === 'EXSITING_USER') {
+          alert('이미 아이디가 존재합니다.');
+          return;
+        }
+        alert('사용 가능한 아이디 입니다.');
+        setUseIdCheck(true);
+      });
   };
   const handleCity = value => {
     setUseCity(value);
@@ -88,20 +104,21 @@ function Signup(props) {
     if (!usePolicy) {
       return alert('이용약관을 동의 해주세요');
     }
-    console.log('sign up!', useName, useId, usePw, useCity, useDistrict);
-    // fetch(`${SERVER_PORT}/users/signup`, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     userId: useId,
-    //     nickname: useName,
-    //     password: usePw,
-    //     cityId: useCity,
-    //     districtId: useDistrict,
-    //   }),
-    // });
+    fetch(`${SERVER_PORT}/users/signup`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: useId,
+        nickname: useName,
+        password: usePw,
+        cityId: useCity,
+        districtId: useDistrict,
+      }),
+    });
+    alert('당근나라 가입을 환영합니다.');
+    setVisible(false);
   };
   return (
     <Modal
