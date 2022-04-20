@@ -2,15 +2,24 @@ import styled from 'styled-components';
 
 const FooterSize = styled.div`
   display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 80px 0;
+  padding: 80px 8px;
   background-color: #495057;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  z-index: 0;
 `;
 
 const FooterWrap = styled.div`
-  width: 1024px;
+  margin: auto;
+  @media (max-width: 690px) {
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+
+  @media (min-width: 891px) {
+    max-width: 1024px;
+    min-width: 891px;
+  }
 `;
 
 const FooterWrapper = styled.div`
@@ -18,6 +27,16 @@ const FooterWrapper = styled.div`
   justify-content: space-between;
   border-bottom: 1px solid silver;
   width: 100%;
+  @media (max-width: 690px) {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+
+  @media (min-width: 891px) {
+  }
 `;
 
 const LogoWrapper = styled.div`
@@ -34,6 +53,21 @@ const Info = styled.div`
     padding-bottom: 20px;
     font-weight: bold;
   }
+
+  @media (max-width: 690px) {
+    flex-direction: row;
+    p {
+      padding: 10px;
+      padding-bottom: 20px;
+      font-weight: bold;
+    }
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+
+  @media (min-width: 891px) {
+  }
 `;
 
 const LinkToGitWrapper = styled.div`
@@ -46,12 +80,29 @@ const LinkToGitWrapper = styled.div`
     color: white;
     font-weight: 100;
   }
+
+  @media (max-width: 690px) {
+    flex-direction: row;
+    a {
+      padding: 0 10px;
+      padding-bottom: 20px;
+      text-decoration: none;
+      color: white;
+      font-weight: 100;
+    }
+  }
 `;
 
 const MoreInfoFooterWrapeer = styled.div`
   padding-top: 50px;
   font-size: 14px;
   color: silver;
+  @media (max-width: 690px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 13px;
+  }
 `;
 
 const EmailsWrapper = styled.div`
