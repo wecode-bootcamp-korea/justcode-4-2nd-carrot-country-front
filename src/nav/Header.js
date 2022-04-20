@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
+import Login from 'components/login/Login';
 import {
   HeaderSize,
   HeaderWrapper,
@@ -19,7 +20,7 @@ function Header() {
   const [isSearchForcus, setIsSearchForcus] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [useOpenSignup, setUseOpenSignup] = useState(false);
-
+  const [useOpenLogin, setUseOpenLogin] = useState(false);
   const navigate = useNavigate();
 
   const goToMain = () => {
@@ -68,11 +69,12 @@ function Header() {
           <li>동네매물</li>
           <li onClick={goToDistrictInfo}>동네소식</li>
           <li>|</li>
-          <li>로그인</li>
+          <li onClick={() => setUseOpenLogin(true)}>로그인</li>
           <li onClick={() => setUseOpenSignup(true)}>회원가입</li>
         </NavMenu>
         <ChatButton>당근채팅</ChatButton>
       </HeaderWrapper>
+      <Login visible={useOpenLogin} setVisible={setUseOpenLogin} />
       <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />
     </HeaderSize>
   );

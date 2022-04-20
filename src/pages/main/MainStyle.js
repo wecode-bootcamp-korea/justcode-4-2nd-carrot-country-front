@@ -55,6 +55,8 @@ const MainWrapper = styled.main`
       }
     }
   }
+  padding-top: 50px;
+
   article {
     display: flex;
 
