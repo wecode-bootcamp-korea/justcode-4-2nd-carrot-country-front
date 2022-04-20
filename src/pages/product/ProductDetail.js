@@ -63,7 +63,7 @@ function ProductDetail() {
 const MainWrapper = styled.main`
   display: flex;
   flex-direction: column;
-  padding-top: 20px;
+  padding-top: 70px;
 `;
 
 const UserInfo = styled.div`

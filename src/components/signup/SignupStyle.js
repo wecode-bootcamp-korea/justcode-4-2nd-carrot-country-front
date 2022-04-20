@@ -62,7 +62,7 @@ const SelectWrapper = styled.div`
 const InputIdWrapper = styled.div`
   display: flex;
   button {
-    width: 60px;
+    width: 100px;
     border: 0px;
     text-align: end;
     margin-block: auto;
