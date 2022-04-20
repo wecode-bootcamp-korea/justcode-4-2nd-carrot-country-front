@@ -15,7 +15,8 @@ import {
   Usersignup,
 } from 'components/login/LoginStyle';
 
-function Login() {
+function Login(props) {
+  const { visible, setVisible } = props;
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
@@ -71,7 +72,7 @@ function Login() {
   };
 
   return (
-    <Modal width="365px">
+    <Modal width="365px" visible={visible} setVisible={setVisible}>
       <LoginBox width="200px">
         <img
           src={`${CLIENT_PORT}/images/logo/logo1.png`}

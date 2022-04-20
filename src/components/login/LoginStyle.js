@@ -2,16 +2,14 @@ import styled from 'styled-components';
 
 const LoginBox = styled.div`
   display: inline-block;
-  width: 350px;
-  height: 450px;
   border-radius: 8px;
   text-align: center;
   flex-direction: column;
-  padding: 50px 10px;
+  padding: 27px 10px;
 `;
 
 const Id = styled.input`
-  width: 250px;
+  width: 255px;
   padding: 14px;
   margin: 25px 10px 5px 10px;
   border: 1px solid #adadad;
@@ -20,7 +18,7 @@ const Id = styled.input`
 `;
 
 const Password = styled.input`
-  width: 250px;
+  width: 255px;
   padding: 14px;
   margin: 10px;
   border: 1px solid #adadad;
@@ -29,8 +27,8 @@ const Password = styled.input`
 `;
 
 const LoginBtn = styled.button`
-  width: 90%;
-  margin: 20px 5px 0px 0px;
+  width: 255px;
+  margin: 20px 0px 2px 0px;
   padding: 11px 0px;
   cursor: pointer;
   color: white;
@@ -43,8 +41,8 @@ const LoginBtn = styled.button`
 `;
 
 const Save = styled.p`
-  margin: 5px 190px 0px 0px;
-  font-size: 13px;
+  margin: 5px 143px 0px 0px;
+  font-size: 12px;
 `;
 
 const StyledCheckBox = styled.button`
@@ -60,16 +58,16 @@ const StyledCheckBox = styled.button`
 
 const Usersign = styled.div`
   border-top: 1px solid #adadad;
-  font-size: 14px;
-  margin-top: 120px;
-  padding-top: 30px;
+  font-size: 13px;
+  margin-top: 95px;
+  padding-top: 28px;
   text-align: center;
 `;
 
 const Usersignup = styled.span`
   color: #ff8a3d;
-  font-size: 14px;
-  margin-left: 10px;
+  font-size: 13px;
+  margin: 0px 0px 2px 10px;
   cursor: pointer;
 `;
 
