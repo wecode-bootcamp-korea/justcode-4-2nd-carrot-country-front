@@ -6,6 +6,7 @@ import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
+import ProductDetail from 'pages/product/ProductDetail';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
+          <Route path="/product/detail" element={<ProductDetail />} />
           <Route path="/product-register" element={<ProductRegister />} />
         </Routes>
         <Footer />

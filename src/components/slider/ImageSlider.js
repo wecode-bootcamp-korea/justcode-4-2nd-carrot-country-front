@@ -56,6 +56,7 @@ const ImageWrapper = styled.div`
   overflow: hidden;
   border-radius: 20px;
   div {
+    align-self: center;
     transform: translate(
       ${props =>
         props.width
@@ -64,6 +65,7 @@ const ImageWrapper = styled.div`
       0px
     );
     transition: 0.6s;
+    cursor: pointer;
     img {
       width: ${props => (props.width ? props.width + 'px' : '670px')};
       height: auto;
