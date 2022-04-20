@@ -4,18 +4,25 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
+import Editor from './Editor';
 
 const Register = () => {
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
+  const [openModal, setOpenModal] = useState(false);
+  const [modalImageInfo, setModalImageInfo] = useState({
+    index: 0,
+    imageSrc: '',
+  });
   const hiddenFileInput = useRef(null);
+  const imageRef = useRef(null);
 
   const handleClick = event => {
     hiddenFileInput.current.click();
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
   useEffect(() => {
-    if (selectedImage.length == 0) {
+    if (selectedImage.length === 0) {
       return;
     }
     if (selectedImage.length > 10) {
@@ -24,7 +31,7 @@ const Register = () => {
       setImageURLs([]);
       return;
     }
-  });
+  }, [selectedImage]);
 
   useEffect(() => {
     const newImageURLs = [];
@@ -73,10 +80,8 @@ const Register = () => {
       setSelectedImage(prev => {
         const arr = [...prev];
         arr.splice(imageIndex, 1);
-        console.log('선택이미지1', arr);
         return arr;
       });
-      console.log('클릭후', selectedImage);
 
       setImageURLs(prev => {
         const arr = [...prev];
@@ -85,6 +90,14 @@ const Register = () => {
       });
     }
   };
+
+  // const openImage = e => {
+  //   setModalImageInfo({
+  //     index: e.target.value.index + 1,
+  //     imageSrc: e.target.value,
+  //   });
+  //   setOpenModal(true);
+  // };
 
   return (
     <div>
@@ -112,21 +125,50 @@ const Register = () => {
               value={imageSrc}
               onClick={() => deleteImage(imageSrc)}
             />
-            <img src={imageSrc} className={'eachImage'} />
+            <img
+              src={imageSrc}
+              className={'eachImage'}
+              value={imageSrc}
+              ref={imageRef}
+              onClick={() => setOpenModal(true)}
+              // onClick={() =>
+              //   console.log('imageSrc: ', imageSrc, 'key: ', index)
+              // }
+            />
           </div>
         ))}
       </PhotoLine>
+
+      <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
+        <ModalPhotoLine>
+          <TiDelete
+            className={'modalTurnOff'}
+            onClick={() => setOpenModal(false)}
+          />
+          {imageURLs.map((imageSrc, index) => (
+            <ModalImageContainer
+              // onClick={e => {
+              //   e.stopPropagation();
+              // }}
+              key={index}
+            >
+              <img src={imageSrc} className={'modalEachImage'} />
+            </ModalImageContainer>
+          ))}
+        </ModalPhotoLine>
+      </PhotoModal>
+      <Editor />
     </div>
   );
 };
 
+//styled-components 시작
 const PhotoLine = styled.div`
   display: flex;
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
   height: 150px;
-  border: 1px solid black;
   padding: 2vh;
   margin: 0 1vw 1vw 1vw;
 
@@ -155,7 +197,6 @@ const PhotoLine = styled.div`
     aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 10px;
-    border: 1px solid red;
   }
 
   .eachImage:hover {
@@ -201,6 +242,61 @@ const PhotoLimit = styled.p`
 
 const PhotoInput = styled.input`
   display: none;
+`;
+
+const TitleField = styled.div`
+  width: 100%;
+`;
+
+const TitleInput = styled.input``;
+//모달 스타일
+const PhotoModal = styled.div`
+  display: ${props => (props.open === true ? 'flex' : 'none')};
+  position: fixed;
+  justify-content: center;
+  /* align-items: center; */
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+  z-index: 20;
+`;
+
+const ModalPhotoLine = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  overflow-x: auto;
+  height: 80%;
+
+  .modalPhotoDiscard {
+    position: fixed;
+    z-index: 21;
+    font-size: 100vh;
+    color: white;
+    cursor: pointer;
+  }
+`;
+
+const ModalImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  aspect-ratio: 1/1;
+  width: 70%;
+  height: auto;
+  /* object-position: center; */
+  background-color: black;
+  /* border: 1px solid red; */
+
+  .modalEachImage {
+    display: flex;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: fill;
+  }
 `;
 
 export default Register;
