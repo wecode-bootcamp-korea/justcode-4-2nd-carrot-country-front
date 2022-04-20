@@ -69,7 +69,7 @@ const animateButton = css`
 `;
 
 const animateList = css`
-  animation: ${upList} 0.5s linear;
+  animation: ${upList} 0.3s linear;
 `;
 
 const transformButton = css`
