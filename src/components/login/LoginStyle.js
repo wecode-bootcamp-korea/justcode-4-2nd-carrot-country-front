@@ -37,30 +37,14 @@ const LoginBtn = styled.button`
   border-radius: 5px;
   border: 1px solid #adadad;
   background-color: #ff8a3d;
-  ${({ disabled }) => disabled && `background-color: #efefef;`}
-`;
-
-const Save = styled.p`
-  margin: 5px 143px 0px 0px;
-  font-size: 12px;
-`;
-
-const StyledCheckBox = styled.button`
-  display: inline-block;
-  margin-right: 3px;
-  width: 15px;
-  height: 15px;
-  border-radius: 4px;
-  border: solid 0.1rem #dddddd;
-  cursor: pointer;
-  background: ${props => props.color || 'white'};
+  ${({ disabled }) => disabled && `background-color: #ff8a3d96;`}
 `;
 
 const Usersign = styled.div`
   border-top: 1px solid #adadad;
   font-size: 13px;
-  margin-top: 95px;
-  padding-top: 28px;
+  margin-top: 93px;
+  padding: 35px 0px 10px 0px;
   text-align: center;
 `;
 
@@ -71,13 +55,18 @@ const Usersignup = styled.span`
   cursor: pointer;
 `;
 
-export {
-  LoginBox,
-  Id,
-  Password,
-  LoginBtn,
-  Save,
-  StyledCheckBox,
-  Usersign,
-  Usersignup,
-};
+const Save = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 2px 0px 0px 45px;
+  font-size: 13px;
+  color: ${props => (props.isChecked ? props.theme.signColor : '#8c8c8c8f')};
+  svg {
+    cursor: pointer;
+  }
+  span {
+    margin-left: 4px;
+  }
+`;
+
+export { LoginBox, Id, Password, LoginBtn, Save, Usersign, Usersignup };
