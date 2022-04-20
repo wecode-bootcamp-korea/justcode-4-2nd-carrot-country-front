@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'components/modal/Modal';
 import { AiFillCheckSquare } from 'react-icons/ai';
 
@@ -11,6 +11,7 @@ import {
   SignupBtn,
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
+import { SERVER_PORT } from 'config';
 
 function Signup(props) {
   // input state
@@ -29,7 +30,7 @@ function Signup(props) {
   const pwCheckChecked = usePw === usePwCheck || usePwCheck.trim() === '';
   const nameChecked = nameRegExp.test(useName) || useName.trim() === '';
   // select state
-  const [useCity, setUseCity] = useState('서울');
+  const [useCity, setUseCity] = useState('');
   const [useDistrict, setUseDistrict] = useState('');
   const [usePolicy, setUsePolicy] = useState(false);
 
@@ -53,12 +54,10 @@ function Signup(props) {
     alert('사용 가능한 아이디 입니다.');
     setUseIdCheck(true);
   };
-  const handleCity = e => {
-    const { value } = e.target;
+  const handleCity = value => {
     setUseCity(value);
   };
-  const handleDistrict = e => {
-    const { value } = e.target;
+  const handleDistrict = value => {
     setUseDistrict(value);
   };
   const handlePolicy = () => {
@@ -80,13 +79,29 @@ function Signup(props) {
     if (useName === '' || !nameChecked) {
       return alert('닉네임을 확인 해주세요');
     }
+    if (useCity === '' || useCity === 'null') {
+      return alert('도/시를 선택 해주세요');
+    }
     if (useDistrict === '' || useDistrict === 'null') {
-      return alert('지역을 선택 해주세요');
+      return alert('시/구를 선택 해주세요');
     }
     if (!usePolicy) {
       return alert('이용약관을 동의 해주세요');
     }
-    console.log('sign up!');
+    console.log('sign up!', useName, useId, usePw, useCity, useDistrict);
+    // fetch(`${SERVER_PORT}/users/signup`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify({
+    //     userId: useId,
+    //     nickname: useName,
+    //     password: usePw,
+    //     cityId: useCity,
+    //     districtId: useDistrict,
+    //   }),
+    // });
   };
   return (
     <Modal
@@ -153,21 +168,12 @@ function Signup(props) {
         </Block>
         <Block>
           <span>동네 선택</span>
-          <SelectWrapper>
-            <select value={useCity} onChange={handleCity}>
-              <option value="서울">서울</option>
-              <option value="경기">경기</option>
-              <option value="인천">인천</option>
-            </select>
-          </SelectWrapper>
-          <SelectWrapper>
-            <select value={useDistrict} onChange={handleDistrict}>
-              <option value="null">시/구</option>
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-            </select>
-          </SelectWrapper>
+          <AreaSelector
+            useCity={useCity}
+            handleCity={handleCity}
+            useDistrict={useDistrict}
+            handleDistrict={handleDistrict}
+          />
           <PolicyAgreed isChecked={usePolicy}>
             <AiFillCheckSquare size={18} onClick={handlePolicy} />
             <span>이용약관 동의</span>
@@ -179,4 +185,68 @@ function Signup(props) {
   );
 }
 
+function AreaSelector(props) {
+  const { handleCity, handleDistrict } = props;
+  const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+
+  useEffect(() => {
+    fetch(`${SERVER_PORT}/area/city`)
+      .then(response => response.json())
+      .then(data => setCities(data.cities));
+  }, []);
+
+  const handleFetchDistrict = id => {
+    fetch(`${SERVER_PORT}/area/district/${id}`)
+      .then(response => response.json())
+      .then(data => setDistricts(data.districts));
+    handleDistrict('null');
+  };
+
+  return cities.length > 0 ? (
+    <>
+      <SelectWrapper>
+        <select
+          onChange={e => {
+            const { value } = e.target;
+            handleCity(value);
+            handleFetchDistrict(value);
+          }}
+        >
+          <option value="null">도/시</option>
+          {cities.map(city => {
+            return (
+              <option key={city.id} value={city.id}>
+                {city.cityName}
+              </option>
+            );
+          })}
+        </select>
+      </SelectWrapper>
+      <SelectWrapper>
+        <select
+          onChange={e => {
+            const { value } = e.target;
+            handleDistrict(value);
+          }}
+        >
+          <option value="null">시/도</option>
+          {districts.length > 0 ? (
+            districts.map(district => {
+              return (
+                <option key={district.id} value={district.id}>
+                  {district.districtName}
+                </option>
+              );
+            })
+          ) : (
+            <option value="null">시/도</option>
+          )}
+        </select>
+      </SelectWrapper>
+    </>
+  ) : (
+    ''
+  );
+}
 export default Signup;
