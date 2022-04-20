@@ -2,9 +2,12 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 
 const HeaderSize = styled.div`
+  position: fixed;
   display: flex;
   justify-content: center;
+  width: 100%;
   font-family: 'Noto Sans KR', sans-serif;
+  background-color: white;
 `;
 
 const HeaderWrapper = styled.header`
@@ -12,7 +15,7 @@ const HeaderWrapper = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 8px;
+  padding: 10px 8px;
   max-width: 1024px;
   width: 100%;
 `;
@@ -63,7 +66,7 @@ const SearchBar = styled.input`
 const NavMenu = styled.ul`
   @media (max-width: 690px) {
     position: absolute;
-    top: 65px;
+    top: 60px;
     right: 2px;
     display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
     flex-direction: row;
@@ -90,7 +93,7 @@ const NavMenu = styled.ul`
 
   @media (min-width: 691px) and (max-width: 890px) {
     position: absolute;
-    top: 70px;
+    top: 65px;
     right: 170px;
     display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
     flex-direction: column;
