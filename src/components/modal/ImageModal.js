@@ -6,14 +6,14 @@ import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 
 function ImageModal(props) {
-  const { urls, visible, setVisible } = props;
+  const { urls, visible, setVisible, width } = props;
   return (
     <MainWrapper visible={visible}>
-      <Container>
+      <Container width={width}>
         <MdClose size={34} onClick={() => setVisible(false)} />
         {urls.map((url, idx) => {
           return (
-            <img src={CLIENT_PORT + url} alt={url} width={670} key={idx} />
+            <img src={CLIENT_PORT + url} alt={url} width={width} key={idx} />
           );
         })}
       </Container>
@@ -37,7 +37,7 @@ const Container = styled.div`
   @media (max-width: 890px) {
   }
   @media (min-width: 891px) {
-    width: 670px;
+    width: ${props => props.width}px;
     margin: auto;
   }
   background-color: #ffff;

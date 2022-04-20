@@ -11,12 +11,15 @@ import { BsFillCircleFill } from 'react-icons/bs';
 
 import styled from 'styled-components';
 
+const WIDTH = 684;
+const HEIGHT = 500;
+
 function ImageSlider(props) {
-  const { urls, width, height } = props;
+  const { urls } = props;
   const [index, setIndex] = useState(0);
   const [useVisible, setUseVisible] = useState(false);
   const [useWidth, setUseWidth] = useState(
-    window.innerWidth > 890 ? width : window.innerWidth
+    window.innerWidth > 890 ? WIDTH : window.innerWidth
   );
 
   useEffect(() => {
@@ -39,20 +42,14 @@ function ImageSlider(props) {
       setIndex(index + 1);
     }
   };
-  console.log(useWidth);
   return (
-    <MainWrapper width={width}>
+    <MainWrapper>
       <MdOutlineArrowBackIos
-        className="prevBtn"
         size={30}
+        className="prevBtn"
         onClick={handlePrev}
       />
-      <ImageWrapper
-        index={index}
-        width={width}
-        changeWidth={useWidth}
-        height={height}
-      >
+      <ImageWrapper index={index} changeWidth={useWidth}>
         {urls.map((url, idx) => {
           return (
             <div key={idx} onClick={() => setUseVisible(true)}>
@@ -60,7 +57,7 @@ function ImageSlider(props) {
             </div>
           );
         })}
-        <DotWrapper width={width} changeWidth={useWidth}>
+        <DotWrapper changeWidth={useWidth}>
           {urls.map((__, idx) => {
             const isCurrent = index === idx;
             return (
@@ -76,7 +73,12 @@ function ImageSlider(props) {
         onClick={handleNext}
         className="nextBtn"
       />
-      <ImageModal urls={urls} visible={useVisible} setVisible={setUseVisible} />
+      <ImageModal
+        urls={urls}
+        visible={useVisible}
+        setVisible={setUseVisible}
+        width={WIDTH}
+      />
     </MainWrapper>
   );
 }
@@ -85,7 +87,7 @@ const MainWrapper = styled.section`
   @media (max-width: 890px) {
   }
   @media (min-width: 891px) {
-    width: ${props => (props.width ? props.width + 8 + 'px' : '734px')};
+    width: ${WIDTH + 8}px;
     margin: 0px auto;
   }
   position: relative;
@@ -125,7 +127,7 @@ const ImageWrapper = styled.div`
     }
   }
   @media (min-width: 891px) {
-    width: ${props => (props.width ? props.width + 'px' : '670px')};
+    width: ${WIDTH}px;
     border-radius: 8px;
     div {
       transform: translate(
@@ -136,12 +138,12 @@ const ImageWrapper = styled.div`
         0px
       );
       img {
-        width: ${props => (props.width ? props.width + 'px' : '670px')};
+        width: ${WIDTH}px;
         height: auto;
       }
     }
   }
-  height: ${props => (props.height ? props.height + 'px' : '500px')};
+  height: ${HEIGHT}px;
   position: relative;
   display: flex;
   overflow: hidden;
@@ -156,7 +158,7 @@ const DotWrapper = styled.span`
     width: ${props => props.changeWidth}px;
   }
   @media (min-width: 891px) {
-    width: 670px;
+    width: ${WIDTH}px;
   }
   position: absolute;
   height: 36px;

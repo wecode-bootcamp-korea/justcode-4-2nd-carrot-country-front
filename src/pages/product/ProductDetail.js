@@ -21,7 +21,7 @@ const imageUrl = [
 function ProductDetail() {
   return (
     <MainWrapper>
-      <ImageSlider urls={imageUrl} width={670} height={500} />
+      <ImageSlider urls={imageUrl} />
       <InfoWrapper>
         <UserInfo>
           <UserProfile user={user} />
