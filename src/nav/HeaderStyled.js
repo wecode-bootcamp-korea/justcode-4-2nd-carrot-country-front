@@ -61,7 +61,7 @@ const SearchBar = styled.input`
 `;
 
 const NavMenu = styled.ul`
-  @media (max-width: 690px) {
+  @media (max-width: 890px) {
     position: absolute;
     top: 65px;
     right: 2px;
@@ -87,7 +87,7 @@ const NavMenu = styled.ul`
       width: max-content;
     }
   }
-
+  /* 
   @media (min-width: 691px) and (max-width: 890px) {
     position: absolute;
     top: 70px;
@@ -111,7 +111,7 @@ const NavMenu = styled.ul`
       color: #4d5159;
       width: max-content;
     }
-  }
+  } */
 
   @media (min-width: 891px) {
     display: flex;

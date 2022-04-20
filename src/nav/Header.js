@@ -30,6 +30,9 @@ function Header() {
   //   navigate('');
   // };
 
+  const goToDistrictInfo = () => {
+    navigate('/district-info');
+  };
   return (
     <HeaderSize>
       <HeaderWrapper>
@@ -63,7 +66,7 @@ function Header() {
         </NavButton>
         <NavMenu isButtonClicked={isButtonClicked}>
           <li>동네매물</li>
-          <li>동네소식</li>
+          <li onClick={goToDistrictInfo}>동네소식</li>
           <li>|</li>
           <li>로그인</li>
           <li onClick={() => setUseOpenSignup(true)}>회원가입</li>

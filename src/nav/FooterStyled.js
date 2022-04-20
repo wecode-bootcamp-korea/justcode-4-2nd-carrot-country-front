@@ -31,12 +31,6 @@ const FooterWrapper = styled.div`
     flex-direction: column;
     align-items: center;
   }
-
-  @media (min-width: 691px) and (max-width: 890px) {
-  }
-
-  @media (min-width: 891px) {
-  }
 `;
 
 const LogoWrapper = styled.div`
