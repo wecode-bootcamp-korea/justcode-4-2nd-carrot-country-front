@@ -32,7 +32,8 @@ function Login(props) {
 
   const handleLogin = () => {
     setVisible(false);
-    navigate('localhost:3000/main');
+    // navigate('localhost:3000/main');
+
     // fetch('localhost:3000', {
     //   method: 'POST',
     //   headers: {
