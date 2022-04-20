@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
+import Editor from './Editor';
 
 const Register = () => {
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
@@ -21,7 +22,7 @@ const Register = () => {
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
   useEffect(() => {
-    if (selectedImage.length == 0) {
+    if (selectedImage.length === 0) {
       return;
     }
     if (selectedImage.length > 10) {
@@ -30,7 +31,7 @@ const Register = () => {
       setImageURLs([]);
       return;
     }
-  });
+  }, [selectedImage]);
 
   useEffect(() => {
     const newImageURLs = [];
@@ -137,9 +138,6 @@ const Register = () => {
           </div>
         ))}
       </PhotoLine>
-      <TitleField>
-        <TitleInput />
-      </TitleField>
 
       <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
         <ModalPhotoLine>
@@ -159,6 +157,7 @@ const Register = () => {
           ))}
         </ModalPhotoLine>
       </PhotoModal>
+      <Editor />
     </div>
   );
 };
@@ -290,7 +289,7 @@ const ModalImageContainer = styled.div`
   height: auto;
   /* object-position: center; */
   background-color: black;
-  border: 1px solid red;
+  /* border: 1px solid red; */
 
   .modalEachImage {
     display: flex;

@@ -4,7 +4,11 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 
 const ProductImageModal = () => {
-  return {};
+  return (
+    <div>
+      <PhotoModal></PhotoModal>
+    </div>
+  );
 };
 
 export default ProductImageModal;
