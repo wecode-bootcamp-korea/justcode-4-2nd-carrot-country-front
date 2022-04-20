@@ -18,7 +18,10 @@ function Modal(props) {
   };
 
   return (
-    <MainWrapper visible={visible} onClick={() => handleCancle()}>
+    <MainWrapper
+      visible={visible}
+      // onClick={() => handleCancle()}
+    >
       <Container
         width={width}
         height={height}
@@ -57,7 +60,6 @@ const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgb(0, 0, 0);
   background-color: rgba(0, 0, 0, 0.4);
 `;
 

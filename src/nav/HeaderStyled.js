@@ -2,16 +2,21 @@ import styled from 'styled-components';
 import theme from 'styles/theme';
 
 const HeaderSize = styled.div`
+  position: fixed;
   display: flex;
   justify-content: center;
+  width: 100%;
+  z-index: 1;
   font-family: 'Noto Sans KR', sans-serif;
+  background-color: white;
 `;
 
 const HeaderWrapper = styled.header`
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
+  padding: 10px 8px;
   max-width: 1024px;
   width: 100%;
 `;
@@ -33,7 +38,16 @@ const SearchBarWrapper = styled.div`
   padding-right: 10px;
   border: 1px solid ${props => (props.isFocus ? 'black' : '#E9ECEF')};
   border-radius: 5px;
-  width: 300px;
+  @media (max-width: 690px) {
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 50%;
+  }
+
+  @media (min-width: 891px) {
+    width: 300px;
+  }
 `;
 
 const SearchBar = styled.input`
@@ -51,23 +65,113 @@ const SearchBar = styled.input`
 `;
 
 const NavMenu = styled.ul`
-  display: flex;
-  list-style: none;
-  cursor: pointer;
+  @media (max-width: 690px) {
+    position: absolute;
+    top: 60px;
+    right: 2px;
+    display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-shadow: 0px 6px 4px -4px ${theme.signColor};
+    -moz-box-shadow: 0px 6px 4px -4px ${theme.signColor};
+    box-shadow: 0px 6px 4px -4px ${theme.signColor};
+    border-radius: 0.3rem;
+    padding: 10px 30px;
+    width: 100%;
+    background-color: white;
+    list-style: none;
+    cursor: pointer;
+    font-size: 14px;
 
-  li {
-    padding: 5px;
-    color: #4d5159;
-    width: max-content;
+    li {
+      flex-direction: column;
+      margin: auto;
+      color: #4d5159;
+      width: max-content;
+    }
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+    position: absolute;
+    top: 65px;
+    right: 170px;
+    display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
+    flex-direction: column;
+    align-items: center;
+    -webkit-box-shadow: 0px 6px 4px -2px ${theme.signColor};
+    -moz-box-shadow: 0px 6px 4px -2px ${theme.signColor};
+    box-shadow: 0px 6px 4px -2px ${theme.signColor};
+    border-radius: 0.3rem;
+    padding: 10px 30px;
+    background-color: white;
+    list-style: none;
+    cursor: pointer;
+    font-size: 14px;
+
+    li {
+      flex-direction: column;
+      padding: 5px;
+      color: #4d5159;
+      width: max-content;
+    }
+  }
+
+  @media (min-width: 891px) {
+    display: flex;
+    list-style: none;
+    cursor: pointer;
+
+    li {
+      padding: 5px;
+      color: #4d5159;
+      width: max-content;
+    }
+  }
+`;
+
+const NavButton = styled.button`
+  @media (max-width: 690px) {
+    margin-left: 10px;
+    border: none;
+    padding-top: 5px;
+    background-color: transparent;
+    color: ${theme.signColor};
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+    margin-left: 80px;
+    border: none;
+    padding-top: 5px;
+    background-color: transparent;
+    color: ${theme.signColor};
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  @media (min-width: 891px) {
+    display: none;
   }
 `;
 
 const ChatButton = styled.button`
+  @media (max-width: 690px) {
+    margin-left: 10px;
+    height: fit-content;
+  }
+
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+
+  @media (min-width: 891px) {
+  }
   margin-left: 20px;
   padding: 8px 30px;
   border: 1px solid #d0d3d8;
   border-radius: 0.3rem;
-  width: max-content;
+  width: 150px;
   background-color: transparent;
   color: #4d5159;
   font-size: 16px;
@@ -82,5 +186,6 @@ export {
   SearchBarWrapper,
   SearchBar,
   NavMenu,
+  NavButton,
   ChatButton,
 };

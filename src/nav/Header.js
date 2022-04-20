@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { CLIENT_PORT } from 'config';
+import Signup from 'components/signup/Signup';
+import Login from 'components/login/Login';
 import {
   HeaderSize,
   HeaderWrapper,
@@ -7,18 +10,26 @@ import {
   SearchBarWrapper,
   SearchBar,
   NavMenu,
+  NavButton,
   ChatButton,
 } from './HeaderStyled';
-import { CLIENT_PORT } from 'config';
 import { IoSearchOutline } from 'react-icons/io5';
+import { AiOutlineMenu } from 'react-icons/ai';
 
 function Header() {
-  const navigate = useNavigate();
   const [isSearchForcus, setIsSearchForcus] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [useOpenSignup, setUseOpenSignup] = useState(false);
+  const [useOpenLogin, setUseOpenLogin] = useState(false);
+  const navigate = useNavigate();
 
   const goToMain = () => {
     navigate('/');
   };
+
+  // const goToProducts = () => {
+  //   navigate('');
+  // };
 
   return (
     <HeaderSize>
@@ -44,15 +55,24 @@ function Header() {
           />
           <IoSearchOutline />
         </SearchBarWrapper>
-        <NavMenu>
+        <NavButton
+          onClick={() => {
+            setIsButtonClicked(prev => !prev);
+          }}
+        >
+          <AiOutlineMenu />
+        </NavButton>
+        <NavMenu isButtonClicked={isButtonClicked}>
           <li>동네매물</li>
           <li>동네소식</li>
           <li>|</li>
-          <li>로그인</li>
-          <li>회원가입</li>
+          <li onClick={() => setUseOpenLogin(true)}>로그인</li>
+          <li onClick={() => setUseOpenSignup(true)}>회원가입</li>
         </NavMenu>
         <ChatButton>당근채팅</ChatButton>
       </HeaderWrapper>
+      <Login visible={useOpenLogin} setVisible={setUseOpenLogin} />
+      <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />
     </HeaderSize>
   );
 }

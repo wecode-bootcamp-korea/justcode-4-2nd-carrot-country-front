@@ -1,25 +1,24 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from 'store/store';
+import { ContextProvider } from 'context';
 import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
-import Signup from 'components/signup/Signup';
 import ProductRegister from 'pages/product/ProductRegister';
+import ProductDetail from 'pages/product/ProductDetail';
 
 function App() {
   return (
     <BrowserRouter basename="/">
-      <Provider store={store}>
+      <ContextProvider>
         <Header />
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/signup" element={<Signup />} />
+          <Route path="/product/detail" element={<ProductDetail />} />
           <Route path="/product-register" element={<ProductRegister />} />
         </Routes>
         <Footer />
-      </Provider>
+      </ContextProvider>
     </BrowserRouter>
   );
 }

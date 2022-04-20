@@ -42,6 +42,11 @@ const MainWrapper = styled.main`
       }
     }
 
+    article:nth-child(1) {
+      section:nth-child(1) {
+        padding-left: 60px;
+      }
+    }
     article:nth-child(2) {
       div {
         button {
@@ -50,6 +55,8 @@ const MainWrapper = styled.main`
       }
     }
   }
+  padding-top: 50px;
+
   article {
     display: flex;
 

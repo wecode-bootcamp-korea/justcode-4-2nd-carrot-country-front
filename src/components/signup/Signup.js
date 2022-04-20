@@ -12,9 +12,9 @@ import {
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
 
-function Signup() {
+function Signup(props) {
   // input state
-  const [useVisible, setUseVisible] = useState(false);
+  const { visible, setVisible } = props;
   const [useId, setUseId] = useState('');
   const [useIdCheck, setUseIdCheck] = useState(false);
   const [usePw, setUsePw] = useState('');
@@ -28,7 +28,6 @@ function Signup() {
   const pwChecked = pwRegExp.test(usePw) || usePw.trim() === '';
   const pwCheckChecked = usePw === usePwCheck || usePwCheck.trim() === '';
   const nameChecked = nameRegExp.test(useName) || useName.trim() === '';
-
   // select state
   const [useCity, setUseCity] = useState('서울');
   const [useDistrict, setUseDistrict] = useState('');
@@ -81,7 +80,7 @@ function Signup() {
     if (useName === '' || !nameChecked) {
       return alert('닉네임을 확인 해주세요');
     }
-    if (useDistrict === '' || useDistrict === '지역선택') {
+    if (useDistrict === '' || useDistrict === 'null') {
       return alert('지역을 선택 해주세요');
     }
     if (!usePolicy) {
@@ -92,8 +91,8 @@ function Signup() {
   return (
     <Modal
       title="당근가입"
-      visible={useVisible}
-      setVisible={setUseVisible}
+      visible={visible}
+      setVisible={setVisible}
       // closeBtn={true}
       // width="100px"
       // height="700px"
@@ -153,7 +152,7 @@ function Signup() {
           </InputWrapper>
         </Block>
         <Block>
-          <span>지역 선택</span>
+          <span>동네 선택</span>
           <SelectWrapper>
             <select value={useCity} onChange={handleCity}>
               <option value="서울">서울</option>
@@ -163,10 +162,10 @@ function Signup() {
           </SelectWrapper>
           <SelectWrapper>
             <select value={useDistrict} onChange={handleDistrict}>
-              <option>지역선택</option>
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
+              <option value="null">시/구</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
             </select>
           </SelectWrapper>
           <PolicyAgreed isChecked={usePolicy}>
