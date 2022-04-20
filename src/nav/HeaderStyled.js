@@ -6,6 +6,7 @@ const HeaderSize = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
+  z-index: 1;
   font-family: 'Noto Sans KR', sans-serif;
   background-color: white;
 `;
