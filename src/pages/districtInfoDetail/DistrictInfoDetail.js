@@ -1,7 +1,7 @@
 import React from 'react';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
-import { BsFillArrowRightCircleFill } from 'react-icons/BsFill';
+import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 const user = {
@@ -32,7 +32,7 @@ function DistrictInfoDetail() {
         <InfoBottom>
           <div
             dangerouslySetInnerHTML={{
-              __html: `<p>이번 주말에 날씨가 좋아 용산역에서 가까운 카페 가봤네요~</p><p>새로 오픈한 카페여서 그런지 깔끔하고 직원분들도 친절하시네여ㅎㅎ 규모도 엄청 커요~~</p><p>디저트도 짱 맛!! 추천합니당!! ㅎㅎ</p>`,
+              __html: `<p>이번 주말에 날씨가 좋아 용산역에서 가까운 카페 가봤네요~</p><p>새로 오픈한 카페여서 그런지 깔끔하고 직원분들도 친절하시네여ㅎㅎ</p><p>디저트도 짱 맛!! 추천합니당!! ㅎㅎ</p>`,
             }}
           />
           <div>
@@ -43,22 +43,26 @@ function DistrictInfoDetail() {
       </InfoWrapper>
       <CommentsWrapper>
         <CommentTitle>
+          <span>좋아요</span>
           <img src="/images/districtInfoDetail/heart.svg" />
+          <span className="agree">공감해요</span>
           <img src="/images/districtInfoDetail/good.svg" />
         </CommentTitle>
         <Comments>
           <div>
             <img src="/images/profile/userImageNotFound.png" />
-            <h3>배고파</h3>
+            <h3>용가리</h3>
             <span>서울특별시 강남구</span>
           </div>
-          <p>와~ 굉장히 넓네요! 케이크도 맛있어보여요!</p>
-          <span>56분 전</span>
+          <p>와~ 굉장히 넓네요! 케이크도 맛있어보여요^^</p>
+          <span className="time">56분 전</span>
         </Comments>
       </CommentsWrapper>
       <CommentSignup>
-        <input placeholder="댓글을 입력해주세요" />
-        <BsFillArrowRightCircleFill />
+        <div>
+          <textarea placeholder="댓글을 입력해주세요" />
+          <BsFillArrowRightCircleFill className="icon" />
+        </div>
       </CommentSignup>
     </MainWrapper>
   );
@@ -135,8 +139,15 @@ const CommentTitle = styled.div`
   padding: 18px 6px;
   border-bottom: 1px solid #99999940;
   img {
-    width: 18px;
-    margin-left: 5px;
+    width: 19px;
+    margin-left: 3px;
+  }
+  span {
+    font-size: 15px;
+    font-weight: 600;
+  }
+  .agree {
+    margin-left: 13px;
   }
 `;
 
@@ -169,6 +180,9 @@ const Comments = styled.div`
     line-height: 1.47;
     letter-spacing: -0.5px;
   }
+  .time {
+    color: #71717199;
+  }
 `;
 
 const CommentSignup = styled.div`
@@ -179,13 +193,24 @@ const CommentSignup = styled.div`
     width: 677px;
     margin: 0px auto;
   }
-  input {
+  div {
+    padding: 10px 0px;
+  }
+  textarea {
     width: 220px;
     padding: 10px;
-    /* margin: 25px 10px 5px 10px; */
-    border: 1px solid #adadad;
-    border-radius: 7px;
+    margin: 20px 10px 5px 10px;
+    border: 1px solid #f6f6f6;
+    border-radius: 8px;
     background-color: #f6f6f6;
   }
+  .icon {
+    font-size: 25px;
+    color: #ff8a3d96;
+  }
+  .icon:hover {
+    color: #ff8a3d;
+  }
 `;
+
 export default DistrictInfoDetail;
