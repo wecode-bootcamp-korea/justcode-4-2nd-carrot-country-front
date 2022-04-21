@@ -1,7 +1,9 @@
 import React from 'react';
+import { useState } from 'react';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { BsFillTrashFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 const user = {
@@ -17,7 +19,92 @@ const imageUrl = [
   `/images/districtInfoDetail/districtInfoImg4.jpg`,
 ];
 
+// const TodoInsert = () => {
+//   const [value, setValue] = useState('');
+
+//   const onChange = useCallback(e => {
+//     setValue(e.target.value);
+//   }, []);
+
+// }
 function DistrictInfoDetail() {
+  const [review, setReview] = useState('');
+  const reviewList = document.getElementsByClassName('reviewList')[0];
+  // const [comment, setComment] = useState('');
+  // const [commentArray, setCommentArray] = useState([]);
+
+  // const onChange = e => setComment(e.target.value);
+
+  // const onSubmit = e => {
+  //   e.preventDefault();
+  //   if (comment === '') {
+  //     return;
+  //   }
+  //   setCommentArray(commentValueList => [comment, ...commentValueList]);
+  //   setComment('');
+  // };
+
+  // e.preventDefault();
+  // if (comment === '') {
+  //   return;
+  // }
+
+  // const [enters, setEnters] = useState([]);
+  // const [inputData, setInputData] = useState('');
+  // const [inputDataId, setInputDataId] = useState('');
+  // const [newInput, setNewInput] = useState({
+  //   value: '',
+  //   name: '',
+  //   id: 0,
+  // });
+
+  // const [newCommentKey, setNewCommentKey] = useState(0);
+
+  // useEffect(() => {
+  //   setNewInput({
+  //     value: inputData,
+  //     name: inputDataId,
+  //     id: newCommentKey,
+  //   });
+  // }, [inputData, inputDataId]);
+
+  // const getCommentInput = e => {
+  //   if (inputData === '' || inputDataId === '') {
+  //     e.preventDefault();
+  //     return null;
+  //   }
+  //   e.preventDefault();
+  //   setNewCommentKey(prev => prev + 1);
+  //   setEnters(enters.concat(newInput));
+  //   setInputData('');
+  //   setInputDataId('');
+  // };
+
+  const postReview = e => {
+    setReview(e.target.value);
+
+    if (e.keyCode === 13) {
+      if (review.length >= 1) {
+        const reviewBox = document.createElement('div');
+        const reply = document.createElement('p');
+        const trashcan = document.createElement('i');
+
+        reply.innerHTML = review;
+        trashcan.className = 'fa-regular fa-trash-can gray';
+        reviewBox.className = 'reviewLine';
+
+        reviewBox.appendChild(reply);
+        reviewBox.appendChild(trashcan);
+        reviewList.appendChild(reviewBox);
+
+        // trashcan.addEventListener('click', function () {
+        //   trashcan.parentElement.remove();
+        // });
+
+        setReview('');
+      }
+    }
+  };
   return (
     <MainWrapper>
       <ImageSlider urls={imageUrl} />
@@ -53,16 +140,24 @@ function DistrictInfoDetail() {
             <img src="/images/profile/userImageNotFound.png" />
             <h3>용가리</h3>
             <span>서울특별시 강남구</span>
+            <BsFillTrashFill className="trashIcon" />
           </div>
           <p>와~ 굉장히 넓네요! 케이크도 맛있어보여요^^</p>
           <span className="time">56분 전</span>
         </Comments>
       </CommentsWrapper>
-      <CommentSignup>
-        <div>
-          <textarea placeholder="댓글을 입력해주세요" />
-          <BsFillArrowRightCircleFill className="icon" />
-        </div>
+      <CommentSignup
+      //  onSubmit={onSubmit}
+      >
+        <form>
+          <input
+            type="text"
+            placeholder="댓글을 입력해주세요"
+            // value={inputData}
+            // onChange={e => setInputData(e.target.value)}
+          />
+          <BsFillArrowRightCircleFill className="submitIcon" />
+        </form>
       </CommentSignup>
     </MainWrapper>
   );
@@ -141,6 +236,7 @@ const CommentTitle = styled.div`
   img {
     width: 19px;
     margin-left: 3px;
+    cursor: pointer;
   }
   span {
     font-size: 15px;
@@ -183,32 +279,31 @@ const Comments = styled.div`
   .time {
     color: #71717199;
   }
+  .trashIcon {
+    width: 15px;
+    margin-left: 450px;
+    color: #ababab;
+  }
 `;
 
 const CommentSignup = styled.div`
-  @media (max-width: 890px) {
-    padding: 0px 15px;
+  form {
+    margin: 10px 0px 20px 6px;
   }
-  @media (min-width: 891px) {
-    width: 677px;
-    margin: 0px auto;
-  }
-  div {
-    padding: 10px 0px;
-  }
-  textarea {
-    width: 220px;
+  input {
+    width: 500px;
+    height: 40px;
     padding: 10px;
     margin: 20px 10px 5px 10px;
-    border: 1px solid #f6f6f6;
+    border: none;
     border-radius: 8px;
     background-color: #f6f6f6;
   }
-  .icon {
+  .submitIcon {
     font-size: 25px;
     color: #ff8a3d96;
   }
-  .icon:hover {
+  .submitIcon:hover {
     color: #ff8a3d;
   }
 `;
