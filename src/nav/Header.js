@@ -74,8 +74,12 @@ function Header() {
         </NavMenu>
         <ChatButton>당근채팅</ChatButton>
       </HeaderWrapper>
-      <Login visible={useOpenLogin} setVisible={setUseOpenLogin} />
-      <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />
+      {useOpenLogin && (
+        <Login visible={useOpenLogin} setVisible={setUseOpenLogin} />
+      )}
+      {useOpenSignup && (
+        <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />
+      )}
     </HeaderSize>
   );
 }

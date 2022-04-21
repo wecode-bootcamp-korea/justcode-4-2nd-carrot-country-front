@@ -136,7 +136,7 @@ const InfoBottom = styled.div`
   div:nth-child(2) {
     border-bottom: 1px solid #99999940;
     span {
-      padding: 0px 6px;
+      margin-right: 10px;
       color: #71717199;
       font-size: 13px;
     }
