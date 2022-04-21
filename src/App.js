@@ -6,7 +6,7 @@ import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
-import DistrictInfo from 'pages/DistrictInfo/DistrictInfo';
+import DistrictInfo from 'pages/districtInfo/DistrictInfo';
 
 function App() {
   return (
