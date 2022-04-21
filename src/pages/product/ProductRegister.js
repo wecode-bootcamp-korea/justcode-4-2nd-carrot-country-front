@@ -99,77 +99,96 @@ const Register = () => {
   // };
 
   return (
-    <div>
-      <PhotoLine>
-        <PhotoButton onClick={handleClick}>
-          <BsFillCameraFill className={'camera'} />
-          <PhotoCount>
-            <PhotoTotal>{selectedImage.length}</PhotoTotal>
-            <PhotoLimit> /10</PhotoLimit>
-          </PhotoCount>
-          <PhotoInput
-            type={'file'}
-            ref={hiddenFileInput}
-            accept={'image/*'}
-            multiple
-            onChange={e => {
-              onImageChange(e);
-            }}
-          />
-        </PhotoButton>
-        {imageURLs.map((imageSrc, index) => (
-          <div key={index} className="imageContainer">
-            <TiDelete
-              className={'photoDiscard'}
-              value={imageSrc}
-              onClick={() => deleteImage(imageSrc)}
+    <WholeWrapper>
+      <RegisterWrapper>
+        <PhotoLine>
+          <PhotoButton onClick={handleClick}>
+            <BsFillCameraFill className={'camera'} />
+            <PhotoCount>
+              <PhotoTotal>{selectedImage.length}</PhotoTotal>
+              <PhotoLimit> /10</PhotoLimit>
+            </PhotoCount>
+            <PhotoInput
+              type={'file'}
+              ref={hiddenFileInput}
+              accept={'image/*'}
+              multiple
+              onChange={e => {
+                onImageChange(e);
+              }}
+              required
             />
-            <img
-              src={imageSrc}
-              className={'eachImage'}
-              value={imageSrc}
-              ref={imageRef}
-              onClick={() => setOpenModal(true)}
-              // onClick={() =>
-              //   console.log('imageSrc: ', imageSrc, 'key: ', index)
-              // }
-            />
-          </div>
-        ))}
-      </PhotoLine>
-
-      <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
-        <ModalPhotoLine>
-          <TiDelete
-            className={'modalTurnOff'}
-            onClick={() => setOpenModal(false)}
-          />
+          </PhotoButton>
           {imageURLs.map((imageSrc, index) => (
-            <ModalImageContainer
-              // onClick={e => {
-              //   e.stopPropagation();
-              // }}
-              key={index}
-            >
-              <img src={imageSrc} className={'modalEachImage'} />
-            </ModalImageContainer>
+            <div key={index} className="imageContainer">
+              <TiDelete
+                className={'photoDiscard'}
+                value={imageSrc}
+                onClick={() => deleteImage(imageSrc)}
+              />
+              <img
+                src={imageSrc}
+                className={'eachImage'}
+                value={imageSrc}
+                ref={imageRef}
+                onClick={() => setOpenModal(true)}
+                // onClick={() =>
+                //   console.log('imageSrc: ', imageSrc, 'key: ', index)
+                // }
+              />
+            </div>
           ))}
-        </ModalPhotoLine>
-      </PhotoModal>
-      <Editor />
-    </div>
+        </PhotoLine>
+
+        <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
+          <ModalPhotoLine>
+            <TiDelete
+              className={'modalTurnOff'}
+              onClick={() => setOpenModal(false)}
+            />
+            {imageURLs.map((imageSrc, index) => (
+              <ModalImageContainer
+                // onClick={e => {
+                //   e.stopPropagation();
+                // }}
+                key={index}
+              >
+                <img src={imageSrc} className={'modalEachImage'} />
+              </ModalImageContainer>
+            ))}
+          </ModalPhotoLine>
+        </PhotoModal>
+        <Editor />
+        <ButtonWrapper>
+          <SubmitButton>완료</SubmitButton>
+        </ButtonWrapper>
+      </RegisterWrapper>
+    </WholeWrapper>
   );
 };
 
 //styled-components 시작
+
+const WholeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+`;
+const RegisterWrapper = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  width: 1024px;
+  padding: 80px 0;
+`;
+
 const PhotoLine = styled.div`
   display: flex;
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
   height: 150px;
-  padding: 2vh;
-  margin: 0 1vw 1vw 1vw;
+  padding: 15px 0;
 
   .imageContainer {
     display: flex;
@@ -177,15 +196,15 @@ const PhotoLine = styled.div`
     position: relative;
     width: auto;
     height: 100%;
-    margin-left: 2vh;
+    margin-left: 16px;
     aspect-ratio: 1/1;
 
     .photoDiscard {
       position: absolute;
-      right: -2.5vh;
-      top: -2.5vh;
+      right: -17px;
+      top: -17px;
       z-index: 10;
-      font-size: 5vh;
+      font-size: 40px;
       cursor: pointer;
     }
   }
@@ -243,12 +262,6 @@ const PhotoInput = styled.input`
   display: none;
 `;
 
-const TitleField = styled.div`
-  width: 100%;
-`;
-
-const TitleInput = styled.input``;
-//모달 스타일
 const PhotoModal = styled.div`
   display: ${props => (props.open === true ? 'flex' : 'none')};
   position: fixed;
@@ -288,7 +301,6 @@ const ModalImageContainer = styled.div`
   height: auto;
   /* object-position: center; */
   background-color: black;
-  /* border: 1px solid red; */
 
   .modalEachImage {
     display: flex;
@@ -298,4 +310,26 @@ const ModalImageContainer = styled.div`
   }
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 25px;
+`;
+
+const SubmitButton = styled.button`
+  display: flex;
+  width: 90px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  border: none;
+  color: white;
+  background-color: #f37802;
+  border-radius: 5px;
+
+  :hover {
+    cursor: pointer;
+  }
+`;
 export default Register;
