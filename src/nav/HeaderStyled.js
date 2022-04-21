@@ -5,6 +5,7 @@ const HeaderSize = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
+
   width: 100%;
   z-index: 1;
   font-family: 'Noto Sans KR', sans-serif;
@@ -68,7 +69,7 @@ const NavMenu = styled.ul`
   @media (max-width: 890px) {
     position: absolute;
     top: 60px;
-    right: 2px;
+    right: 0px;
     display: ${props => (props.isButtonClicked ? 'flex' : 'none')};
     flex-direction: row;
     align-items: center;
