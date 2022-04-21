@@ -49,7 +49,8 @@ const InputWrapper = styled.div`
     color: ${props => (props.isChecked ? props.theme.signColor : '#ff0000')};
   }
   input {
-    width: 100%;
+    width: 80%;
+    flex: 1;
   }
 `;
 const SelectWrapper = styled.div`
@@ -62,7 +63,6 @@ const SelectWrapper = styled.div`
 const InputIdWrapper = styled.div`
   display: flex;
   button {
-    width: 100px;
     border: 0px;
     text-align: end;
     margin-block: auto;
@@ -70,6 +70,10 @@ const InputIdWrapper = styled.div`
     font-size: 12px;
     background-color: #ffff;
     cursor: pointer;
+    :focus {
+      outline: none;
+      border-bottom: 1px solid;
+    }
     :disabled {
       cursor: default !important;
     }
