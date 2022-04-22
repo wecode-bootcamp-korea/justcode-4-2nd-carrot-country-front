@@ -1,11 +1,13 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
 import { useState } from 'react';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
+import { SERVER_PORT } from 'config';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { BsFillTrashFill } from 'react-icons/bs';
+import { AiOutlineHeart } from 'react-icons/ai';
 import styled from 'styled-components';
-import { UserContext } from 'context';
+// import { UserContext } from 'context';
 
 const user = {
   id: '1',
@@ -21,6 +23,27 @@ const imageUrl = [
 ];
 
 function DistrictInfoDetail() {
+  const [comment, setComment] = useState('');
+  const handleComment = e => {
+    setComment(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    if (comment !== '') {
+      fetch(`${SERVER_PORT}/infos/comment`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          token: localStorage.getItem('token'),
+          infoId: '1',
+          comment: comment,
+        }),
+      });
+    }
+  };
+
   return (
     <MainWrapper>
       <ImageSlider urls={imageUrl} />
@@ -47,16 +70,17 @@ function DistrictInfoDetail() {
       <CommentsWrapper>
         <CommentTitle>
           <span>좋아요</span>
-          <img src="/images/districtInfoDetail/heart.svg" />
-          <span className="agree">공감해요</span>
-          <img src="/images/districtInfoDetail/good.svg" />
+          {/* <img src="/images/districtInfoDetail/heart.svg" /> */}
+          <AiOutlineHeart className="heart" />
         </CommentTitle>
         <Comments>
           <div>
-            <img src="/images/profile/userImageNotFound.png" />
-            <h3>용가리</h3>
-            <span>서울특별시 강남구</span>
-            <BsFillTrashFill className="trashIcon" />
+            <UserInfo>
+              <UserProfile user={user} />
+              <BsFillTrashFill className="trashIcon" />
+            </UserInfo>
+            {/* <h3>용가리</h3>
+            <span>서울특별시 강남구</span> */}
           </div>
           <p>와~ 굉장히 넓네요! 케이크도 맛있어보여요^^</p>
           <span className="time">56분 전</span>
@@ -64,15 +88,16 @@ function DistrictInfoDetail() {
       </CommentsWrapper>
       <CommentSignup>
         <form>
-          {/* <input type="text" value={input} onChange={onChange}
-          placeholder="댓글을 입력해주세요" />
+          <input
+            type="text"
+            value={comment}
+            onChange={handleComment}
+            placeholder="댓글을 입력해주세요"
+          />
           <BsFillArrowRightCircleFill
             className="submitIcon"
-            onClick={() => {
-              addComment(input);
-              setInput('');
-            }}
-          /> */}
+            onClick={handleSubmit}
+          />
         </form>
       </CommentSignup>
     </MainWrapper>
@@ -85,11 +110,11 @@ const MainWrapper = styled.main`
   padding-top: 70px;
 `;
 
-const UserInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
+// const UserInfo = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+// `;
 const InfoWrapper = styled.section`
   @media (max-width: 890px) {
     padding: 0px 15px;
@@ -134,8 +159,29 @@ const InfoBottom = styled.div`
   }
 `;
 
+const UserInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .ChatBtn {
+    border: 1px solid ${props => props.theme.signColor};
+    border-radius: 50px;
+    padding: 15px 20px;
+    cursor: pointer;
+    :hover {
+      background-color: ${props => props.theme.signColor};
+      span {
+        color: #ffff;
+      }
+    }
+    span {
+      color: ${props => props.theme.signColor};
+    }
+  }
+`;
 const CommentsWrapper = styled.section`
-  @media (max-width: 700px) {
+  @media (max-width: 890px) {
     padding: 0px 15px;
   }
   @media (min-width: 891px) {
@@ -149,8 +195,8 @@ const CommentTitle = styled.div`
   align-items: center;
   padding: 18px 6px;
   border-bottom: 1px solid #99999940;
-  img {
-    width: 19px;
+  .heart {
+    font-size: 18px;
     margin-left: 3px;
     cursor: pointer;
   }
@@ -166,26 +212,10 @@ const CommentTitle = styled.div`
 const Comments = styled.div`
   padding: 25px 6px 20px 6px;
   border-bottom: 1px solid #99999940;
-  div {
+  /* div {
     display: flex;
     align-items: center;
-  }
-  img {
-    width: 30px;
-    border-radius: 50%;
-  }
-  h3 {
-    display: inline-block;
-    margin: 10px;
-    font-weight: 600;
-  }
-  span {
-    font-size: 13px;
-    padding-top: 5px;
-    line-height: 1.46;
-    letter-spacing: -0.5px;
-    vertical-align: middle;
-  }
+  } */
   p {
     padding: 20px 0px 15px 0px;
     font-size: 15px;
@@ -193,29 +223,39 @@ const Comments = styled.div`
     letter-spacing: -0.5px;
   }
   .time {
+    font-size: 13px;
     color: #71717199;
   }
   .trashIcon {
+    margin-left: 10px;
     width: 15px;
-    margin-left: 450px;
     color: #ababab;
   }
 `;
 
 const CommentSignup = styled.div`
+  @media (max-width: 890px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
   form {
-    margin: 10px 0px 20px 6px;
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
   }
   input {
     width: 500px;
     height: 40px;
     padding: 10px;
-    margin: 20px 10px 5px 10px;
     border: none;
     border-radius: 8px;
     background-color: #f6f6f6;
   }
   .submitIcon {
+    margin-left: 10px;
     font-size: 25px;
     color: #ff8a3d96;
   }
