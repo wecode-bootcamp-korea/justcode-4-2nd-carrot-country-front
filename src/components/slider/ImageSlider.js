@@ -11,7 +11,7 @@ import { BsFillCircleFill } from 'react-icons/bs';
 
 import styled from 'styled-components';
 
-const WIDTH = 684;
+const WIDTH = 677;
 const HEIGHT = 500;
 
 function ImageSlider(props) {
@@ -45,7 +45,7 @@ function ImageSlider(props) {
   return (
     <MainWrapper>
       <MdOutlineArrowBackIos
-        size={30}
+        size={28}
         className="prevBtn"
         onClick={handlePrev}
       />
@@ -69,7 +69,7 @@ function ImageSlider(props) {
         </DotWrapper>
       </ImageWrapper>
       <MdOutlineArrowForwardIos
-        size={30}
+        size={28}
         onClick={handleNext}
         className="nextBtn"
       />
@@ -85,10 +85,22 @@ function ImageSlider(props) {
 
 const MainWrapper = styled.section`
   @media (max-width: 890px) {
+    .prevBtn {
+      left: 10px;
+    }
+    .nextBtn {
+      right: 10px;
+    }
   }
   @media (min-width: 891px) {
-    width: ${WIDTH + 8}px;
+    width: ${WIDTH}px;
     margin: 0px auto;
+    .prevBtn {
+      left: -30px;
+    }
+    .nextBtn {
+      right: -30px;
+    }
   }
   position: relative;
   svg {
@@ -98,14 +110,7 @@ const MainWrapper = styled.section`
   .nextBtn {
     position: absolute;
     top: 50%;
-    z-index: 1;
-    color: #66666663;
-  }
-  .prevBtn {
-    left: 10px;
-  }
-  .nextBtn {
-    right: 10px;
+    color: #666666cc;
   }
 `;
 
@@ -116,12 +121,12 @@ const ImageWrapper = styled.div`
         ${props =>
           props.changeWidth
             ? props.index * -props.changeWidth + 'px'
-            : props.index * -670 + 'px'},
+            : props.index * -WIDTH + 'px'},
         0px
       );
       img {
         width: ${props =>
-          props.changeWidth ? props.changeWidth + 'px' : '670px'};
+          props.changeWidth ? props.changeWidth + 'px' : WIDTH};
         height: auto;
       }
     }
@@ -134,7 +139,7 @@ const ImageWrapper = styled.div`
         ${props =>
           props.width
             ? props.index * -props.width + 'px'
-            : props.index * -670 + 'px'},
+            : props.index * -WIDTH + 'px'},
         0px
       );
       img {
@@ -147,6 +152,7 @@ const ImageWrapper = styled.div`
   position: relative;
   display: flex;
   overflow: hidden;
+  z-index: -1;
   div {
     align-self: center;
     transition: 0.6s;
