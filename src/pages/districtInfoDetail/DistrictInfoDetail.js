@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { BsFillTrashFill } from 'react-icons/bs';
 import styled from 'styled-components';
+import { UserContext } from 'context';
 
 const user = {
   id: '1',
@@ -19,92 +20,7 @@ const imageUrl = [
   `/images/districtInfoDetail/districtInfoImg4.jpg`,
 ];
 
-// const TodoInsert = () => {
-//   const [value, setValue] = useState('');
-
-//   const onChange = useCallback(e => {
-//     setValue(e.target.value);
-//   }, []);
-
-// }
 function DistrictInfoDetail() {
-  const [review, setReview] = useState('');
-  const reviewList = document.getElementsByClassName('reviewList')[0];
-  // const [comment, setComment] = useState('');
-  // const [commentArray, setCommentArray] = useState([]);
-
-  // const onChange = e => setComment(e.target.value);
-
-  // const onSubmit = e => {
-  //   e.preventDefault();
-  //   if (comment === '') {
-  //     return;
-  //   }
-  //   setCommentArray(commentValueList => [comment, ...commentValueList]);
-  //   setComment('');
-  // };
-
-  // e.preventDefault();
-  // if (comment === '') {
-  //   return;
-  // }
-
-  // const [enters, setEnters] = useState([]);
-  // const [inputData, setInputData] = useState('');
-  // const [inputDataId, setInputDataId] = useState('');
-  // const [newInput, setNewInput] = useState({
-  //   value: '',
-  //   name: '',
-  //   id: 0,
-  // });
-
-  // const [newCommentKey, setNewCommentKey] = useState(0);
-
-  // useEffect(() => {
-  //   setNewInput({
-  //     value: inputData,
-  //     name: inputDataId,
-  //     id: newCommentKey,
-  //   });
-  // }, [inputData, inputDataId]);
-
-  // const getCommentInput = e => {
-  //   if (inputData === '' || inputDataId === '') {
-  //     e.preventDefault();
-  //     return null;
-  //   }
-  //   e.preventDefault();
-  //   setNewCommentKey(prev => prev + 1);
-  //   setEnters(enters.concat(newInput));
-  //   setInputData('');
-  //   setInputDataId('');
-  // };
-
-  const postReview = e => {
-    setReview(e.target.value);
-
-    if (e.keyCode === 13) {
-      if (review.length >= 1) {
-        const reviewBox = document.createElement('div');
-        const reply = document.createElement('p');
-        const trashcan = document.createElement('i');
-
-        reply.innerHTML = review;
-        trashcan.className = 'fa-regular fa-trash-can gray';
-        reviewBox.className = 'reviewLine';
-
-        reviewBox.appendChild(reply);
-        reviewBox.appendChild(trashcan);
-        reviewList.appendChild(reviewBox);
-
-        // trashcan.addEventListener('click', function () {
-        //   trashcan.parentElement.remove();
-        // });
-
-        setReview('');
-      }
-    }
-  };
   return (
     <MainWrapper>
       <ImageSlider urls={imageUrl} />
@@ -146,17 +62,17 @@ function DistrictInfoDetail() {
           <span className="time">56분 전</span>
         </Comments>
       </CommentsWrapper>
-      <CommentSignup
-      //  onSubmit={onSubmit}
-      >
+      <CommentSignup>
         <form>
-          <input
-            type="text"
-            placeholder="댓글을 입력해주세요"
-            // value={inputData}
-            // onChange={e => setInputData(e.target.value)}
-          />
-          <BsFillArrowRightCircleFill className="submitIcon" />
+          {/* <input type="text" value={input} onChange={onChange}
+          placeholder="댓글을 입력해주세요" />
+          <BsFillArrowRightCircleFill
+            className="submitIcon"
+            onClick={() => {
+              addComment(input);
+              setInput('');
+            }}
+          /> */}
         </form>
       </CommentSignup>
     </MainWrapper>
@@ -219,7 +135,7 @@ const InfoBottom = styled.div`
 `;
 
 const CommentsWrapper = styled.section`
-  @media (max-width: 890px) {
+  @media (max-width: 700px) {
     padding: 0px 15px;
   }
   @media (min-width: 891px) {
