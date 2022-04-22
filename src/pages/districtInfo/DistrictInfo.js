@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SERVER_PORT } from '../../config';
-import SubmitButton from 'components/buttons/SubmitButton';
+import SubmitButton from 'components/buttons/RegisterButton';
 import ListTitle from 'components/list/ListTitle';
 import AreaTag from 'components/list/AreaTag';
 import DistrictInfoList from 'components/list/DistrictInfoList';
@@ -14,15 +14,17 @@ function DistrictInfo() {
       .then(result => setDistrictInfoData(result.districtInfos));
   }, []);
 
-  console.log(districtInfoData);
-
   return (
-    <>
+    <div>
       <ListTitle title="우리 동네 소식" />
-      <AreaTag maxWidth={1024} city={'동네'} district={'동네'} />
+      <AreaTag
+        maxWidth={1024}
+        city={districtInfoData[0].city.cityName}
+        district={districtInfoData[0].district.districtName}
+      />
       <DistrictInfoList maxWidth={1024} data={districtInfoData} />
       <SubmitButton />
-    </>
+    </div>
   );
 }
 
@@ -31,22 +33,22 @@ export default DistrictInfo;
 const mockdata = [
   {
     id: 1,
-    imageUrl:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '포켓몬빵 파는 편의점 알려주세요',
-    content:
-      '포켓몬빵 파는 편의점 알려주세요.포켓몬빵 파는 편의점 알려주세요포켓몬빵 파는 편의점 알려주세요포켓몬빵 파는 편의점 알려주세요포켓몬빵 파는 편의점 알려주세요포켓몬빵 파는 편의점 알려주세요포켓몬빵 파는 편의점 알려주세요.포켓몬빵 파는 편의점 알려주세요',
-    city: '경기도',
-    district: '의정부시',
-    commentCount: 1,
-  },
-  {
-    id: 2,
-    imageUrl: '',
-    title: '포켓몬빵 파는 편의점 알려주세요',
-    content: '.포켓몬빵 파는 편의점 알려주세요',
-    city: '경기도',
-    district: '의정부시',
-    commentCount: 1,
+    title: '맛집알려주세요.',
+    content: '이동네 이사 처음왔는데 맛집 어딨나요?',
+    viewCount: 1,
+    city: {
+      id: 1,
+      cityName: '서울',
+    },
+    district: {
+      id: 1,
+      districtName: '중구',
+    },
+    districtInfoImage: [],
+    districtInfoLiked: [
+      {
+        id: 3,
+      },
+    ],
   },
 ];
