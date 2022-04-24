@@ -9,6 +9,7 @@ const Register = () => {
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
+  // const [buttonEnable, setButtonEnable] = useState(false);
   const [modalImageInfo, setModalImageInfo] = useState({
     index: 0,
     imageSrc: '',
@@ -20,6 +21,12 @@ const Register = () => {
     hiddenFileInput.current.click();
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
+  const onPriceChange = e => {
+    const priceRegex = /[0-9]/;
+    if (priceRegex.test(e.target.value)) {
+      alert('숫자만 입력해 주세요');
+    }
+  };
   useEffect(() => {
     if (selectedImage.length === 0) {
       return;
@@ -40,36 +47,9 @@ const Register = () => {
     setImageURLs(newImageURLs);
   }, [selectedImage]);
 
-  // useEffect(() => {
-  //   if (selectedImage.length < 1) {
-  //     return;
-  //   }
-  //   if (selectedImage.length > 10) {
-  //     alert('사진을 10개를 초과할 수 없어요');
-  //     setSelectedImage([]);
-  //     setImageURLs([]);
-  //   } else {
-  //     selectedImage.forEach(image =>
-  //       setImageURLs(oldImageURLs => [
-  //         ...oldImageURLs,
-  //         URL.createObjectURL(image),
-  //       ])
-  //     );
-  //   }
-
   const onImageChange = event => {
     setSelectedImage([...event.target.files]);
   }; //파일 업로드
-
-  // const deleteImage = src => {
-  //   const imageIndex = imageURLs.indexOf(src);
-  //   if (imageURLs.length == 0) {
-  //     return;
-  //   } else {
-  //     selectedImage.splice(imageIndex, 1);
-  //     imageURLs.splice(imageIndex, 1);
-  //   }
-  // };
 
   const deleteImage = src => {
     if (imageURLs.length == 0) {
@@ -102,7 +82,12 @@ const Register = () => {
     <WholeWrapper>
       <RegisterWrapper>
         <PhotoLine>
-          <PhotoButton onClick={handleClick}>
+          <PhotoForm
+            onClick={handleClick}
+            action="/profile"
+            method="post"
+            encType="multiport/form-data"
+          >
             <BsFillCameraFill className={'camera'} />
             <PhotoCount>
               <PhotoTotal>{selectedImage.length}</PhotoTotal>
@@ -118,7 +103,7 @@ const Register = () => {
               }}
               required
             />
-          </PhotoButton>
+          </PhotoForm>
           {imageURLs.map((imageSrc, index) => (
             <div key={index} className="imageContainer">
               <TiDelete
@@ -132,9 +117,6 @@ const Register = () => {
                 value={imageSrc}
                 ref={imageRef}
                 onClick={() => setOpenModal(true)}
-                // onClick={() =>
-                //   console.log('imageSrc: ', imageSrc, 'key: ', index)
-                // }
               />
             </div>
           ))}
@@ -147,21 +129,13 @@ const Register = () => {
               onClick={() => setOpenModal(false)}
             />
             {imageURLs.map((imageSrc, index) => (
-              <ModalImageContainer
-                // onClick={e => {
-                //   e.stopPropagation();
-                // }}
-                key={index}
-              >
+              <ModalImageContainer key={index}>
                 <img src={imageSrc} className={'modalEachImage'} />
               </ModalImageContainer>
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor />
-        <ButtonWrapper>
-          <SubmitButton>완료</SubmitButton>
-        </ButtonWrapper>
+        <Editor props={imageURLs} />
       </RegisterWrapper>
     </WholeWrapper>
   );
@@ -173,6 +147,14 @@ const WholeWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 30px;
+  /* max-width: 1024px; */
+  @media (max-width: 1024px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
 `;
 const RegisterWrapper = styled.div`
   /* display: flex;
@@ -189,6 +171,13 @@ const PhotoLine = styled.div`
   width: auto;
   height: 150px;
   padding: 15px 0;
+  @media (max-width: 1024px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
 
   .imageContainer {
     display: flex;
@@ -222,7 +211,7 @@ const PhotoLine = styled.div`
   }
 `;
 
-const PhotoButton = styled.button`
+const PhotoForm = styled.form`
   display: flex;
   aspect-ratio: 1/1;
   flex-direction: column;
@@ -310,26 +299,4 @@ const ModalImageContainer = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 25px;
-`;
-
-const SubmitButton = styled.button`
-  display: flex;
-  width: 90px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  border: none;
-  color: white;
-  background-color: #f37802;
-  border-radius: 5px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
 export default Register;
