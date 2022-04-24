@@ -5,9 +5,9 @@ import ImageSlider from 'components/slider/ImageSlider';
 import { SERVER_PORT } from 'config';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { BsFillTrashFill } from 'react-icons/bs';
-import { AiOutlineHeart } from 'react-icons/ai';
+import { AiFillHeart } from 'react-icons/ai';
 import styled from 'styled-components';
-// import { UserContext } from 'context';
+import { Usersign } from 'components/login/LoginStyle';
 
 const user = {
   id: '1',
@@ -23,7 +23,10 @@ const imageUrl = [
 ];
 
 function DistrictInfoDetail() {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState([]);
+  const [heart, setHeart] = useState('lightgray');
+  // const [trash, setTrash] = useState('');
+
   const handleComment = e => {
     setComment(e.target.value);
   };
@@ -43,6 +46,16 @@ function DistrictInfoDetail() {
       });
     }
   };
+
+  const handleHeart = () => {
+    heart === 'lightgray' ? setHeart('tomato') : setHeart('lightgray');
+  };
+
+  // const handleRemove = e => {
+  //   // setTrashs(trashs.filter(trash => trash.id !== id));
+  //   const {comments} = this.state;
+  //   const_comments = comments.filter((key) => key.id !== id);
+  // };
 
   return (
     <MainWrapper>
@@ -70,17 +83,22 @@ function DistrictInfoDetail() {
       <CommentsWrapper>
         <CommentTitle>
           <span>좋아요</span>
-          {/* <img src="/images/districtInfoDetail/heart.svg" /> */}
-          <AiOutlineHeart className="heart" />
+          <AiFillHeart
+            className="heart"
+            style={{ color: heart }}
+            onClick={handleHeart}
+          />
         </CommentTitle>
         <Comments>
           <div>
+            {comment.map}
             <UserInfo>
               <UserProfile user={user} />
-              <BsFillTrashFill className="trashIcon" />
+              <BsFillTrashFill
+                className="trashIcon"
+                // onClick={() => this.handleRemove(e.id)}
+              />
             </UserInfo>
-            {/* <h3>용가리</h3>
-            <span>서울특별시 강남구</span> */}
           </div>
           <p>와~ 굉장히 넓네요! 케이크도 맛있어보여요^^</p>
           <span className="time">56분 전</span>
@@ -110,11 +128,6 @@ const MainWrapper = styled.main`
   padding-top: 70px;
 `;
 
-// const UserInfo = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-// `;
 const InfoWrapper = styled.section`
   @media (max-width: 890px) {
     padding: 0px 15px;
@@ -199,6 +212,10 @@ const CommentTitle = styled.div`
     font-size: 18px;
     margin-left: 3px;
     cursor: pointer;
+    transition: transform 300ms ease;
+  }
+  .heart:hover {
+    transform: scale(1.2);
   }
   span {
     font-size: 15px;
@@ -210,14 +227,14 @@ const CommentTitle = styled.div`
 `;
 
 const Comments = styled.div`
-  padding: 25px 6px 20px 6px;
+  padding: 20px 6px 20px 6px;
   border-bottom: 1px solid #99999940;
   /* div {
     display: flex;
     align-items: center;
   } */
   p {
-    padding: 20px 0px 15px 0px;
+    padding: 15px 0px;
     font-size: 15px;
     line-height: 1.47;
     letter-spacing: -0.5px;
