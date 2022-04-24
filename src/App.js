@@ -7,6 +7,7 @@ import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
+import ProductList from 'pages/productInfo/ProducInfo';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/product/detail" element={<ProductDetail />} />
           <Route path="/product-register" element={<ProductRegister />} />
           <Route path="/district-info" element={<DistrictInfo />} />
+          <Route path="/product-list" element={<ProductList />} />
         </Routes>
         <Footer />
       </ContextProvider>
