@@ -22,7 +22,7 @@ function Mypage() {
         </UserInfo>
         <Line />
         <div className="temp">
-          78.2℃ <FaRegSmileWink className="smile" />
+          68.2℃ <FaRegSmileWink className="smile" />
         </div>
         <div className="progress-bar">
           <div className="progress">.</div>
@@ -31,10 +31,12 @@ function Mypage() {
           <div>
             <AiOutlineHeart className="userBoxIcons" />
             재거래 희망률 <span>100%</span>
+            <p>5명 중 5명이 만족</p>
           </div>
           <div className="userBoxSecond">
             <BsChatSquareDots className="userBoxIcons" />
             응답<span>99%</span>
+            <p>보통 1시간 이내 응답</p>
           </div>
         </UserBox>
       </InfoWrapper>
@@ -87,7 +89,7 @@ const InfoWrapper = styled.section`
     margin-left: 85%;
     margin-bottom: 5px;
     font-size: 18px;
-    color: #4f98ff;
+    color: #319e45;
   }
   .smile {
     font-size: 25px;
@@ -104,11 +106,11 @@ const InfoWrapper = styled.section`
   }
 
   .progress-bar .progress {
-    width: 78.2%;
+    width: 68.2%;
     height: 19px;
     padding: 0;
     /* text-align: center; */
-    background-color: #4f98ff;
+    background-color: #319e45;
     color: #111;
     border-radius: 25px;
   }
@@ -120,7 +122,7 @@ const Line = styled.div`
 `;
 
 const UserBox = styled.div`
-  padding: 25px 35px;
+  padding: 25px 10px 25px 25px;
   border-radius: 3px;
   background-color: whitesmoke;
   div {
@@ -131,16 +133,22 @@ const UserBox = styled.div`
     font-weight: 600;
   }
   .userBoxSecond {
-    margin-left: 47%;
+    margin-left: 40%;
   }
   .userBoxIcons {
     font-size: 20px;
     margin: 0px 4px 0px 0px;
   }
+  p {
+    padding: 10px 0px 0px 15px;
+    color: gray;
+    font-size: 12px;
+  }
 `;
+
 const UserLife = styled.section`
   @media (max-width: 890px) {
-    padding: 0px 15px;
+    padding: 15px;
   }
   @media (min-width: 891px) {
     width: 677px;
