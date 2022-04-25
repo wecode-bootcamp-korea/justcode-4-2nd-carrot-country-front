@@ -7,6 +7,7 @@ import ChatRoomContent from './ChatRoomContent';
 import ChatRoomFooter from './ChatRoomFooter';
 
 import styled from 'styled-components';
+import { getChats } from 'apis/chat';
 
 function ChatRoomDelay(props) {
   const { useRoomId } = props;
@@ -20,9 +21,7 @@ function ChatRoom(props) {
 
   useEffect(() => {
     if (roomId) {
-      fetch(`${SERVER_PORT}/chats/${roomId}`)
-        .then(res => res.json())
-        .then(data => setChats(data.chats));
+      getChats(roomId).then(data => setChats(data.chats));
     }
   }, [roomId]);
 

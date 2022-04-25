@@ -1,21 +1,20 @@
-import { SERVER_PORT } from 'config';
 import React, { useEffect, useState } from 'react';
 import { handleEnterRoom } from 'apis/socket';
+import { getChatRooms } from 'apis/chat';
+
 import styled from 'styled-components';
 
-const user = { id: 1 };
+const user = { id: 2 };
 
 function ChatListDelay(props) {
   const { useRoomId, setUseRoomId } = props;
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    fetch(`${SERVER_PORT}/chats?userId=${user.id}`)
-      .then(res => res.json())
-      .then(data => setRooms(data.rooms));
+    getChatRooms(user.id).then(data => setRooms(data.rooms));
   }, []);
 
-  return rooms.length > 0 ? (
+  return rooms && rooms.length > 0 ? (
     <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} rooms={rooms} />
   ) : (
     <NotFoundRooms />

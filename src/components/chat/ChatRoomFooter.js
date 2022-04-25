@@ -6,8 +6,7 @@ import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 const user = {
-  id: 1,
-  nickname: 'son',
+  id: 2,
 };
 
 function ChatRoomFooter(props) {
