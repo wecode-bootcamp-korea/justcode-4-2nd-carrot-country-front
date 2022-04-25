@@ -1,11 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { usePrompt } from 'blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
 
 const Register = () => {
+  const location = useLocation();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
@@ -15,6 +18,12 @@ const Register = () => {
   });
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
+
+  usePrompt('변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?', true);
+
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const handleClick = event => {
     hiddenFileInput.current.click();
