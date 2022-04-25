@@ -27,7 +27,7 @@ function Login(props) {
   };
 
   const goToSignup = () => {
-    navigate('setUseOpenSignup(true)');
+    // setUseOpenSignup(true);
   };
 
   const handleLogin = () => {
@@ -40,7 +40,7 @@ function Login(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        id: id,
+        userId: id,
         password: pw,
       }),
     })
@@ -50,6 +50,13 @@ function Login(props) {
           alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
         } else if (result.message === 'SUCCESS_LOGIN') {
           alert('환영합니다.');
+        }
+      })
+      .then(res => {
+        if (res.token) {
+          localStorage.setItem('token', res.token);
+        } else {
+          console.log('에러발생 : ', res.message);
         }
       });
   };
