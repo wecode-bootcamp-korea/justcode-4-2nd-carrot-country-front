@@ -27,11 +27,10 @@ function ChatRoom(props) {
   }, [roomId]);
 
   useEffect(() => {
-    const handleReciveText = params => {
+    socket.on('new_text', params => {
       setChats([...chats, params]);
-    };
-    socket.on('new_text', handleReciveText);
-  });
+    });
+  }, [chats]);
 
   return (
     <MainWrapper>
