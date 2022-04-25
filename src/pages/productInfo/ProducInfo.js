@@ -1,9 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import styled from 'styled-components';
 import ProductInfoList from 'components/list/ProductInfoList';
 import ListTitle from 'components/list/ListTitle';
-import SubmitButton from 'components/buttons/SubmitButton';
+import RegisterButton from 'components/buttons/RegisterButton';
 import AreaTag from 'components/list/AreaTag';
 
 const ProductInfo = () => {
@@ -18,7 +17,7 @@ const ProductInfo = () => {
       <ListWrapper>
         <ProductInfoList maxWidth={1024} data={mockData} />
       </ListWrapper>
-      <SubmitButton />
+      <RegisterButton />
     </>
   );
 };
