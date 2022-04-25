@@ -25,7 +25,7 @@ function ProductDetailDelay() {
   let productId = 3;
 
   useEffect(() => {
-    getProductDetail(productId).then(data => setProduct(data.detail));
+    getProductDetail(productId).then(data => setProduct(data.product));
   }, [productId]);
 
   return product ? <ProductDetail product={product} /> : '';
@@ -34,7 +34,6 @@ function ProductDetailDelay() {
 function ProductDetail(props) {
   const navigate = useNavigate();
   const { product } = props;
-
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
   };
@@ -77,7 +76,7 @@ function ProductDetail(props) {
               {product.productIntrested ? product.productIntrested.length : 0}
             </span>
             <span>채팅 {product.chatRoom ? product.chatRoom.length : 0}</span>
-            <span>조회 {product.viewCount ? product.viewCount.length : 0}</span>
+            <span>조회 {product.viewCount}</span>
           </div>
         </InfoBottom>
       </InfoWrapper>
