@@ -1,14 +1,16 @@
 import styled from 'styled-components';
+
 import ProductInfoListCard from './ProductInfoListCard';
 
-function ProductInfoList({ maxWidth, data }) {
+function ProductInfoList(props) {
+  const { maxWidth, data } = props;
+
   return (
-    <AllWrapper maxWidth={maxWidth}>
+    <AllWrapper>
       <ListWrapper>
         {data.map(data => (
           <ProductInfoListCard key={data.id} data={data} maxWidth={maxWidth} />
         ))}
-        {maxWidth === 800 && <MoreView> 더보기 </MoreView>}
       </ListWrapper>
     </AllWrapper>
   );

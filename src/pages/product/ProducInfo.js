@@ -1,25 +1,89 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
+import { getProductList, getProductListBest } from 'apis/product';
+import { UserContext } from 'context/context';
 import ProductInfoList from 'components/list/ProductInfoList';
 import ListTitle from 'components/list/ListTitle';
 import RegisterButton from 'components/buttons/RegisterButton';
 import AreaTag from 'components/list/AreaTag';
 import DistrictSelectDropDown from 'components/buttons/DistrictSelectDropDown';
+import { FaRegSadTear } from 'react-icons/fa';
 
-const ProductInfo = () => {
+const ProductInfoDelay = () => {
+  const user = useContext(UserContext);
+  const [isLogin, setIsLogin] = useState(Boolean(user.id));
+  const [productInfoData, setProductInfoData] = useState(initialData);
+
+  useEffect(() => {
+    setIsLogin(Boolean(user.id));
+  }, [user]);
+
+  useEffect(() => {
+    isLogin
+      ? getProductList().then(data => setProductInfoData(data.productList))
+      : getProductListBest().then(data => {
+          setProductInfoData(data.bestProduct);
+        });
+  }, [isLogin]);
+
+  return isLogin ? (
+    <ProductInfoWhenLogin data={productInfoData} user={user} />
+  ) : (
+    <ProductInfo data={productInfoData} />
+  );
+};
+
+const ProductInfoWhenLogin = ({ data, user }) => {
+  const productList = data;
   return (
     <>
-      <ListTitle title={`인기 중고 거래 매물`} />
+      <ListTitle
+        title={`${user.city.cityName} ${user.district.districtName} 중고 거래 매물`}
+      />
+      <AreaTag
+        city={user.city.cityName}
+        district={user.district.districtName}
+      />
       <WholeWrapper>
-        <ContentsWrapper>
-          <DistrictSelectDropDown />
+        {productList ? (
           <ListWrapper>
-            <ProductInfoList maxWidth={1024} data={mockData} />
+            <ProductInfoList maxWidth={1024} data={productList} />
           </ListWrapper>
-        </ContentsWrapper>
-        <RegisterButton />
+        ) : (
+          <NoProductInfo />
+        )}
       </WholeWrapper>
     </>
+  );
+};
+
+const ProductInfo = ({ data }) => {
+  const bestProduct = data;
+
+  return (
+    bestProduct && (
+      <>
+        <ListTitle title={`전체지역 인기 중고 거래 매물`} />
+        <WholeWrapper>
+          <ContentsWrapper>
+            <DistrictSelectDropDown />
+            <ListWrapper>
+              <ProductInfoList maxWidth={1024} data={bestProduct} />
+            </ListWrapper>
+          </ContentsWrapper>
+        </WholeWrapper>
+      </>
+    )
+  );
+};
+
+const NoProductInfo = () => {
+  return (
+    <NoproductTextWrapper>
+      <FaRegSadTear />
+      <p>이 지역에는 등록된 매물이 없습니다!</p>
+      <p>우리 동네 첫 매물을 등록해주세요!</p>
+    </NoproductTextWrapper>
   );
 };
 
@@ -50,216 +114,55 @@ const ListWrapper = styled.div`
   justify-content: center;
 `;
 
-//목데이터
-const mockData = [
-  {
-    id: 0,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 1,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 2,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
+const NoproductTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 70px 0 50px 0;
+  font-size: 150px;
+  color: silver;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  :first-child {
+    padding-bottom: 200px;
+  }
+  p {
+    color: silver;
+    font-size: 20px;
+    padding-top: 10px;
+  }
+`;
+
+const initialData = [
   {
     id: 3,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 4,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 5,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 6,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 7,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 8,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 9,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 10,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 11,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 12,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 13,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 14,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 15,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 16,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 17,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
-  },
-  {
-    id: 18,
-    imageURL:
-      'https://cdn.pixabay.com/photo/2016/11/29/05/45/astronomy-1867616_1280.jpg',
-    title: '제발 살려주세요',
-    city: '서울시',
-    price: '10000원',
-    district: '살려동',
-    interested: 4,
-    chats: 10,
+    title: '2019년 16인치 맥북 팝니다',
+    price: '2000000',
+    viewCount: 32,
+    updatedAt: '2022-04-25T09:16:32.250Z',
+    city: {
+      id: 1,
+      cityName: '서울',
+    },
+    district: {
+      id: 2,
+      districtName: '종로구',
+    },
+    chatRoom: [
+      {
+        id: 3,
+      },
+      {
+        id: 73,
+      },
+    ],
+    productIntrested: [],
+    productImage: [
+      {
+        id: 4,
+        imageUrl: 'eeeee1650849301189.jpg',
+      },
+    ],
   },
 ];
-export default ProductInfo;
+export default ProductInfoDelay;

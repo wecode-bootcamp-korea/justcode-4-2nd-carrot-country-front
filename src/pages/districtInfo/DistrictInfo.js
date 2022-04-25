@@ -1,17 +1,15 @@
 import { useState, useEffect } from 'react';
-import { SERVER_PORT } from '../../config';
 import SubmitButton from 'components/buttons/RegisterButton';
 import ListTitle from 'components/list/ListTitle';
 import AreaTag from 'components/list/AreaTag';
 import DistrictInfoList from 'components/list/DistrictInfoList';
+import { getDistrictList } from 'apis/district';
 
 function DistrictInfo() {
   const [districtInfoData, setDistrictInfoData] = useState(mockdata);
 
   useEffect(() => {
-    fetch(`${SERVER_PORT}/infos`)
-      .then(res => res.json())
-      .then(result => setDistrictInfoData(result.districtInfos));
+    getDistrictList().then(data => setDistrictInfoData(data.districtInfos));
   }, []);
 
   return (

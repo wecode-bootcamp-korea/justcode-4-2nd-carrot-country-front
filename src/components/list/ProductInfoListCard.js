@@ -1,9 +1,19 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { SERVER_PORT } from 'config';
 import styled from 'styled-components';
 
-const ProductInfoListCard = (data, maxWidth) => {
+const ProductInfoListCard = ({ data, maxWidth }) => {
   const navigate = useNavigate();
+  const {
+    productImage,
+    title,
+    price,
+    city,
+    district,
+    chatRoom,
+    productIntrested,
+  } = data;
 
   return (
     <CardWrapper
@@ -14,20 +24,23 @@ const ProductInfoListCard = (data, maxWidth) => {
     >
       <ListCardWrapper maxWidth={maxWidth}>
         <ImageWrapper>
-          <ImageItself src={data.data.imageURL} />
+          <ImageItself
+            src={`http://3.34.96.119:8000/${productImage[0].imageUrl}`}
+            alt="image"
+          />
         </ImageWrapper>
         <LettersWrapper>
-          <ProductTitle>{data.data.title}</ProductTitle>
-          <ProductPrice>{data.data.price}</ProductPrice>
+          <ProductTitle>{title}</ProductTitle>
+          <ProductPrice>{price}</ProductPrice>
           <ProductDistrict>
-            {data.data.city} {data.data.district}
+            {city.cityName} {district.districtName}
           </ProductDistrict>
           <InterestedWrapped>
             <Interested>
-              관심 {data.data.interested} {'\u2022'}
+              관심 {productIntrested.length} {'\u2022'}
             </Interested>
 
-            <Chats> 채팅 {data.data.chats}</Chats>
+            <Chats> 채팅 {chatRoom.length}</Chats>
           </InterestedWrapped>
         </LettersWrapper>
       </ListCardWrapper>

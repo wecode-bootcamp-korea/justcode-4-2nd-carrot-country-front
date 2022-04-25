@@ -1,5 +1,21 @@
 import { SERVER_PORT } from 'config';
 
+async function getProductList() {
+  return await fetch(`${SERVER_PORT}/products`, {
+    headers: {
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
+async function getProductListBest() {
+  return await fetch(`${SERVER_PORT}/products/best`)
+    .then(res => res.json())
+    .then(data => data);
+}
+
 async function getProductDetail(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}`)
     .then(res => res.json())
@@ -32,4 +48,10 @@ function postImage(props) {
     .then(res => res.json())
     .then(result => {});
 }
-export { getProductDetail, postProduct, postImage };
+export {
+  getProductList,
+  getProductListBest,
+  getProductDetail,
+  postProduct,
+  postImage,
+};
