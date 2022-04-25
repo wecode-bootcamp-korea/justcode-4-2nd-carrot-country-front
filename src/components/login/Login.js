@@ -89,22 +89,24 @@ function Login(props) {
           alt="logo"
           width="225px"
         />
-        <Id
-          onChange={handleIdInput}
-          type="text"
-          placeholder="아이디를 입력하세요"
-          id="id"
-          name="id"
-          required
-        />
-        <Password
-          onChange={handlePwInput}
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          id="password"
-          name="password"
-          required
-        />
+        <div>
+          <Id
+            onChange={handleIdInput}
+            type="text"
+            placeholder="아이디를 입력하세요"
+            id="id"
+            name="id"
+            required
+          />
+          <Password
+            onChange={handlePwInput}
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
         <LoginBtn disabled={!isValidButton} onClick={handleLogin}>
           로그인
         </LoginBtn>
