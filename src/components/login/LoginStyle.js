@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 const LoginBox = styled.div`
-  @media (max-width: 690px) {
-    width: ${props => props.width}px;
+  @media (max-width: 800px) {
+    width: 365px;
     margin: auto;
   }
   @media (min-width: 800px) {
-    width: ${props => props.width}px;
+    width: 365px;
     margin: auto;
   }
   display: flex;
