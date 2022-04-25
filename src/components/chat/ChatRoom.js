@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { SERVER_PORT } from 'config';
 
-import { socket } from 'socket';
+import { socket } from 'apis/socket';
 
 import ChatRoomContent from './ChatRoomContent';
 import ChatRoomFooter from './ChatRoomFooter';

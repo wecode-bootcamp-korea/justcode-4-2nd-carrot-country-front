@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { usePrompt } from 'blocker';
+import { usePrompt } from 'hoc/blocker';
 import {
   Wrapper,
   PhotoLine,

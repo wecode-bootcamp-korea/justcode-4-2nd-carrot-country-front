@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { handleCreateRoom } from 'socket';
+import { handleCreateRoom } from 'apis/socket';
+import { getProductDetail } from 'apis/product';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
@@ -12,7 +13,6 @@ import {
   InfoTop,
   InfoBottom,
 } from 'pages/product/ProductDetailStyle';
-import { SERVER_PORT } from 'config';
 
 const user = {
   id: 1,
@@ -35,9 +35,7 @@ function ProductDetailDelay() {
   let productId = 1;
 
   useEffect(() => {
-    fetch(`${SERVER_PORT}/products/${productId}`)
-      .then(res => res.json())
-      .then(data => setProduct(data.detail));
+    getProductDetail(productId).then(data => setProduct(data.detail));
   }, [productId]);
 
   return product ? <ProductDetail product={product} /> : '';
