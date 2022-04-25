@@ -45,13 +45,12 @@ const MainWrapper = styled.main`
   height: 100vh;
   padding-bottom: 10px;
   padding-top: 70px;
-  .chatContainer {
-    flex: 1;
-  }
   #chatListWrapper {
+    flex: 1;
     border: 1px solid red;
   }
   #chatRoomWrapper {
+    flex: 2;
     border: 1px solid blue;
   }
 `;
