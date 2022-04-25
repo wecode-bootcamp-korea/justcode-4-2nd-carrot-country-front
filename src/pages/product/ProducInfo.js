@@ -4,16 +4,18 @@ import ProductInfoList from 'components/list/ProductInfoList';
 import ListTitle from 'components/list/ListTitle';
 import RegisterButton from 'components/buttons/RegisterButton';
 import AreaTag from 'components/list/AreaTag';
+import DistrictSelectDropDown from 'components/buttons/DistrictSelectDropDown';
 
 const ProductInfo = () => {
   return (
     <>
       <ListTitle title={`${mockData[0].district} 인기 중고 거래 매물`} />
-      <AreaTag
+      {/* <AreaTag
         maxWidth={1024}
         city={mockData[0].city}
         district={mockData[0].district}
-      />
+      /> */}
+      <DistrictSelectDropDown />
       <ListWrapper>
         <ProductInfoList maxWidth={1024} data={mockData} />
       </ListWrapper>

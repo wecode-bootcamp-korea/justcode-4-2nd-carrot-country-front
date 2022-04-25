@@ -19,13 +19,26 @@ export default ProductInfoList;
 const AllWrapper = styled.div`
   display: flex;
   justify-content: center;
-  width: 1024px;
+  border: 1px solid red;
+  width: 100%;
+  max-width: 1024px;
+  /* //스마트폰
+  @media (max-width: 690px) {
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 800px;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 1024px;
+  } */
 `;
 
 const ListWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
   width: 100%;
   background-color: white;
