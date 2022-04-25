@@ -1,14 +1,18 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { usePrompt } from 'hoc/blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
 
 const Register = () => {
+  const location = useLocation();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
+  // const [buttonEnable, setButtonEnable] = useState(false);
   const [modalImageInfo, setModalImageInfo] = useState({
     index: 0,
     imageSrc: '',
@@ -16,10 +20,22 @@ const Register = () => {
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
 
+  usePrompt('변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?', true);
+
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
+
   const handleClick = event => {
     hiddenFileInput.current.click();
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
+  const onPriceChange = e => {
+    const priceRegex = /[0-9]/;
+    if (priceRegex.test(e.target.value)) {
+      alert('숫자만 입력해 주세요');
+    }
+  };
   useEffect(() => {
     if (selectedImage.length === 0) {
       return;
@@ -40,36 +56,9 @@ const Register = () => {
     setImageURLs(newImageURLs);
   }, [selectedImage]);
 
-  // useEffect(() => {
-  //   if (selectedImage.length < 1) {
-  //     return;
-  //   }
-  //   if (selectedImage.length > 10) {
-  //     alert('사진을 10개를 초과할 수 없어요');
-  //     setSelectedImage([]);
-  //     setImageURLs([]);
-  //   } else {
-  //     selectedImage.forEach(image =>
-  //       setImageURLs(oldImageURLs => [
-  //         ...oldImageURLs,
-  //         URL.createObjectURL(image),
-  //       ])
-  //     );
-  //   }
-
   const onImageChange = event => {
     setSelectedImage([...event.target.files]);
   }; //파일 업로드
-
-  // const deleteImage = src => {
-  //   const imageIndex = imageURLs.indexOf(src);
-  //   if (imageURLs.length == 0) {
-  //     return;
-  //   } else {
-  //     selectedImage.splice(imageIndex, 1);
-  //     imageURLs.splice(imageIndex, 1);
-  //   }
-  // };
 
   const deleteImage = src => {
     if (imageURLs.length == 0) {
@@ -99,77 +88,105 @@ const Register = () => {
   // };
 
   return (
-    <div>
-      <PhotoLine>
-        <PhotoButton onClick={handleClick}>
-          <BsFillCameraFill className={'camera'} />
-          <PhotoCount>
-            <PhotoTotal>{selectedImage.length}</PhotoTotal>
-            <PhotoLimit> /10</PhotoLimit>
-          </PhotoCount>
-          <PhotoInput
-            type={'file'}
-            ref={hiddenFileInput}
-            accept={'image/*'}
-            multiple
-            onChange={e => {
-              onImageChange(e);
-            }}
-          />
-        </PhotoButton>
-        {imageURLs.map((imageSrc, index) => (
-          <div key={index} className="imageContainer">
-            <TiDelete
-              className={'photoDiscard'}
-              value={imageSrc}
-              onClick={() => deleteImage(imageSrc)}
+    <WholeWrapper>
+      <RegisterWrapper>
+        <PhotoLine>
+          <PhotoForm
+            onClick={handleClick}
+            action="/profile"
+            method="post"
+            encType="multiport/form-data"
+          >
+            <BsFillCameraFill className={'camera'} />
+            <PhotoCount>
+              <PhotoTotal>{selectedImage.length}</PhotoTotal>
+              <PhotoLimit> /10</PhotoLimit>
+            </PhotoCount>
+            <PhotoInput
+              type={'file'}
+              ref={hiddenFileInput}
+              accept={'image/*'}
+              multiple
+              onChange={e => {
+                onImageChange(e);
+              }}
+              required
             />
-            <img
-              src={imageSrc}
-              className={'eachImage'}
-              value={imageSrc}
-              ref={imageRef}
-              onClick={() => setOpenModal(true)}
-              // onClick={() =>
-              //   console.log('imageSrc: ', imageSrc, 'key: ', index)
-              // }
-            />
-          </div>
-        ))}
-      </PhotoLine>
-
-      <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
-        <ModalPhotoLine>
-          <TiDelete
-            className={'modalTurnOff'}
-            onClick={() => setOpenModal(false)}
-          />
+          </PhotoForm>
           {imageURLs.map((imageSrc, index) => (
-            <ModalImageContainer
-              // onClick={e => {
-              //   e.stopPropagation();
-              // }}
-              key={index}
-            >
-              <img src={imageSrc} className={'modalEachImage'} />
-            </ModalImageContainer>
+            <div key={index} className="imageContainer">
+              <TiDelete
+                className={'photoDiscard'}
+                value={imageSrc}
+                onClick={() => deleteImage(imageSrc)}
+              />
+              <img
+                src={imageSrc}
+                className={'eachImage'}
+                value={imageSrc}
+                ref={imageRef}
+                onClick={() => setOpenModal(true)}
+              />
+            </div>
           ))}
-        </ModalPhotoLine>
-      </PhotoModal>
-      <Editor />
-    </div>
+        </PhotoLine>
+
+        <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
+          <ModalPhotoLine>
+            <TiDelete
+              className={'modalTurnOff'}
+              onClick={() => setOpenModal(false)}
+            />
+            {imageURLs.map((imageSrc, index) => (
+              <ModalImageContainer key={index}>
+                <img src={imageSrc} className={'modalEachImage'} />
+              </ModalImageContainer>
+            ))}
+          </ModalPhotoLine>
+        </PhotoModal>
+        <Editor props={imageURLs} />
+      </RegisterWrapper>
+    </WholeWrapper>
   );
 };
 
 //styled-components 시작
+
+const WholeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 30px;
+  /* max-width: 1024px; */
+  @media (max-width: 1024px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
+`;
+const RegisterWrapper = styled.div`
+  /* display: flex;
+  flex-direction: column;
+  align-items: center; */
+  width: 1024px;
+  padding: 80px 0;
+`;
+
 const PhotoLine = styled.div`
   display: flex;
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
   height: 150px;
-  padding: 2vh;
-  margin: 0 1vw 1vw 1vw;
+  padding: 15px 0;
+  @media (max-width: 1024px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
 
   .imageContainer {
     display: flex;
@@ -177,15 +194,15 @@ const PhotoLine = styled.div`
     position: relative;
     width: auto;
     height: 100%;
-    margin-left: 2vh;
+    margin-left: 16px;
     aspect-ratio: 1/1;
 
     .photoDiscard {
       position: absolute;
-      right: -2.5vh;
-      top: -2.5vh;
+      right: -17px;
+      top: -17px;
       z-index: 10;
-      font-size: 5vh;
+      font-size: 40px;
       cursor: pointer;
     }
   }
@@ -203,7 +220,7 @@ const PhotoLine = styled.div`
   }
 `;
 
-const PhotoButton = styled.button`
+const PhotoForm = styled.form`
   display: flex;
   aspect-ratio: 1/1;
   flex-direction: column;
@@ -243,12 +260,6 @@ const PhotoInput = styled.input`
   display: none;
 `;
 
-const TitleField = styled.div`
-  width: 100%;
-`;
-
-const TitleInput = styled.input``;
-//모달 스타일
 const PhotoModal = styled.div`
   display: ${props => (props.open === true ? 'flex' : 'none')};
   position: fixed;
@@ -288,7 +299,6 @@ const ModalImageContainer = styled.div`
   height: auto;
   /* object-position: center; */
   background-color: black;
-  /* border: 1px solid red; */
 
   .modalEachImage {
     display: flex;

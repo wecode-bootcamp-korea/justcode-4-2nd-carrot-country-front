@@ -1,0 +1,68 @@
+{
+  "categories": [
+    {
+      "id": 3,
+      "categoryName": "가구/인테리어"
+    },
+    {
+      "id": 10,
+      "categoryName": "게임/취미"
+    },
+    {
+      "id": 15,
+      "categoryName": "기타 중고물품"
+    },
+    {
+      "id": 9,
+      "categoryName": "남성패션/잡화"
+    },
+    {
+      "id": 13,
+      "categoryName": "도서/티켓/음반"
+    },
+    {
+      "id": 1,
+      "categoryName": "디지털기기"
+    },
+    {
+      "id": 12,
+      "categoryName": "반려동물용품"
+    },
+    {
+      "id": 11,
+      "categoryName": "뷰티/미용"
+    },
+    {
+      "id": 5,
+      "categoryName": "생활/가공식품"
+    },
+    {
+      "id": 2,
+      "categoryName": "생활가전"
+    },
+    {
+      "id": 7,
+      "categoryName": "스포츠/레저"
+    },
+    {
+      "id": 14,
+      "categoryName": "식물"
+    },
+    {
+      "id": 8,
+      "categoryName": "여성잡화"
+    },
+    {
+      "id": 6,
+      "categoryName": "유아도서"
+    },
+    {
+      "id": 4,
+      "categoryName": "유아동"
+    },
+    {
+      "id": 16,
+      "categoryName": "중고차"
+    }
+  ]
+}

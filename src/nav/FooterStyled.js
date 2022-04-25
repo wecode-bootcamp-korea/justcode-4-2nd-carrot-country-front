@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const FooterSize = styled.div`
-  display: flex;
+  display: ${props => (props.pathname === '/chat' ? 'none' : 'flex')};
   padding: 80px 8px;
   background-color: #495057;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -30,12 +30,6 @@ const FooterWrapper = styled.div`
   @media (max-width: 690px) {
     flex-direction: column;
     align-items: center;
-  }
-
-  @media (min-width: 691px) and (max-width: 890px) {
-  }
-
-  @media (min-width: 891px) {
   }
 `;
 
