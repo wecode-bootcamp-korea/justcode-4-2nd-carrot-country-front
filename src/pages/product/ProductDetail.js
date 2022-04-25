@@ -1,14 +1,20 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { handleCreateRoom } from 'socket';
+
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 
 import styled from 'styled-components';
 
 const user = {
-  id: '1',
-  nickname: '다파라',
+  id: 1,
+  nickname: '최초사용자',
   city: '서울',
   district: '강남구',
+};
+const product = {
+  id: 1,
 };
 const imageUrl = [
   `/images/thump/banner-a.png`,
@@ -19,13 +25,23 @@ const imageUrl = [
 ];
 
 function ProductDetail() {
+  const navigate = useNavigate();
+
+  const handleCallback = roomId => {
+    navigate(`/chat`, { state: { roomId } });
+  };
   return (
     <MainWrapper>
       <ImageSlider urls={imageUrl} />
       <InfoWrapper>
         <UserInfo>
           <UserProfile user={user} />
-          <div className="ChatBtn">
+          <div
+            className="ChatBtn"
+            onClick={() =>
+              handleCreateRoom(user.id, product.id, handleCallback)
+            }
+          >
             <span>판매자와 채팅하기</span>
           </div>
         </UserInfo>
