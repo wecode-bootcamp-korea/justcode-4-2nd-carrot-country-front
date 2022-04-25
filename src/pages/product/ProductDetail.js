@@ -15,24 +15,14 @@ import {
 } from 'pages/product/ProductDetailStyle';
 
 const user = {
-  id: 1,
-  nickname: '최초사용자',
-  city: '서울',
-  district: '강남구',
+  id: 2,
 };
-const imageUrl = [
-  `/images/thump/banner-a.png`,
-  `/images/thump/banner-b.png`,
-  `/images/thump/banner-a.png`,
-  `/images/thump/banner-a.png`,
-  `/images/thump/banner-a.png`,
-];
 
 function ProductDetailDelay() {
   const location = useLocation();
   // const { productId } = location.state;
   const [product, setProduct] = useState();
-  let productId = 1;
+  let productId = 3;
 
   useEffect(() => {
     getProductDetail(productId).then(data => setProduct(data.detail));
@@ -44,13 +34,14 @@ function ProductDetailDelay() {
 function ProductDetail(props) {
   const navigate = useNavigate();
   const { product } = props;
+
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
   };
 
   return (
     <MainWrapper>
-      <ImageSlider urls={imageUrl} />
+      <ImageSlider images={product.productImage} />
       <InfoWrapper>
         <UserInfo>
           <UserProfile user={product.user} />

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { handleEnterRoom } from 'apis/socket';
-import styled from 'styled-components';
 import { getChatRooms } from 'apis/chat';
 
-const user = { id: 1 };
+import styled from 'styled-components';
+
+const user = { id: 2 };
 
 function ChatListDelay(props) {
   const { useRoomId, setUseRoomId } = props;
@@ -13,7 +14,7 @@ function ChatListDelay(props) {
     getChatRooms(user.id).then(data => setRooms(data.rooms));
   }, []);
 
-  return rooms.length > 0 ? (
+  return rooms && rooms.length > 0 ? (
     <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} rooms={rooms} />
   ) : (
     <NotFoundRooms />

@@ -1,4 +1,4 @@
-import { CLIENT_PORT } from 'config';
+import { SERVER_PORT } from 'config';
 import React from 'react';
 
 import { MdClose } from 'react-icons/md';
@@ -6,14 +6,19 @@ import { MdClose } from 'react-icons/md';
 import styled from 'styled-components';
 
 function ImageModal(props) {
-  const { urls, visible, setVisible, width } = props;
+  const { images, visible, setVisible, width } = props;
   return (
     <MainWrapper visible={visible}>
       <Container width={width}>
         <MdClose size={34} onClick={() => setVisible(false)} />
-        {urls.map((url, idx) => {
+        {images.map((image, idx) => {
           return (
-            <img src={CLIENT_PORT + url} alt={url} width={width} key={idx} />
+            <img
+              src={SERVER_PORT + '/' + image.imageUrl}
+              alt={image.id}
+              width={width}
+              key={idx}
+            />
           );
         })}
       </Container>
