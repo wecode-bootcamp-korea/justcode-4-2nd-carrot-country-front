@@ -8,6 +8,7 @@ import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
 import Chat from 'pages/chat/Chat';
+import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/product-register" element={<ProductRegister />} />
           <Route path="/district-info" element={<DistrictInfo />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/district-info-register" element={<DIRegister />} />
         </Routes>
         <Footer />
       </ContextProvider>
