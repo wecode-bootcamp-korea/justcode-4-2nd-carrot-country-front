@@ -9,6 +9,11 @@ function UserProfile(props) {
     ? user.userImage
     : '/images/profile/userImageNotFound.png';
 
+  const cityName = user.city.cityName ? user.city.cityName : user.city;
+  const districtName = user.district.districtName
+    ? user.district.districtName
+    : user.district;
+
   return (
     <MainWrapper>
       <picture>
@@ -17,7 +22,7 @@ function UserProfile(props) {
       <div>
         <span>{user.nickname}</span>
         <span>
-          {user.city} {user.district}
+          {cityName} {districtName}
         </span>
       </div>
     </MainWrapper>

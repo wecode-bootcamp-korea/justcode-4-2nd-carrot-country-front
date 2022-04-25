@@ -1,6 +1,6 @@
 import { SERVER_PORT } from 'config';
 import React, { useEffect, useState } from 'react';
-import { handleEnterRoom } from 'socket';
+import { handleEnterRoom } from 'apis/socket';
 import styled from 'styled-components';
 
 const user = { id: 1 };

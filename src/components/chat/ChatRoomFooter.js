@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { handleNewText } from 'socket';
+import { handleNewText } from 'apis/socket';
 
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
