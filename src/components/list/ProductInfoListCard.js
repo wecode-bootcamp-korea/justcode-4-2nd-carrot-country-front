@@ -1,10 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const ProductInfoListCard = (data, maxWidth) => {
+  const navigate = useNavigate();
+
   return (
-    <CardWrapper maxWidth={maxWidth}>
+    <CardWrapper
+      maxWidth={maxWidth}
+      onClick={() => {
+        navigate(`/product/detail`, { state: { productId: '2' } });
+      }}
+    >
       <ListCardWrapper maxWidth={maxWidth}>
         <ImageWrapper>
           <ImageItself src={data.data.imageURL} />

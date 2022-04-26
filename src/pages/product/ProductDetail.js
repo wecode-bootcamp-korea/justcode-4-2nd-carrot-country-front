@@ -20,9 +20,9 @@ const user = {
 
 function ProductDetailDelay() {
   const location = useLocation();
-  // const { productId } = location.state;
+  const { productId } = location.state;
   const [product, setProduct] = useState();
-  let productId = 3;
+  // let productId = 3;
 
   useEffect(() => {
     getProductDetail(productId).then(data => setProduct(data.product));

@@ -9,11 +9,11 @@ function RegisterButton() {
   const [isListOpen, setIsListOpen] = useState(false);
 
   const goToProductRegister = () => {
-    navigate('/product-register');
+    navigate('/product/register');
   };
 
   const goToDistrictRegister = () => {
-    navigate('/district-info-register');
+    navigate('/district-info/register');
   };
   return (
     <>
