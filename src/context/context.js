@@ -1,7 +1,11 @@
-import { createContext, useReducer } from 'react';
+import { getUserByToken } from 'apis/user';
+import { createContext, useReducer, useContext, useEffect } from 'react';
 
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
+const token = localStorage.getItem('token')
+  ? localStorage.getItem('token')
+  : sessionStorage.getItem('token');
 
 const initialUser = {
   id: '',
@@ -30,6 +34,14 @@ function userReducer(state, action) {
 
 export function ContextProvider({ children }) {
   const [user, userDispatch] = useReducer(userReducer, initialUser);
+
+  useEffect(() => {
+    if (token && user.id === '') {
+      getUserByToken(token).then(data =>
+        userDispatch({ type: 'LOGIN', payload: data.user })
+      );
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={user}>
