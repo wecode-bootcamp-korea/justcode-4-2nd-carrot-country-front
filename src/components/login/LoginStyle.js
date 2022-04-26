@@ -1,17 +1,27 @@
 import styled from 'styled-components';
 
 const LoginBox = styled.div`
-  display: inline-block;
-  border-radius: 8px;
-  text-align: center;
+  @media (max-width: 800px) {
+    width: 365px;
+    margin: auto;
+  }
+  @media (min-width: 800px) {
+    width: 365px;
+    margin: auto;
+  }
+  display: flex;
   flex-direction: column;
-  padding: 27px 10px;
+  align-items: center;
+  padding: 21px 23px 23px 23px;
+  div {
+    text-align: center;
+  }
 `;
 
 const Id = styled.input`
   width: 255px;
   padding: 14px;
-  margin: 25px 10px 5px 10px;
+  margin: 26px 0px 4px 0px;
   border: 1px solid #adadad;
   border-radius: 5px;
   background-color: #f6f6f6;
@@ -41,6 +51,7 @@ const LoginBtn = styled.button`
 `;
 
 const Usersign = styled.div`
+  width: 300px;
   border-top: 1px solid #adadad;
   font-size: 13px;
   margin-top: 93px;
@@ -58,7 +69,7 @@ const Usersignup = styled.span`
 const Save = styled.div`
   display: flex;
   align-items: center;
-  margin: 2px 0px 0px 45px;
+  margin: 3px 170px 0px 0px;
   font-size: 13px;
   color: ${props => (props.isChecked ? props.theme.signColor : '#8c8c8c8f')};
   svg {
