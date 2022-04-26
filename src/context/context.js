@@ -6,21 +6,21 @@ export const UserDispatchContext = createContext();
 const initialUser = {
   id: '',
   nickname: '',
-  cityId: '',
-  districtId: '',
+  city: {
+    id: '',
+    cityName: '',
+  },
+  district: {
+    id: '',
+    districtName: '',
+  },
 };
 
 function userReducer(state, action) {
   const { type, payload } = action;
   switch (type) {
     case 'LOGIN':
-      return {
-        ...state,
-        id: payload.id,
-        nickname: payload.nickname,
-        cityId: payload.cityId,
-        districtId: payload.districtId,
-      };
+      return payload;
     default:
       throw new Error(`Unknown action type: ${type}`);
   }

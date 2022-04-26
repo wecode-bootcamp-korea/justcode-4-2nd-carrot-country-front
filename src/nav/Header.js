@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, {
+  // useContext,
+  useState,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
@@ -15,6 +18,7 @@ import {
 } from './HeaderStyled';
 import { IoSearchOutline } from 'react-icons/io5';
 import { AiOutlineMenu } from 'react-icons/ai';
+// import { UserContext } from 'context/context';
 
 function Header() {
   const [isSearchForcus, setIsSearchForcus] = useState(false);
@@ -22,7 +26,8 @@ function Header() {
   const [useOpenSignup, setUseOpenSignup] = useState(false);
   const [useOpenLogin, setUseOpenLogin] = useState(false);
   const navigate = useNavigate();
-
+  // const user = useContext(UserContext);
+  // console.log('user >> ', user);
   const goToMain = () => {
     navigate('/');
   };
@@ -82,7 +87,11 @@ function Header() {
         <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
       </HeaderWrapper>
       {useOpenLogin && (
-        <Login visible={useOpenLogin} setVisible={setUseOpenLogin} />
+        <Login
+          visible={useOpenLogin}
+          setVisible={setUseOpenLogin}
+          setOpenSignup={setUseOpenSignup}
+        />
       )}
       {useOpenSignup && (
         <Signup visible={useOpenSignup} setVisible={setUseOpenSignup} />

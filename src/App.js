@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ContextProvider } from 'context/context';
+
 import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
@@ -10,6 +11,7 @@ import DistrictInfo from 'pages/districtInfo/DistrictInfo';
 import ProductList from 'pages/product/ProducInfo';
 import Chat from 'pages/chat/Chat';
 import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
+import DIDetail from 'pages/districtInfo/DistrictInfoDetail';
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/product" element={<ProductList />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/district-info/register" element={<DIRegister />} />
+          <Route path="/district-info/detail" element={<DIDetail />} />
         </Routes>
         <Footer />
       </ContextProvider>
