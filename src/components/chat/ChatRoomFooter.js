@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import { handleNewText } from 'apis/socket';
+import { UserContext } from 'context/context';
 
 import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
-const user = {
-  id: 2,
-};
-
 function ChatRoomFooter(props) {
+  const user = useContext(UserContext);
   const { roomId, chats, setChats } = props;
   const [useText, setUseText] = useState('');
 
@@ -35,7 +33,6 @@ function ChatRoomFooter(props) {
   const handleCallback = params => {
     params.isMyChat = true;
     setChats([...chats, params]);
-    console.log('보내기', params);
   };
 
   return (

@@ -1,9 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FaRegHeart, FaRegComment } from 'react-icons/fa';
 
 function DistrictInfoCard({ data, maxWidth }) {
+  const navigate = useNavigate();
   return (
-    <Size maxWidth={maxWidth}>
+    <Size
+      maxWidth={maxWidth}
+      onClick={() => {
+        navigate(`/district-info/detail`);
+      }}
+    >
       <CardWrapper>
         {data.imageUrl && (
           <Image maxWidth={maxWidth}>
