@@ -7,7 +7,7 @@ import {
   updateIntrested,
 } from 'apis/product';
 import { UserContext } from 'context/context';
-import { priceForm } from 'utils/format';
+import { priceFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
@@ -90,7 +90,7 @@ function ProductDetail(props) {
           </div>
           <div>
             <span>
-              {product.price ? priceForm(product.price) + '원' : '무료나눔'}
+              {product.price ? priceFormat(product.price) + '원' : '무료나눔'}
             </span>
           </div>
         </InfoTop>

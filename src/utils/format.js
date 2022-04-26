@@ -1,4 +1,4 @@
-function priceForm(price) {
+function priceFormat(price) {
   if (price.length < 3) {
     return price;
   }
@@ -17,4 +17,4 @@ function priceForm(price) {
   return priceFormat;
 }
 
-export { priceForm };
+export { priceFormat };
