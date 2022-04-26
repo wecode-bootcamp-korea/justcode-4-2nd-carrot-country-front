@@ -3,6 +3,8 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 import { type } from '@testing-library/user-event/dist/type';
+import { postProduct, postImage } from 'apis/product';
+import { SERVER_PORT } from 'config';
 // import {
 //   ProductContext,
 //   ProductDispatchContext,
@@ -13,7 +15,7 @@ const Editor = props => {
   //게시글 내용
   const quillElement = useRef(null); //quill div ref
   const quillInstance = useRef(null); //quill 생성용
-
+  const categorySelection = useRef(null);
   const selectBox = useRef(null);
   const [buttonEnable, setButtonEnable] = useState(false); //버튼 활성화
   const [priceInput, setPriceInput] = useState(false); //₩ 색 변경위한 state
@@ -33,6 +35,36 @@ const Editor = props => {
       },
     ],
   });
+
+  //카테고리 받아와서 넘김
+  // useEffect(() => {
+  //   fetch('/data/categoriesMockData.json')
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setCategory(data);
+  //     });
+  // }, []);
+
+  useEffect(() => {
+    fetch(`${SERVER_PORT}/categories`, {
+      method: 'GET',
+    })
+      .then(res => res.json())
+      .then(data => {
+        setCategory(data);
+      });
+  }, []);
+
+  const formData = new FormData();
+  //이미지 url 폼데이터로 변환 하는 함수
+  const handleURLs = () => {
+    formData.append('images', props.imageURLs);
+    for (var value of formData.values()) {
+      console.log('formData>>', value);
+    }
+    return formData;
+  };
+
   //가격정보 저장과 원 이모티콘 색 변환을 위한 불리언 값  저ㅇ
   const onPriceChange = e => {
     if (e.target.value.length > 9) {
@@ -40,7 +72,6 @@ const Editor = props => {
     }
     setAllContents({ ...allContents, price: e.target.value });
     setPriceInput(true);
-    console.log('가격변동시 ', allContents);
   };
   //제목 저장
   const onChangeTitle = e => {
@@ -49,7 +80,6 @@ const Editor = props => {
   //선택된 카테고리 저장
   const onCategorySelect = e => {
     setAllContents({ ...allContents, categoryId: e.target.value });
-    console.log('카테고리 지정시 ', allContents);
   };
 
   //게시글 내용을 저장하는 함수
@@ -59,8 +89,12 @@ const Editor = props => {
     return { ...allContents, description: descriptionText };
   };
 
+  const onCategoryNotSelected = () => {
+    categorySelection.current.focus();
+  };
+
+  //완료 버튼 클릭시 인풋 값 확인 후 전송
   const onButtonClick = () => {
-    console.log(props.imageURLs);
     const sendableResult = handleSubmit();
     if (sendableResult.description.length < 5) {
       alert('내용을 5자 이상 등록해주세요');
@@ -70,46 +104,20 @@ const Editor = props => {
       alert('제목을 더 입력해주세요');
       return;
     }
-    if (sendableResult.categoryId.length < 1) {
+    if (!sendableResult.categoryId || sendableResult.categoryId == '0') {
+      onCategoryNotSelected();
       alert('카테고리를 선택해주세요');
+
       return;
     }
     if (props.imageURLs.length < 1) {
       alert('사진을 등록해주세요');
       return;
-    } else alert('등록 완료!');
-    // else
-    //   fetch(`/products`, {
-    //     method: 'POST',
-    //     body: JSON.stringify(allContents),
-    //   }).then(res => res.json());
-    // alert('등록 완료!');
-
-    // fetch(`/products/images`, {
-    //   method: 'POST',
-    // });
+    } else {
+      postProduct(sendableResult);
+      postImage(handleURLs());
+    }
   };
-
-  //카테고리 받아와서 넘김
-  useEffect(() => {
-    fetch('/data/categoriesMockData.json')
-      .then(res => res.json())
-      .then(data => {
-        setCategory(data);
-      });
-  }, []);
-
-  // useEffect(() => {
-  //   if (
-  //     allContents.categoryId.length > 0 &&
-  //     allContents.title.length >= 1 &&
-  //     allContents.description.length > 4 &&
-  //     props.length > 0
-  //   ) {
-  //     console.log(props);
-  //     return setButtonEnable(true);
-  //   }
-  // }, [allContents]);
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
@@ -140,7 +148,7 @@ const Editor = props => {
             placeholder="카테고리"
             onChange={e => onCategorySelect(e)}
           >
-            <PlaceHolder value="" disabled>
+            <PlaceHolder value="0" ref={categorySelection}>
               카테고리 선택
             </PlaceHolder>
             {category.categories.map(props => (
@@ -169,14 +177,32 @@ const Editor = props => {
   );
 };
 
-const EditorWrapper = styled.div``;
+const EditorWrapper = styled.div`
+  /* display: flex;
+  justify-content: center;
+  overflow: auto; */
+`;
 const EditorBlock = styled.div`
-  @media (max-width: 1024px) {
+  display: flex;
+  flex-direction: column;
+  /* @media (max-width: 1024px) {
     padding: 0px 15px;
   }
   @media (min-width: 891px) {
     width: 677px;
     margin: 0px auto;
+  } */
+  @media (max-width: 690px) {
+    width: 500px;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 677px;
+    margin: 0px auto;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    padding: 0px 15px;
   }
 `;
 
@@ -240,7 +266,7 @@ const CatergoryWrapper = styled.div`
 const CategorySelect = styled.select`
   display: flex;
   align-items: center;
-  width: 200px;
+  width: 170px;
   height: 40px;
   padding: 0;
   border: none;

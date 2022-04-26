@@ -6,7 +6,9 @@ import { getUserByToken } from 'apis/user';
 
 import { MainWrapper, TopArticle, BottomArticle } from 'pages/main/MainStyle';
 
-const token = localStorage.getItem('token');
+const token = localStorage.getItem('token')
+  ? localStorage.getItem('token')
+  : sessionStorage.getItem('token');
 
 function Main() {
   const navigate = useNavigate();

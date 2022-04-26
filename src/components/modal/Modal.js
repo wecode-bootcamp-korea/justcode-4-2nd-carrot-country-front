@@ -4,8 +4,16 @@ import { MdClose } from 'react-icons/md';
 import styled, { keyframes } from 'styled-components';
 
 function Modal(props) {
-  const { children, width, height, title, closeBtn, visible, setVisible } =
-    props;
+  const {
+    children,
+    width,
+    height,
+    title,
+    closeBtn,
+    visible,
+    setVisible,
+    useFadeOut,
+  } = props;
 
   const [fadeOut, setFadeOut] = useState(false);
 
@@ -25,7 +33,7 @@ function Modal(props) {
       <Container
         width={width}
         height={height}
-        fadeOut={fadeOut}
+        fadeOut={useFadeOut ? useFadeOut : fadeOut}
         onClick={e => e.stopPropagation()}
       >
         <Header>

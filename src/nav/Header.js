@@ -1,7 +1,4 @@
-import React, {
-  // useContext,
-  useState,
-} from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
@@ -18,7 +15,7 @@ import {
 } from './HeaderStyled';
 import { IoSearchOutline } from 'react-icons/io5';
 import { AiOutlineMenu } from 'react-icons/ai';
-// import { UserContext } from 'context/context';
+import { UserContext, UserDispatchContext } from 'context/context';
 
 function Header() {
   const [isSearchForcus, setIsSearchForcus] = useState(false);
@@ -26,16 +23,12 @@ function Header() {
   const [useOpenSignup, setUseOpenSignup] = useState(false);
   const [useOpenLogin, setUseOpenLogin] = useState(false);
   const navigate = useNavigate();
-  // const user = useContext(UserContext);
-  // console.log('user >> ', user);
+  const user = useContext(UserContext);
+  const dispatch = useContext(UserDispatchContext);
+
   const goToMain = () => {
     navigate('/');
   };
-
-  // const goToProducts = () => {
-  //   navigate('');
-  // };
-
   const goToDistrictInfo = () => {
     navigate('/district-info');
   };
@@ -45,7 +38,14 @@ function Header() {
   const gotoChat = () => {
     navigate('/chat');
   };
-
+  const handleLogout = () => {
+    const logoutconfirm = window.confirm('로그아웃 하시겠습니까?');
+    if (logoutconfirm) {
+      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
+      dispatch({ type: 'LOGOUT' });
+    }
+  };
   return (
     <HeaderSize>
       <HeaderWrapper>
@@ -81,10 +81,21 @@ function Header() {
           <li onClick={goToProducts}>동네매물</li>
           <li onClick={goToDistrictInfo}>동네소식</li>
           <li>|</li>
-          <li onClick={() => setUseOpenLogin(true)}>로그인</li>
-          <li onClick={() => setUseOpenSignup(true)}>회원가입</li>
+          {user.id !== '' ? (
+            <>
+              <li onClick={() => handleLogout()}>로그아웃</li>
+              <li onClick={() => setUseOpenLogin(true)}>마이페이지</li>
+            </>
+          ) : (
+            <>
+              <li onClick={() => setUseOpenLogin(true)}>로그인</li>
+              <li onClick={() => setUseOpenSignup(true)}>회원가입</li>
+            </>
+          )}
         </NavMenu>
-        <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
+        {user.id !== '' && (
+          <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
+        )}
       </HeaderWrapper>
       {useOpenLogin && (
         <Login

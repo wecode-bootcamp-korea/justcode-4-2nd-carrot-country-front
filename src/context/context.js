@@ -21,6 +21,8 @@ function userReducer(state, action) {
   switch (type) {
     case 'LOGIN':
       return payload;
+    case 'LOGOUT':
+      return initialUser;
     default:
       throw new Error(`Unknown action type: ${type}`);
   }

@@ -1,9 +1,8 @@
 // modules
 import React, { useState, useContext } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config.js';
 import { loginUser } from 'apis/user';
-import { UserContext, UserDispatchContext } from 'context/context';
+import { UserDispatchContext } from 'context/context';
 // components
 import Modal from 'components/modal/Modal';
 // styles
@@ -20,22 +19,23 @@ import {
 
 function Login(props) {
   const { visible, setVisible, setOpenSignup } = props;
-  const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
-  const navigate = useNavigate();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [useSave, setUseSave] = useState(false);
+  const [useFadeOut, setUseFadeOut] = useState(false);
 
   const handleSave = () => {
     setUseSave(!useSave);
   };
 
   const goToSignup = () => {
-    setVisible(false);
+    setUseFadeOut(true);
     setTimeout(() => {
+      setVisible(false);
+      setUseFadeOut(false);
       setOpenSignup(true);
-    }, 200);
+    }, 500);
   };
 
   const handleLogin = () => {
@@ -84,7 +84,12 @@ function Login(props) {
   }
 
   return (
-    <Modal width="365px" visible={visible} setVisible={setVisible}>
+    <Modal
+      width="365px"
+      visible={visible}
+      setVisible={setVisible}
+      useFadeOut={useFadeOut}
+    >
       <LoginBox width="200px">
         <img
           src={`${CLIENT_PORT}/images/logo/logo1.png`}
@@ -112,8 +117,8 @@ function Login(props) {
         <LoginBtn disabled={!isValidButton} onClick={handleLogin}>
           로그인
         </LoginBtn>
-        <Save isChecked={useSave}>
-          <AiFillCheckSquare size={18} onClick={handleSave} />
+        <Save isChecked={useSave} onClick={handleSave}>
+          <AiFillCheckSquare size={18} />
           <span>자동로그인</span>
         </Save>
         <Usersign>
