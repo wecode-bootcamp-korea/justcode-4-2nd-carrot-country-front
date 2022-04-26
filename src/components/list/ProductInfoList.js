@@ -19,7 +19,6 @@ export default ProductInfoList;
 const AllWrapper = styled.div`
   display: flex;
   justify-content: center;
-  border: 1px solid red;
   width: 100%;
   max-width: 1024px;
   /* //스마트폰
