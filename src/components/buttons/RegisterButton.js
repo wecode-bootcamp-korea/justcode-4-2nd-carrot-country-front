@@ -1,18 +1,28 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes, css } from 'styled-components';
 import theme from 'styles/theme';
 import { AiOutlinePlus } from 'react-icons/ai';
 
-function SubmitButton() {
+function RegisterButton() {
+  const navigate = useNavigate();
   const [isListOpen, setIsListOpen] = useState(false);
+
+  const goToProductRegister = () => {
+    navigate('/product/register');
+  };
+
+  const goToDistrictRegister = () => {
+    navigate('/district-info/register');
+  };
   return (
     <>
       <Background isListOpen={isListOpen} />
       <ButtonWrapper>
         <ContentWrapper isListOpen={isListOpen}>
           <ListWrapper isListOpen={isListOpen}>
-            <li>📥 내 물건 팔기</li>
-            <li>💌 내 소식 올리기</li>
+            <li onClick={goToProductRegister}>📥 내 물건 팔기</li>
+            <li onClick={goToDistrictRegister}>💌 내 소식 올리기</li>
           </ListWrapper>
         </ContentWrapper>
         <StyledButton
@@ -28,7 +38,7 @@ function SubmitButton() {
   );
 }
 
-export default SubmitButton;
+export default RegisterButton;
 
 const turnButton = keyframes`
     0%{

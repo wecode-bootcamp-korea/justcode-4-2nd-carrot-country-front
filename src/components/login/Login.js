@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CLIENT_PORT } from 'config.js';
+import { CLIENT_PORT, SERVER_PORT } from 'config.js';
 import Modal from 'components/modal/Modal';
 import { AiFillCheckSquare } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -27,31 +27,32 @@ function Login(props) {
   };
 
   const goToSignup = () => {
-    navigate('setUseOpenSignup(true)');
+    // setUseOpenSignup(true);
   };
 
   const handleLogin = () => {
     setVisible(false);
-    // navigate('localhost:3000/main');
+    fetch(`${SERVER_PORT}/users/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userId: id,
+        password: pw,
+      }),
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.message === 'INVALID_USER') {
+          alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
+        } else if (result.message === 'SUCCESS_LOGIN') {
+          alert('환영합니다.');
+          localStorage.setItem('token', result.token);
+        }
+      });
 
-    // fetch('localhost:3000', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     id: id,
-    //     password: pw,
-    //   }),
-    // })
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     if (result.message === 'INVALID_USER') {
-    //       alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
-    //     } else if (result.message === 'SUCCESS_LOGIN') {
-    //       alert('환영합니다.');
-    //     }
-    //   });
+    navigate('/main');
   };
 
   const handleIdInput = e => {
@@ -82,22 +83,24 @@ function Login(props) {
           alt="logo"
           width="225px"
         />
-        <Id
-          onChange={handleIdInput}
-          type="text"
-          placeholder="아이디를 입력하세요"
-          id="id"
-          name="id"
-          required
-        />
-        <Password
-          onChange={handlePwInput}
-          type="password"
-          placeholder="비밀번호를 입력하세요"
-          id="password"
-          name="password"
-          required
-        />
+        <div>
+          <Id
+            onChange={handleIdInput}
+            type="text"
+            placeholder="아이디를 입력하세요"
+            id="id"
+            name="id"
+            required
+          />
+          <Password
+            onChange={handlePwInput}
+            type="password"
+            placeholder="비밀번호를 입력하세요"
+            id="password"
+            name="password"
+            required
+          />
+        </div>
         <LoginBtn disabled={!isValidButton} onClick={handleLogin}>
           로그인
         </LoginBtn>

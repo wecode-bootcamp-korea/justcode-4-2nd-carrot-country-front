@@ -1,13 +1,15 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { ContextProvider } from 'context';
+import { ContextProvider } from 'context/context';
 import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
-import DistrictInfoDetail from './pages/districtInfoDetail/DistrictInfoDetail';
+import ProductList from 'pages/product/ProducInfo';
+import Chat from 'pages/chat/Chat';
+import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
 
 function App() {
   return (
@@ -17,12 +19,11 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/product/detail" element={<ProductDetail />} />
-          <Route path="/product-register" element={<ProductRegister />} />
+          <Route path="/product/register" element={<ProductRegister />} />
           <Route path="/district-info" element={<DistrictInfo />} />
-          <Route
-            path="/district-info/detail"
-            element={<DistrictInfoDetail />}
-          />
+          <Route path="/product" element={<ProductList />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/district-info/register" element={<DIRegister />} />
         </Routes>
         <Footer />
       </ContextProvider>
