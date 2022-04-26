@@ -33,7 +33,9 @@ function ChatRoomFooter(props) {
   };
 
   const handleCallback = params => {
+    params.isMyChat = true;
     setChats([...chats, params]);
+    console.log('보내기', params);
   };
 
   return (
@@ -55,17 +57,26 @@ function ChatRoomFooter(props) {
 
 const MainWrapper = styled.div`
   display: flex;
-  align-items: center;
-  border-top: 1px solid;
+  border: 1px solid black;
+  border-radius: 0.3em;
+  margin-left: 15px;
+  width: 95%;
+  height: 100px;
+  background-color: white;
+
   .chatInput {
     flex: 1;
+    align-self: flex-start;
     padding: 10px;
     border: 0;
+    border-radius: 0.3em;
+    font-size: 15px;
     :focus {
       outline: none;
     }
   }
   .submitBtn {
+    align-self: flex-end;
     margin: 10px;
     color: ${props => props.theme.signColor};
   }

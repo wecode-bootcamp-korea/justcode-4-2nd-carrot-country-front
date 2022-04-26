@@ -7,7 +7,10 @@ import ChatRoomContent from './ChatRoomContent';
 import ChatRoomFooter from './ChatRoomFooter';
 
 import styled from 'styled-components';
+
 import { getChats } from 'apis/chat';
+
+import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
   const { useRoomId } = props;
@@ -27,26 +30,61 @@ function ChatRoom(props) {
 
   useEffect(() => {
     socket.on('new_text', params => {
+      params.isMyChat = false;
       setChats([...chats, params]);
+      console.log('받기', params);
     });
   }, [chats]);
 
   return (
     <MainWrapper>
-      <ChatRoomContent roomId={roomId} chats={chats} setChats={setChats} />
+      <ChatRoomContent
+        roomId={roomId}
+        chats={chats}
+        setChats={setChats}
+        // product={product}
+      />
       <ChatRoomFooter roomId={roomId} chats={chats} setChats={setChats} />
     </MainWrapper>
   );
 }
 
 function NotFoundRoom() {
-  return <div>채팅할 상대를 선택해주세요</div>;
+  return (
+    <NotFoundRoomWrapper>
+      <IconWrapper>
+        <BiMessageSquareDots />
+      </IconWrapper>
+      <p>채팅할 상대를 선택해주세요</p>
+    </NotFoundRoomWrapper>
+  );
 }
 
 const MainWrapper = styled.div`
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
+  background-color: white;
+`;
+
+const NotFoundRoomWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: gray;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+`;
+
+const IconWrapper = styled.div`
+  margin-bottom: 10px;
+  color: silver;
+  font-size: 8vw;
 `;
 
 export default ChatRoomDelay;
