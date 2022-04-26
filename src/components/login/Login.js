@@ -44,7 +44,6 @@ function Login(props) {
       if (message === 'INVALID_USER') {
         alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
       } else if (message === 'SUCCESS_LOGIN') {
-        alert('환영합니다.');
         if (useSave) {
           localStorage.setItem('token', token);
         } else {
@@ -60,7 +59,11 @@ function Login(props) {
           district: user.district,
         },
       });
-      setVisible(false);
+      setUseFadeOut(true);
+      setTimeout(() => {
+        setVisible(false);
+        setUseFadeOut(false);
+      }, 500);
     });
   };
 
