@@ -24,31 +24,45 @@ async function getProductDetail(productId) {
     .then(data => data);
 }
 
-function postProduct(allContents) {
-  fetch(`${SERVER_PORT}/products`, {
+async function postProduct(allContents, imageResult) {
+  return await fetch(`${SERVER_PORT}/products`, {
     headers: {
       'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
     },
     method: 'POST',
     body: JSON.stringify({
-      allContents,
+      ...allContents,
     }),
   })
     .then(res => res.json())
-    .then(result => {});
+    .then(data =>
+      fetch(`${SERVER_PORT}/products/images`, {
+        method: 'POST',
+        headers: {
+          // 'Content-Type': 'multipart/form-data',
+          token:
+            localStorage.getItem('token') || sessionStorage.getItem('token'),
+        },
+        body: imageResult,
+      })
+        .then(res => res.json())
+        .then(data => data)
+    );
 }
 
-function postImage(props) {
-  fetch(`${SERVER_PORT}/products/images`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'multiple/form-data' },
-    body: JSON.stringify({
-      imageURLs: props.imageURLs,
-    }),
-  })
-    .then(res => res.json())
-    .then(result => {});
-}
+// function postImage(props) {
+//   fetch(`${SERVER_PORT}/products/images`, {
+//     method: 'POST',
+//     headers: {
+//       // 'Content-Type': 'multipart/form-data',
+//       token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+//     },
+//     body: props,
+//   })
+//     .then(res => res.json())
+//     .then(data => console.log(data));
+// }
 
 async function updateIntrested(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}/interested`, {
@@ -79,7 +93,7 @@ export {
   getProductListBest,
   getProductDetail,
   postProduct,
-  postImage,
+  // postImage,
   updateIntrested,
   deleteIntrested,
 };

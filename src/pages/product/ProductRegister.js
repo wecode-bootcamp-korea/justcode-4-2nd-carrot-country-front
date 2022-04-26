@@ -90,7 +90,7 @@ const Register = () => {
             onClick={handleClick}
             action="/profile"
             method="post"
-            encType="multiport/form-data"
+            encType="multipart/form-data"
           >
             <BsFillCameraFill className={'camera'} />
             <PhotoCount>
@@ -140,7 +140,7 @@ const Register = () => {
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor imageURLs={imageURLs} />
+        <Editor selectedImage={selectedImage} />
       </RegisterWrapper>
     </WholeWrapper>
   );
@@ -174,6 +174,7 @@ const PhotoLine = styled.div`
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
+  padding-top: 20px;
   //스마트폰
   @media (max-width: 690px) {
     height: 100px;
@@ -267,7 +268,7 @@ const PhotoModal = styled.div`
   display: ${props => (props.open === true ? 'flex' : 'none')};
   position: fixed;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
   top: 0;
   right: 0;
   bottom: 0;

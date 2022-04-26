@@ -26,7 +26,7 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
       <ListCardWrapper maxWidth={maxWidth}>
         <ImageWrapper>
           <ImageItself
-            src={`${SERVER_PORT}/${productImage[0].imageUrl}`}
+            src={`${SERVER_PORT}/${productImage[0]?.imageUrl}`}
             alt="image"
           />
         </ImageWrapper>
