@@ -9,7 +9,7 @@ import DistrictSelectDropDown from 'components/buttons/DistrictSelectDropDown';
 const ProductInfo = () => {
   return (
     <>
-      <ListTitle title={`${mockData[0].district} 인기 중고 거래 매물`} />
+      <ListTitle title={`인기 중고 거래 매물`} />
       <WholeWrapper>
         <ContentsWrapper>
           <DistrictSelectDropDown />
@@ -33,11 +33,11 @@ const ContentsWrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   align-content: center;
-  border: 1px solid green;
   @media (max-width: 690px) {
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
+    width: 800px;
   }
   // 모니터
   @media (min-width: 891px) {
