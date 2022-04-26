@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
+import { postProduct } from 'apis/product';
 
 const Register = () => {
   const location = useLocation();
@@ -30,12 +31,6 @@ const Register = () => {
     hiddenFileInput.current.click();
   }; //버튼을 눌렀을때 이벤트가 실행되게 함
 
-  const onPriceChange = e => {
-    const priceRegex = /[0-9]/;
-    if (priceRegex.test(e.target.value)) {
-      alert('숫자만 입력해 주세요');
-    }
-  };
   useEffect(() => {
     if (selectedImage.length === 0) {
       return;
@@ -105,6 +100,7 @@ const Register = () => {
             <PhotoInput
               type={'file'}
               ref={hiddenFileInput}
+              name={'images'}
               accept={'image/*'}
               multiple
               onChange={e => {
@@ -144,7 +140,7 @@ const Register = () => {
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor props={imageURLs} />
+        <Editor imageURLs={imageURLs} />
       </RegisterWrapper>
     </WholeWrapper>
   );
@@ -169,7 +165,7 @@ const RegisterWrapper = styled.div`
   /* display: flex;
   flex-direction: column;
   align-items: center; */
-  width: 1024px;
+  width: 677px;
   padding: 80px 0;
 `;
 
@@ -178,13 +174,20 @@ const PhotoLine = styled.div`
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
-  height: 150px;
-  padding: 15px 0;
-  @media (max-width: 1024px) {
-    padding: 0px 15px;
+  //스마트폰
+  @media (max-width: 690px) {
+    height: 100px;
   }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 677px;
+    height: 140px;
+    margin: 0px auto;
+  }
+  // 모니터
   @media (min-width: 891px) {
     width: 677px;
+    height: 150px;
     margin: 0px auto;
   }
 
