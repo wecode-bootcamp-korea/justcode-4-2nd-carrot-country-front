@@ -6,6 +6,7 @@ import styled from 'styled-components';
 const ProductInfoListCard = ({ data, maxWidth }) => {
   const navigate = useNavigate();
   const {
+    id,
     productImage,
     title,
     price,
@@ -19,7 +20,7 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
     <CardWrapper
       maxWidth={maxWidth}
       onClick={() => {
-        navigate(`/product/detail`, { state: { productId: '2' } });
+        navigate(`/product/detail`, { state: { productId: id } });
       }}
     >
       <ListCardWrapper maxWidth={maxWidth}>
