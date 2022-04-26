@@ -1,28 +1,11 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { CLIENT_PORT } from 'config';
 import { useNavigate } from 'react-router';
-import { UserContext, UserDispatchContext } from 'context/context';
-import { getUserByToken } from 'apis/user';
 
 import { MainWrapper, TopArticle, BottomArticle } from 'pages/main/MainStyle';
 
-const token = localStorage.getItem('token')
-  ? localStorage.getItem('token')
-  : sessionStorage.getItem('token');
-
 function Main() {
   const navigate = useNavigate();
-
-  const user = useContext(UserContext);
-  const dispatch = useContext(UserDispatchContext);
-
-  useEffect(() => {
-    if (token && user.id === '') {
-      getUserByToken(token).then(data =>
-        dispatch({ type: 'LOGIN', payload: data.user })
-      );
-    }
-  }, [user, dispatch]);
 
   function handleNavigate(path) {
     navigate(path);
