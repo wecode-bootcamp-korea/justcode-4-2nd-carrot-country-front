@@ -20,7 +20,7 @@ const ProductInfoListCard = (data, maxWidth) => {
               관심 {data.data.interested} {'\u2022'}
             </Interested>
 
-            <Chats>채팅 {data.data.chats}</Chats>
+            <Chats> 채팅 {data.data.chats}</Chats>
           </InterestedWrapped>
         </LettersWrapper>
       </ListCardWrapper>
