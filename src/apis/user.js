@@ -32,4 +32,31 @@ async function signupUser(userId, nickname, password, cityId, districtId) {
     .then(data => data);
 }
 
-export { duplicateIdCheck, signupUser };
+async function loginUser(userId, password) {
+  return await fetch(`${SERVER_PORT}/users/login`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      userId,
+      password,
+    }),
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
+async function getUserByToken(token) {
+  return await fetch(`${SERVER_PORT}/users/auth`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      token,
+    },
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
+export { duplicateIdCheck, signupUser, loginUser, getUserByToken };

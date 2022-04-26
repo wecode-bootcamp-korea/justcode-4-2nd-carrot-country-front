@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ContextProvider } from 'context/context';
+
 import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';

@@ -1,10 +1,13 @@
-import styled from 'styled-components';
-import { CLIENT_PORT, SERVER_PORT } from 'config.js';
-import Modal from 'components/modal/Modal';
-import { AiFillCheckSquare } from 'react-icons/ai';
+// modules
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-
+import { CLIENT_PORT } from 'config.js';
+import { loginUser } from 'apis/user';
+import { UserContext, UserDispatchContext } from 'context/context';
+// components
+import Modal from 'components/modal/Modal';
+// styles
+import { AiFillCheckSquare } from 'react-icons/ai';
 import {
   LoginBox,
   Id,
@@ -16,7 +19,9 @@ import {
 } from 'components/login/LoginStyle';
 
 function Login(props) {
-  const { visible, setVisible } = props;
+  const { visible, setVisible, setOpenSignup } = props;
+  const user = useContext(UserContext);
+  const dispatch = useContext(UserDispatchContext);
   const navigate = useNavigate();
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
@@ -27,34 +32,36 @@ function Login(props) {
   };
 
   const goToSignup = () => {
-    // setUseOpenSignup(true);
+    setVisible(false);
+    setTimeout(() => {
+      setOpenSignup(true);
+    }, 200);
   };
 
   const handleLogin = () => {
-    setVisible(false);
-    console.log(id, pw);
-    fetch(`${SERVER_PORT}/users/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: id,
-        password: pw,
-      }),
-    })
-      .then(res => res.json())
-      .then(result => {
-        console.log(result);
-        if (result.message === 'INVALID_USER') {
-          alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
-        } else if (result.message === 'SUCCESS_LOGIN') {
-          alert('환영합니다.');
-          localStorage.setItem('token', result.token);
+    loginUser(id, pw).then(result => {
+      const { message, token, user } = result;
+      if (message === 'INVALID_USER') {
+        alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
+      } else if (message === 'SUCCESS_LOGIN') {
+        alert('환영합니다.');
+        if (useSave) {
+          localStorage.setItem('token', token);
+        } else {
+          sessionStorage.setItem('token', token);
         }
+      }
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          id: user.id,
+          nickname: user.nickname,
+          city: user.city,
+          district: user.district,
+        },
       });
-
-    navigate('/main');
+      setVisible(false);
+    });
   };
 
   const handleIdInput = e => {

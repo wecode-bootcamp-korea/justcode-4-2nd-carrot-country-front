@@ -11,7 +11,6 @@ import {
   SignupBtn,
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
-import { SERVER_PORT } from 'config';
 import { duplicateIdCheck, signupUser } from 'apis/user';
 import { getCities, getDistricts } from 'apis/area';
 
