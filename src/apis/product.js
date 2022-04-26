@@ -7,7 +7,6 @@ async function getProductDetail(productId) {
 }
 
 function postProduct(allContents) {
-  console.log(allContents);
   fetch(`${SERVER_PORT}/products`, {
     headers: {
       'Content-Type': 'application/json',
@@ -20,8 +19,8 @@ function postProduct(allContents) {
     .then(res => res.json())
     .then(result => {});
 }
+
 function postImage(props) {
-  console.log('postImage >>', props);
   fetch(`${SERVER_PORT}/products/images`, {
     method: 'POST',
     headers: { 'Content-Type': 'multiple/form-data' },
@@ -32,4 +31,37 @@ function postImage(props) {
     .then(res => res.json())
     .then(result => {});
 }
-export { getProductDetail, postProduct, postImage };
+
+async function updateIntrested(productId, userId) {
+  return await fetch(`${SERVER_PORT}/products/${productId}/interested`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      productId,
+      userId,
+    }),
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
+async function deleteIntrested(productId, userId) {
+  return await fetch(`${SERVER_PORT}/products/${productId}/unInterested`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      productId,
+      userId,
+    }),
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
+export {
+  getProductDetail,
+  postProduct,
+  postImage,
+  updateIntrested,
+  deleteIntrested,
+};
