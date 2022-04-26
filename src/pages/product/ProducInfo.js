@@ -4,23 +4,46 @@ import ProductInfoList from 'components/list/ProductInfoList';
 import ListTitle from 'components/list/ListTitle';
 import RegisterButton from 'components/buttons/RegisterButton';
 import AreaTag from 'components/list/AreaTag';
+import DistrictSelectDropDown from 'components/buttons/DistrictSelectDropDown';
 
 const ProductInfo = () => {
   return (
     <>
       <ListTitle title={`${mockData[0].district} 인기 중고 거래 매물`} />
-      <AreaTag
-        maxWidth={1024}
-        city={mockData[0].city}
-        district={mockData[0].district}
-      />
-      <ListWrapper>
-        <ProductInfoList maxWidth={1024} data={mockData} />
-      </ListWrapper>
-      <RegisterButton />
+      <WholeWrapper>
+        <ContentsWrapper>
+          <DistrictSelectDropDown />
+          <ListWrapper>
+            <ProductInfoList maxWidth={1024} data={mockData} />
+          </ListWrapper>
+        </ContentsWrapper>
+        <RegisterButton />
+      </WholeWrapper>
     </>
   );
 };
+
+const WholeWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  border: 1px solid green;
+  @media (max-width: 690px) {
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 1024px;
+  }
+`;
 
 const ListWrapper = styled.div`
   display: flex;
