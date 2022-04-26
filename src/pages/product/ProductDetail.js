@@ -7,6 +7,7 @@ import {
   updateIntrested,
 } from 'apis/product';
 import { UserContext } from 'context/context';
+import { priceForm } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
@@ -20,10 +21,6 @@ import {
   InfoLike,
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
-
-const user = {
-  id: 2,
-};
 
 function ProductDetailDelay() {
   const location = useLocation();
@@ -47,6 +44,7 @@ function ProductDetail(props) {
       ? true
       : false
   );
+
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
   };
@@ -78,9 +76,7 @@ function ProductDetail(props) {
           <UserProfile user={product.user} />
           <div
             className="ChatBtn"
-            onClick={() =>
-              handleCreateRoom(user.id, product.id, handleCallback)
-            }
+            onClick={() => handleCreateRoom(me.id, product.id, handleCallback)}
           >
             <span>판매자와 채팅하기</span>
           </div>
@@ -93,7 +89,9 @@ function ProductDetail(props) {
             <span>2시간 전</span>
           </div>
           <div>
-            <span>{product.price ? product.price + '원' : '무료나눔'}</span>
+            <span>
+              {product.price ? priceForm(product.price) + '원' : '무료나눔'}
+            </span>
           </div>
         </InfoTop>
         <InfoBottom>
