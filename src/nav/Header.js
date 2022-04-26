@@ -81,7 +81,7 @@ function Header() {
           <li onClick={goToProducts}>동네매물</li>
           <li onClick={goToDistrictInfo}>동네소식</li>
           <li>|</li>
-          {user.id ? (
+          {user.id !== '' ? (
             <>
               <li onClick={() => handleLogout()}>로그아웃</li>
               <li onClick={() => setUseOpenLogin(true)}>마이페이지</li>
@@ -93,7 +93,7 @@ function Header() {
             </>
           )}
         </NavMenu>
-        {user.id && (
+        {user.id !== '' && (
           <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
         )}
       </HeaderWrapper>
