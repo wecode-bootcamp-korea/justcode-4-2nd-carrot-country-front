@@ -32,8 +32,7 @@ function Login(props) {
 
   const handleLogin = () => {
     setVisible(false);
-    navigate('/main');
-
+    console.log(id, pw);
     fetch(`${SERVER_PORT}/users/login`, {
       method: 'POST',
       headers: {
@@ -46,19 +45,26 @@ function Login(props) {
     })
       .then(res => res.json())
       .then(result => {
+        console.log(result);
         if (result.message === 'INVALID_USER') {
           alert('아이디 또는 비밀번호가 잘못 되어있습니다.');
         } else if (result.message === 'SUCCESS_LOGIN') {
           alert('환영합니다.');
-        }
-      })
-      .then(res => {
-        if (res.token) {
-          localStorage.setItem('token', res.token);
-        } else {
-          console.log('에러발생 : ', res.message);
+          localStorage.setItem('token', result.token);
         }
       });
+    // .then(res => {
+    //   console.log(res);
+    //   if (res.access_token) {
+    //     localStorage.setItem('access_token', res.access_token);
+    //     localStorage.setItem('userId', res.userId);
+    //   } else {
+    //     const error = new Error('잘못된 이메일이거나 비밀번호입니다.');
+    //     error.statusCode = 400;
+    //     throw error;
+    //   }
+    // });
+    navigate('/main');
   };
 
   const handleIdInput = e => {
