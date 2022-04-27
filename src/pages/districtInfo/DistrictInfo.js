@@ -48,7 +48,7 @@ function DistrictInfo(props) {
         city={user.city.cityName}
         district={user.district.districtName}
       />
-      {data ? (
+      {data.lenght ? (
         <DistrictInfoList maxWidth={1024} data={data} />
       ) : (
         <NoDistrictInfoData />

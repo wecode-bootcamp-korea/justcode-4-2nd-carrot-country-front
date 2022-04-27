@@ -19,11 +19,7 @@ function Chat() {
         <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
       <section className="chatContainer" id="chatRoomWrapper">
-        <ChatRoom
-          useRoomId={useRoomId}
-          setUseRoomId={setUseRoomId}
-          // product={product}
-        />
+        <ChatRoom useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
     </MainWrapper>
   );
@@ -54,6 +50,7 @@ const MainWrapper = styled.main`
   height: 100vh;
   padding-bottom: 10px;
   padding-top: 70px;
+  overflow: hidden;
   #chatListWrapper {
     flex: 1;
   }
