@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_PORT } from 'config';
 import styled from 'styled-components';
@@ -26,7 +26,7 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
       <ListCardWrapper maxWidth={maxWidth}>
         <ImageWrapper>
           <ImageItself
-            src={`http://3.34.96.119:8000/${productImage[0].imageUrl}`}
+            src={`${SERVER_PORT}/${productImage[0].imageUrl}`}
             alt="image"
           />
         </ImageWrapper>
@@ -89,6 +89,7 @@ const ImageWrapper = styled.div`
 const ImageItself = styled.img`
   display: block;
   border-radius: 15px;
+  border: 1px solid silver;
   width: 100%;
   aspect-ratio: 1/1;
 `;

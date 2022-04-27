@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { SERVER_PORT } from 'config';
 
 import { socket } from 'apis/socket';
 
@@ -13,13 +12,17 @@ import { getChats } from 'apis/chat';
 import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
-  const { useRoomId } = props;
+  const { useRoomId, product } = props;
 
-  return useRoomId ? <ChatRoom roomId={useRoomId} /> : <NotFoundRoom />;
+  return useRoomId ? (
+    <ChatRoom roomId={useRoomId} product={product} />
+  ) : (
+    <NotFoundRoom />
+  );
 }
 
 function ChatRoom(props) {
-  const { roomId } = props;
+  const { roomId, product } = props;
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
@@ -32,7 +35,6 @@ function ChatRoom(props) {
     socket.on('new_text', params => {
       params.isMyChat = false;
       setChats([...chats, params]);
-      console.log('받기', params);
     });
   }, [chats]);
 
@@ -42,7 +44,7 @@ function ChatRoom(props) {
         roomId={roomId}
         chats={chats}
         setChats={setChats}
-        // product={product}
+        product={product}
       />
       <ChatRoomFooter roomId={roomId} chats={chats} setChats={setChats} />
     </MainWrapper>

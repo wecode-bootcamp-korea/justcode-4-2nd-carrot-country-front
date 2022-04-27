@@ -12,13 +12,18 @@ function Chat() {
   const roomId = location.state?.roomId;
 
   const [useRoomId, setUseRoomId] = useState(roomId ? roomId : null);
+
   return (
     <MainWrapper>
       <section className="chatContainer" id="chatListWrapper">
         <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
       <section className="chatContainer" id="chatRoomWrapper">
-        <ChatRoom useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
+        <ChatRoom
+          useRoomId={useRoomId}
+          setUseRoomId={setUseRoomId}
+          // product={product}
+        />
       </section>
     </MainWrapper>
   );

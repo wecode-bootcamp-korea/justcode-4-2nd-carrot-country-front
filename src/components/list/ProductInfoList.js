@@ -11,6 +11,7 @@ function ProductInfoList(props) {
         {data.map(data => (
           <ProductInfoListCard key={data.id} data={data} maxWidth={maxWidth} />
         ))}
+        {maxWidth === 800 && <MoreView> 더보기 </MoreView>}
       </ListWrapper>
     </AllWrapper>
   );

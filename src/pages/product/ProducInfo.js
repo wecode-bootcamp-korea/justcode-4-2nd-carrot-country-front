@@ -27,9 +27,14 @@ const ProductInfoDelay = () => {
   }, [isLogin]);
 
   return isLogin ? (
-    <ProductInfoWhenLogin data={productInfoData} user={user} />
+    <>
+      <ProductInfoWhenLogin data={productInfoData} user={user} />
+      <RegisterButton />
+    </>
   ) : (
-    <ProductInfo data={productInfoData} />
+    <>
+      <ProductInfo data={productInfoData} /> <RegisterButton />
+    </>
   );
 };
 
