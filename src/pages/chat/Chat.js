@@ -19,11 +19,7 @@ function Chat() {
         <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
       <section className="chatContainer" id="chatRoomWrapper">
-        <ChatRoom
-          useRoomId={useRoomId}
-          setUseRoomId={setUseRoomId}
-          // product={product}
-        />
+        <ChatRoom useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
     </MainWrapper>
   );
