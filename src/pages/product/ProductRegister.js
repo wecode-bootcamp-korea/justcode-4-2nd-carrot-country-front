@@ -1,20 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { usePrompt } from 'hoc/blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
+import { postProduct } from 'apis/product';
 
 const Register = () => {
+  const location = useLocation();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
+  // const [buttonEnable, setButtonEnable] = useState(false);
   const [modalImageInfo, setModalImageInfo] = useState({
     index: 0,
     imageSrc: '',
   });
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
+
+  usePrompt('변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?', true);
+
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -40,36 +51,9 @@ const Register = () => {
     setImageURLs(newImageURLs);
   }, [selectedImage]);
 
-  // useEffect(() => {
-  //   if (selectedImage.length < 1) {
-  //     return;
-  //   }
-  //   if (selectedImage.length > 10) {
-  //     alert('사진을 10개를 초과할 수 없어요');
-  //     setSelectedImage([]);
-  //     setImageURLs([]);
-  //   } else {
-  //     selectedImage.forEach(image =>
-  //       setImageURLs(oldImageURLs => [
-  //         ...oldImageURLs,
-  //         URL.createObjectURL(image),
-  //       ])
-  //     );
-  //   }
-
   const onImageChange = event => {
     setSelectedImage([...event.target.files]);
   }; //파일 업로드
-
-  // const deleteImage = src => {
-  //   const imageIndex = imageURLs.indexOf(src);
-  //   if (imageURLs.length == 0) {
-  //     return;
-  //   } else {
-  //     selectedImage.splice(imageIndex, 1);
-  //     imageURLs.splice(imageIndex, 1);
-  //   }
-  // };
 
   const deleteImage = src => {
     if (imageURLs.length == 0) {
@@ -102,7 +86,12 @@ const Register = () => {
     <WholeWrapper>
       <RegisterWrapper>
         <PhotoLine>
-          <PhotoButton onClick={handleClick}>
+          <PhotoForm
+            onClick={handleClick}
+            action="/profile"
+            method="post"
+            encType="multipart/form-data"
+          >
             <BsFillCameraFill className={'camera'} />
             <PhotoCount>
               <PhotoTotal>{selectedImage.length}</PhotoTotal>
@@ -111,6 +100,7 @@ const Register = () => {
             <PhotoInput
               type={'file'}
               ref={hiddenFileInput}
+              name={'images'}
               accept={'image/*'}
               multiple
               onChange={e => {
@@ -118,7 +108,7 @@ const Register = () => {
               }}
               required
             />
-          </PhotoButton>
+          </PhotoForm>
           {imageURLs.map((imageSrc, index) => (
             <div key={index} className="imageContainer">
               <TiDelete
@@ -132,9 +122,6 @@ const Register = () => {
                 value={imageSrc}
                 ref={imageRef}
                 onClick={() => setOpenModal(true)}
-                // onClick={() =>
-                //   console.log('imageSrc: ', imageSrc, 'key: ', index)
-                // }
               />
             </div>
           ))}
@@ -147,21 +134,13 @@ const Register = () => {
               onClick={() => setOpenModal(false)}
             />
             {imageURLs.map((imageSrc, index) => (
-              <ModalImageContainer
-                // onClick={e => {
-                //   e.stopPropagation();
-                // }}
-                key={index}
-              >
+              <ModalImageContainer key={index}>
                 <img src={imageSrc} className={'modalEachImage'} />
               </ModalImageContainer>
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor />
-        <ButtonWrapper>
-          <SubmitButton>완료</SubmitButton>
-        </ButtonWrapper>
+        <Editor selectedImage={selectedImage} />
       </RegisterWrapper>
     </WholeWrapper>
   );
@@ -173,12 +152,20 @@ const WholeWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin: 30px;
+  /* max-width: 1024px; */
+  @media (max-width: 1024px) {
+    padding: 0px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
 `;
 const RegisterWrapper = styled.div`
   /* display: flex;
   flex-direction: column;
   align-items: center; */
-  width: 1024px;
+  width: 677px;
   padding: 80px 0;
 `;
 
@@ -187,8 +174,23 @@ const PhotoLine = styled.div`
   justify-content: flex-start;
   overflow-x: auto;
   width: auto;
-  height: 150px;
-  padding: 15px 0;
+  padding-top: 20px;
+  //스마트폰
+  @media (max-width: 690px) {
+    height: 100px;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 677px;
+    height: 140px;
+    margin: 0px auto;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 677px;
+    height: 150px;
+    margin: 0px auto;
+  }
 
   .imageContainer {
     display: flex;
@@ -222,7 +224,7 @@ const PhotoLine = styled.div`
   }
 `;
 
-const PhotoButton = styled.button`
+const PhotoForm = styled.form`
   display: flex;
   aspect-ratio: 1/1;
   flex-direction: column;
@@ -266,7 +268,7 @@ const PhotoModal = styled.div`
   display: ${props => (props.open === true ? 'flex' : 'none')};
   position: fixed;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
   top: 0;
   right: 0;
   bottom: 0;
@@ -310,26 +312,4 @@ const ModalImageContainer = styled.div`
   }
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 25px;
-`;
-
-const SubmitButton = styled.button`
-  display: flex;
-  width: 90px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  border: none;
-  color: white;
-  background-color: #f37802;
-  border-radius: 5px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
 export default Register;

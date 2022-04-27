@@ -1,9 +1,16 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FaRegComment } from 'react-icons/fa';
+import { FaRegHeart, FaRegComment } from 'react-icons/fa';
 
 function DistrictInfoCard({ data, maxWidth }) {
+  const navigate = useNavigate();
   return (
-    <Size maxWidth={maxWidth}>
+    <Size
+      maxWidth={maxWidth}
+      onClick={() => {
+        navigate(`/district-info/detail`);
+      }}
+    >
       <CardWrapper>
         {data.imageUrl && (
           <Image maxWidth={maxWidth}>
@@ -17,8 +24,12 @@ function DistrictInfoCard({ data, maxWidth }) {
               ? `${data.content.slice(0, 120)}...`
               : data.content}
           </Content>
-          <AreaWrapper>{`${data.city} ${data.district}`}</AreaWrapper>
+          <AreaWrapper>{`${data.city.cityName} ${data.district.districtName}`}</AreaWrapper>
         </TextWrapper>
+        <LikeCount>
+          <FaRegHeart />
+          {data.districtInfoLiked.length}
+        </LikeCount>
         <CommentCount>
           <FaRegComment />
           {data.commentCount}
@@ -81,10 +92,23 @@ const AreaWrapper = styled.p`
   font-size: 14px;
 `;
 
+const LikeCount = styled.div`
+  position: absolute;
+  bottom: 40px;
+  right: 30px;
+  display: flex;
+  color: #858e96;
+  font-size: 14px;
+
+  * {
+    margin-right: 5px;
+  }
+`;
+
 const CommentCount = styled.div`
   position: absolute;
   bottom: 40px;
-  right: 10px;
+  right: 0px;
   display: flex;
   color: #858e96;
   font-size: 14px;

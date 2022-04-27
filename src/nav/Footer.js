@@ -13,10 +13,13 @@ import {
   Email,
   License,
 } from './FooterStyled';
+import { useLocation } from 'react-router-dom';
 
 function Footer() {
+  const location = useLocation();
+
   return (
-    <FooterSize>
+    <FooterSize pathname={location.pathname}>
       <FooterWrap>
         <FooterWrapper>
           <LogoWrapper>

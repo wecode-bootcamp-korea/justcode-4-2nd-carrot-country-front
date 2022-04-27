@@ -11,7 +11,8 @@ import {
   SignupBtn,
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
-import { SERVER_PORT } from 'config';
+import { duplicateIdCheck, signupUser } from 'apis/user';
+import { getCities, getDistricts } from 'apis/area';
 
 function Signup(props) {
   // input state
@@ -33,6 +34,7 @@ function Signup(props) {
   const [useCity, setUseCity] = useState('');
   const [useDistrict, setUseDistrict] = useState('');
   const [usePolicy, setUsePolicy] = useState(false);
+  const [useFadeOut, setUseFadeOut] = useState(false);
 
   const handleId = e => {
     const { value } = e.target;
@@ -51,24 +53,14 @@ function Signup(props) {
     setUseName(value);
   };
   const handleCheckId = () => {
-    fetch(`${SERVER_PORT}/users/signup/duplicate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: useId,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        if (data.message === 'EXSITING_USER') {
-          alert('이미 아이디가 존재합니다.');
-          return;
-        }
-        alert('사용 가능한 아이디 입니다.');
-        setUseIdCheck(true);
-      });
+    duplicateIdCheck(useId).then(data => {
+      if (data.message === 'EXSITING_USER') {
+        alert('이미 아이디가 존재합니다.');
+        return;
+      }
+      alert('사용 가능한 아이디 입니다.');
+      setUseIdCheck(true);
+    });
   };
   const handleCity = value => {
     setUseCity(value);
@@ -104,27 +96,20 @@ function Signup(props) {
     if (!usePolicy) {
       return alert('이용약관을 동의 해주세요');
     }
-    fetch(`${SERVER_PORT}/users/signup`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        userId: useId,
-        nickname: useName,
-        password: usePw,
-        cityId: useCity,
-        districtId: useDistrict,
-      }),
+    signupUser(useId, useName, usePw, useCity, useDistrict).then(() => {
+      setUseFadeOut(true);
+      setTimeout(() => {
+        setVisible(false);
+        setUseFadeOut(false);
+      }, 500);
     });
-    alert('당근나라 가입을 환영합니다.');
-    setVisible(false);
   };
   return (
     <Modal
       title="당근가입"
       visible={visible}
       setVisible={setVisible}
+      useFadeOut={useFadeOut}
       // closeBtn={true}
       // width="100px"
       // height="700px"
@@ -208,15 +193,11 @@ function AreaSelector(props) {
   const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
-    fetch(`${SERVER_PORT}/area/city`)
-      .then(response => response.json())
-      .then(data => setCities(data.cities));
+    getCities().then(data => setCities(data.cities));
   }, []);
 
   const handleFetchDistrict = id => {
-    fetch(`${SERVER_PORT}/area/district/${id}`)
-      .then(response => response.json())
-      .then(data => setDistricts(data.districts));
+    getDistricts(id).then(data => setDistricts(data.districts));
     handleDistrict('null');
   };
 

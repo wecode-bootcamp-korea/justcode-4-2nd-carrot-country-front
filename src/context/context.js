@@ -1,26 +1,32 @@
-import { createContext, useReducer } from 'react';
+import { getUserByToken } from 'apis/user';
+import { createContext, useReducer, useContext, useEffect } from 'react';
 
 export const UserContext = createContext();
 export const UserDispatchContext = createContext();
+const token = localStorage.getItem('token')
+  ? localStorage.getItem('token')
+  : sessionStorage.getItem('token');
 
 const initialUser = {
   id: '',
   nickname: '',
-  cityId: '',
-  districtId: '',
+  city: {
+    id: '',
+    cityName: '',
+  },
+  district: {
+    id: '',
+    districtName: '',
+  },
 };
 
 function userReducer(state, action) {
   const { type, payload } = action;
   switch (type) {
     case 'LOGIN':
-      return {
-        ...state,
-        id: payload.id,
-        nickname: payload.nickname,
-        cityId: payload.cityId,
-        districtId: payload.districtId,
-      };
+      return payload;
+    case 'LOGOUT':
+      return initialUser;
     default:
       throw new Error(`Unknown action type: ${type}`);
   }
@@ -28,6 +34,14 @@ function userReducer(state, action) {
 
 export function ContextProvider({ children }) {
   const [user, userDispatch] = useReducer(userReducer, initialUser);
+
+  useEffect(() => {
+    if (token && user.id === '') {
+      getUserByToken(token).then(data =>
+        userDispatch({ type: 'LOGIN', payload: data.user })
+      );
+    }
+  }, []);
 
   return (
     <UserContext.Provider value={user}>

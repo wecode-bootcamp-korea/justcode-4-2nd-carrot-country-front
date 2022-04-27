@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CLIENT_PORT } from 'config';
+import { SERVER_PORT } from 'config';
 
 import ImageModal from 'components/modal/ImageModal';
 
@@ -15,30 +15,31 @@ const WIDTH = 677;
 const HEIGHT = 500;
 
 function ImageSlider(props) {
-  const { urls } = props;
+  const { images } = props;
   const [index, setIndex] = useState(0);
   const [useVisible, setUseVisible] = useState(false);
   const [useWidth, setUseWidth] = useState(
     window.innerWidth > 890 ? WIDTH : window.innerWidth
   );
-
   useEffect(() => {
     window.addEventListener('resize', handleResize);
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  });
+  }, []);
 
   const handleResize = () => {
     setUseWidth(window.innerWidth);
   };
+
   const handlePrev = () => {
     if (index > 0) {
       setIndex(index - 1);
     }
   };
+
   const handleNext = () => {
-    if (urls.length !== index + 1) {
+    if (images.length !== index + 1) {
       setIndex(index + 1);
     }
   };
@@ -49,16 +50,20 @@ function ImageSlider(props) {
         className="prevBtn"
         onClick={handlePrev}
       />
-      <ImageWrapper index={index} changeWidth={useWidth}>
-        {urls.map((url, idx) => {
+      <ImageWrapper
+        index={index}
+        changeWidth={useWidth}
+        onClick={() => setUseVisible(true)}
+      >
+        {images.map((image, idx) => {
           return (
-            <div key={idx} onClick={() => setUseVisible(true)}>
-              <img src={CLIENT_PORT + url} alt={url} />
+            <div key={idx}>
+              <img src={SERVER_PORT + '/' + image.imageUrl} alt={image.id} />
             </div>
           );
         })}
         <DotWrapper changeWidth={useWidth}>
-          {urls.map((__, idx) => {
+          {images.map((__, idx) => {
             const isCurrent = index === idx;
             return (
               <DotItem key={idx} isCurrent={isCurrent}>
@@ -73,12 +78,14 @@ function ImageSlider(props) {
         onClick={handleNext}
         className="nextBtn"
       />
-      <ImageModal
-        urls={urls}
-        visible={useVisible}
-        setVisible={setUseVisible}
-        width={WIDTH}
-      />
+      {useVisible && (
+        <ImageModal
+          images={images}
+          visible={useVisible}
+          setVisible={setUseVisible}
+          width={WIDTH}
+        />
+      )}
     </MainWrapper>
   );
 }
@@ -152,7 +159,6 @@ const ImageWrapper = styled.div`
   position: relative;
   display: flex;
   overflow: hidden;
-  z-index: -1;
   div {
     align-self: center;
     transition: 0.6s;
