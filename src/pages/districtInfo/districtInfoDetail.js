@@ -27,7 +27,6 @@ import { UserContext } from 'context/context';
 function DIDetail() {
   const location = useLocation();
   const [comment, setComment] = useState([]);
-  const [comments, setComments] = useState([]);
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
   const myInfo = useContext(UserContext);

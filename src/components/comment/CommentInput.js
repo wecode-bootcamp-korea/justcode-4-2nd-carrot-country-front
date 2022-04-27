@@ -13,7 +13,6 @@ function CommentInput() {
   // const [input, setInput] = useState();
   // const { userData } = useContext(UserContext);
   const [data, setData] = useState();
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // fetch('http//localhost:3000/district-info/detail')
@@ -21,30 +20,12 @@ function CommentInput() {
     //   return res.json();
     // })
     getCommentDetail(1).then(data => {
-      setComment(data.comments);
+      setData(data.comments);
     });
   }, []);
 
-  // useEffect(() => {
-  //   getDistrictComment(1).then(data => {
-  //     if (data.message === 'SUCCESS') {
-  //       setData(data.comments);
-  //     }
-  //   });
-  // }, []);
-
   // const onChange = e => {
   //   setInput(e.target.value);
-  // };
-
-  // const addComment = () => {
-  //   setComments(
-  //     comments.commnetsconcat({
-  //       id: comments.length + 1,
-  //       // content: input,
-  //       // userName: userDate,
-  //     })
-  //   );
   // };
 
   return (
