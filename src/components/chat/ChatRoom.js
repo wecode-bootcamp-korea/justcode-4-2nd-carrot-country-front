@@ -22,14 +22,21 @@ function ChatRoomDelay(props) {
 }
 
 function ChatRoom(props) {
-  const { roomId, product } = props;
+  const { roomId } = props;
   const [chats, setChats] = useState([]);
+  const [product, setProduct] = useState([]);
 
   useEffect(() => {
     if (roomId) {
-      getChats(roomId).then(data => setChats(data.chats));
+      getChats(roomId).then(data => {
+        console.log('DATA >> ', data);
+        setChats(data.chats);
+        setProduct(data.product);
+      });
     }
   }, [roomId]);
+  console.log('chat >> ', chats);
+  console.log('product >> ', product);
 
   useEffect(() => {
     socket.on('new_text', params => {
