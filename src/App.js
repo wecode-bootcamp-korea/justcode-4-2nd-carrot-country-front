@@ -12,7 +12,6 @@ import ProductList from 'pages/product/ProducInfo';
 import Chat from 'pages/chat/Chat';
 import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
 import DIDetail from 'pages/districtInfo/DistrictInfoDetail';
-// import Com from 'pages/districtInfo/test';
 
 function App() {
   return (
@@ -28,7 +27,6 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/district-info/register" element={<DIRegister />} />
           <Route path="/district-info/detail" element={<DIDetail />} />
-          {/* <Route path="/test" element={<Com />} /> */}
         </Routes>
         <Footer />
       </ContextProvider>
