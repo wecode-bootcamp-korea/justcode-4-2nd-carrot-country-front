@@ -12,17 +12,17 @@ import { getChats } from 'apis/chat';
 import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
-  const { useRoomId, product } = props;
+  const { useRoomId, roomInfo } = props;
 
   return useRoomId ? (
-    <ChatRoom roomId={useRoomId} product={product} />
+    <ChatRoom roomId={useRoomId} roomInfo={roomInfo} />
   ) : (
     <NotFoundRoom />
   );
 }
 
 function ChatRoom(props) {
-  const { roomId } = props;
+  const { roomId, roomInfo } = props;
   const [chats, setChats] = useState([]);
   const [product, setProduct] = useState([]);
 
@@ -52,6 +52,7 @@ function ChatRoom(props) {
         chats={chats}
         setChats={setChats}
         product={product}
+        roomInfo={roomInfo}
       />
       <ChatRoomFooter roomId={roomId} chats={chats} setChats={setChats} />
     </MainWrapper>

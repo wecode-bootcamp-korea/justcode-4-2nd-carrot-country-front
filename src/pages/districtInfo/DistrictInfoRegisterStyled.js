@@ -1,10 +1,15 @@
 import styled from 'styled-components';
-import theme from 'styles/theme';
 
 const Wrapper = styled.div`
   margin: auto;
   padding: 100px 0;
   max-width: 890px;
+
+  .imageTextWrapper {
+    font-size: 20px;
+    padding: 10px 15px;
+    color: silver;
+  }
 `;
 
 const PhotoLine = styled.div`
@@ -100,32 +105,6 @@ const PhotoInput = styled.input`
   display: none;
 `;
 
-const ButtonWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  margin: auto;
-  padding: 25px;
-  max-width: 1024px;
-`;
-
-const SubmitButton = styled.button`
-  display: flex;
-  width: 90px;
-  height: 40px;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  margin-right: 10px;
-  border: none;
-  color: white;
-  background-color: ${theme.signColor};
-  border-radius: 5px;
-
-  :hover {
-    cursor: pointer;
-  }
-`;
-
 export {
   Wrapper,
   PhotoLine,
@@ -134,6 +113,4 @@ export {
   PhotoTotal,
   PhotoLimit,
   PhotoInput,
-  ButtonWrapper,
-  SubmitButton,
 };

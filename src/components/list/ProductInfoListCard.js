@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { SERVER_PORT } from 'config';
 import styled from 'styled-components';
+import { priceFormat } from 'utils/format';
 
 const ProductInfoListCard = ({ data, maxWidth }) => {
   const navigate = useNavigate();
@@ -32,7 +33,9 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
         </ImageWrapper>
         <LettersWrapper>
           <ProductTitle>{title}</ProductTitle>
-          <ProductPrice>{price}</ProductPrice>
+          <ProductPrice>
+            {Number(price) ? priceFormat(price) + '원' : '무료나눔'}
+          </ProductPrice>
           <ProductDistrict>
             {city.cityName} {district.districtName}
           </ProductDistrict>
@@ -82,7 +85,6 @@ const ImageWrapper = styled.div`
   display: flex;
   flex: none;
   width: 100%;
-  object-fit: contain;
   aspect-ratio: 1/1;
 `;
 
@@ -91,6 +93,7 @@ const ImageItself = styled.img`
   border-radius: 15px;
   border: 1px solid silver;
   width: 100%;
+  object-fit: cover;
   aspect-ratio: 1/1;
 `;
 const LettersWrapper = styled.div``;

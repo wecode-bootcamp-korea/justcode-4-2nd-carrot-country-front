@@ -1,13 +1,12 @@
 import { useRef, useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
-
 import { type } from '@testing-library/user-event/dist/type';
 import { postProduct, postImage } from 'apis/product';
 import { SERVER_PORT } from 'config';
 import { UserContext } from 'context/context';
+import LeavePageButton from 'components/buttons/LeavePageButton';
 // import {
 //   ProductContext,
 //   ProductDispatchContext,
@@ -132,13 +131,14 @@ const Editor = props => {
       alert('사진을 등록해주세요');
       return;
     } else {
-      postProduct(sendableResult, imageResult);
+      postProduct(sendableResult, imageResult).then(data =>
+        props.setProductId(data.productId)
+      );
     }
   };
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
-      //추후에 props 받아와서 동네이름 수정해야함
       placeholder: `${user.city.cityName}시 ${user.district.districtName}에 올릴 게시글 내용을 작성해주세요. (가품 및 판매금지품목은 게시가 제한될 수 있어요.)`,
     });
   }, [user]);
@@ -189,6 +189,7 @@ const Editor = props => {
         >
           완료
         </SubmitButton>
+        <LeavePageButton content="취소" />
       </ButtonWrapper>
     </EditorBlock>
   ) : null;
@@ -322,15 +323,16 @@ const ButtonWrapper = styled.div`
 
 const SubmitButton = styled.button`
   display: flex;
-  width: 90px;
-  height: 40px;
   justify-content: center;
   align-items: center;
-  font-size: 20px;
+  margin-right: 8px;
   border: none;
+  border-radius: 5px;
+  width: 90px;
+  height: 40px;
   color: white;
   background-color: #f37802;
-  border-radius: 5px;
+  font-size: 20px;
 
   :hover {
     cursor: ${props => (props.button ? 'cursor' : null)};
