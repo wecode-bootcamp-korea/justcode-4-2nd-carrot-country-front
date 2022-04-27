@@ -1,10 +1,13 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
+
 import { type } from '@testing-library/user-event/dist/type';
 import { postProduct, postImage } from 'apis/product';
 import { SERVER_PORT } from 'config';
+import { UserContext } from 'context/context';
 // import {
 //   ProductContext,
 //   ProductDispatchContext,
@@ -13,6 +16,7 @@ import { SERVER_PORT } from 'config';
 
 const Editor = props => {
   //게시글 내용
+  const user = useContext(UserContext);
   const quillElement = useRef(null); //quill div ref
   const quillInstance = useRef(null); //quill 생성용
   const categorySelection = useRef(null);
@@ -22,7 +26,10 @@ const Editor = props => {
   const [allContents, setAllContents] = useState({
     title: '',
     categoryId: NaN,
-    price: NaN,
+    cityId: NaN,
+    districtId: NaN,
+    userId: NaN,
+    price: '0',
     description: '',
   }); //게시글 정보 묶어서 저장
 
@@ -36,15 +43,6 @@ const Editor = props => {
     ],
   });
 
-  //카테고리 받아와서 넘김
-  // useEffect(() => {
-  //   fetch('/data/categoriesMockData.json')
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setCategory(data);
-  //     });
-  // }, []);
-
   useEffect(() => {
     fetch(`${SERVER_PORT}/categories`, {
       method: 'GET',
@@ -54,13 +52,24 @@ const Editor = props => {
         setCategory(data);
       });
   }, []);
+  // useEffect(() => {
+  //   setAllContents({
+  //     ...allContents,
+  //     cityId: user.city.id,
+  //     districtId: user.district.id,
+  //     userId: user.id,
+  //   });
+  // }, []);
 
-  const formData = new FormData();
   //이미지 url 폼데이터로 변환 하는 함수
   const handleURLs = () => {
-    formData.append('images', props.imageURLs);
-    for (var value of formData.values()) {
-      console.log('formData>>', value);
+    console.log('images', props.selectedImage);
+    const formData = new FormData();
+    for (let i = 0; i < props.selectedImage.length; i++) {
+      formData.append('images', props.selectedImage[i]);
+    }
+    for (let value of formData.values()) {
+      console.log(value);
     }
     return formData;
   };
@@ -75,7 +84,10 @@ const Editor = props => {
   };
   //제목 저장
   const onChangeTitle = e => {
-    setAllContents({ ...allContents, title: e.target.value });
+    setAllContents({
+      ...allContents,
+      title: e.target.value,
+    });
   };
   //선택된 카테고리 저장
   const onCategorySelect = e => {
@@ -84,8 +96,14 @@ const Editor = props => {
 
   //게시글 내용을 저장하는 함수
   const handleSubmit = () => {
+    setAllContents({
+      ...allContents,
+      cityId: user.city.id,
+      districtId: user.district.id,
+      userId: user.id,
+    });
     const descriptionText = quillElement.current.innerText;
-    setAllContents({ ...allContents, description: descriptionText });
+    console.log(allContents);
     return { ...allContents, description: descriptionText };
   };
 
@@ -94,8 +112,9 @@ const Editor = props => {
   };
 
   //완료 버튼 클릭시 인풋 값 확인 후 전송
-  const onButtonClick = () => {
+  const onButtonClick = async () => {
     const sendableResult = handleSubmit();
+    const imageResult = handleURLs();
     if (sendableResult.description.length < 5) {
       alert('내용을 5자 이상 등록해주세요');
       return;
@@ -107,26 +126,24 @@ const Editor = props => {
     if (!sendableResult.categoryId || sendableResult.categoryId == '0') {
       onCategoryNotSelected();
       alert('카테고리를 선택해주세요');
-
       return;
     }
-    if (props.imageURLs.length < 1) {
+    if (props.selectedImage.length < 1) {
       alert('사진을 등록해주세요');
       return;
     } else {
-      postProduct(sendableResult);
-      postImage(handleURLs());
+      postProduct(sendableResult, imageResult);
     }
   };
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
       //추후에 props 받아와서 동네이름 수정해야함
-      placeholder: `봉래동2가에 올릴 게시글 내용을 작성해주세요. (가품 및 판매금지품목은 게시가 제한될 수 있어요.)`,
+      placeholder: `${user.city.cityName}시 ${user.district.districtName}에 올릴 게시글 내용을 작성해주세요. (가품 및 판매금지품목은 게시가 제한될 수 있어요.)`,
     });
-  }, []);
+  }, [user]);
 
-  return (
+  return user.id ? (
     <EditorBlock>
       <TitleInput placeholder=" 글 제목" onChange={e => onChangeTitle(e)} />
       <PriceAndCategoryWrapper>
@@ -174,7 +191,7 @@ const Editor = props => {
         </SubmitButton>
       </ButtonWrapper>
     </EditorBlock>
-  );
+  ) : null;
 };
 
 const EditorWrapper = styled.div`
