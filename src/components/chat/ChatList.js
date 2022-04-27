@@ -85,8 +85,7 @@ function ChatList(props) {
             </div>
             <div className="productImage">
               <img
-                src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
-                // src={`${SERVER_PORT}/${room.product.productImage[0].imageUrl}`}
+                src={`${SERVER_PORT}/${room.product.productImage[0].imageUrl}`}
                 alt="productImage"
               />
             </div>
