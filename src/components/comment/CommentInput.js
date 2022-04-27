@@ -1,18 +1,20 @@
 import React, { useEffect, useState, useContext } from 'react';
-import moment from 'moment';
+import { useLocation } from 'react-router-dom';
 import { UserContext } from 'context/context';
-// import { SERVER_PORT } from 'config';
+import moment from 'moment';
+import { SERVER_PORT } from 'config';
 import { getCommentDetail } from 'apis/comment';
 import UserProfile from 'components/profile/UserProfile';
 import { BsFillTrashFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 function CommentInput() {
-  const user = useContext(UserContext);
+  const location = useLocation();
   const [comment, setComment] = useState([]);
   // const [input, setInput] = useState();
   // const { userData } = useContext(UserContext);
   const [data, setData] = useState();
+  const user = useContext(UserContext);
 
   useEffect(() => {
     // fetch('http//localhost:3000/district-info/detail')
@@ -20,7 +22,9 @@ function CommentInput() {
     //   return res.json();
     // })
     getCommentDetail(1).then(data => {
-      setData(data.comments);
+      if (data.message === 'SUCCESS') {
+        setData(data.infoComments);
+      }
     });
   }, []);
 
@@ -28,7 +32,8 @@ function CommentInput() {
   //   setInput(e.target.value);
   // };
 
-  return (
+  console.log('data >>> ', data);
+  return data ? (
     <Comments>
       {/* {comment.map()} */}
       <UserProfile user={data.user} />
@@ -38,11 +43,13 @@ function CommentInput() {
       />
       <div
         dangerouslySetInnerHTML={{
-          __html: `<p>${data.content}</p>`,
+          __html: `<p>${data.comment}</p>`,
         }}
       />
       <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
     </Comments>
+  ) : (
+    <div></div>
   );
 }
 

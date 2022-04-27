@@ -1,5 +1,6 @@
 // import React, { useContext } from 'react';
 import { useContext, useEffect, useState } from 'react';
+import { UserContext } from 'context/context';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 import { SERVER_PORT } from 'config';
@@ -22,7 +23,6 @@ import {
   CommentTitle,
   CommentSignup,
 } from './DistrictInfoDetailStyled';
-import { UserContext } from 'context/context';
 
 function DIDetail() {
   const location = useLocation();

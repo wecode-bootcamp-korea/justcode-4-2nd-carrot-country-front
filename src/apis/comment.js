@@ -1,7 +1,7 @@
 import { SERVER_PORT } from 'config';
 
 export async function getCommentList() {
-  return await fetch(`${SERVER_PORT}/infos`, {
+  return await fetch(`${SERVER_PORT}/infos/comment/infold`, {
     headers: {
       token: localStorage.getItem('token') || sessionStorage.getItem('token'),
     },
@@ -10,8 +10,8 @@ export async function getCommentList() {
     .then(result => result);
 }
 
-export async function getCommentDetail(commentInfoId) {
-  return await fetch(`${SERVER_PORT}/infos/comment${commentInfoId}`)
+export async function getCommentDetail(infoCommentsId) {
+  return await fetch(`${SERVER_PORT}/infos/comment/${infoCommentsId}`)
     .then(res => res.json())
     .then(result => result);
 }
