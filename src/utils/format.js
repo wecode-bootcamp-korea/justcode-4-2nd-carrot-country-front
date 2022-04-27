@@ -1,7 +1,4 @@
 function priceFormat(price) {
-  if (price.length < 3) {
-    return price;
-  }
   let count = 0;
   let priceFormat = '';
   for (let i = price.length; i > 0; i--) {
@@ -13,8 +10,7 @@ function priceFormat(price) {
       count = 0;
     }
   }
-
-  return priceFormat;
+  return priceFormat[0] === ',' ? priceFormat.slice(1) : priceFormat;
 }
 
 export { priceFormat };
