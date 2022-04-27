@@ -1,11 +1,11 @@
 import styled from 'styled-components';
-
+import NoProductInfo from './NoProductInfo';
 import ProductInfoListCard from './ProductInfoListCard';
 
 function ProductInfoList(props) {
   const { maxWidth, data } = props;
-
-  return (
+  console.log('productInfoList js >>> ', data);
+  return data.length >= 1 ? (
     <AllWrapper>
       <ListWrapper>
         {data.map(data => (
@@ -14,6 +14,10 @@ function ProductInfoList(props) {
         {maxWidth === 800 && <MoreView> 더보기 </MoreView>}
       </ListWrapper>
     </AllWrapper>
+  ) : (
+    <>
+      <NoProductInfo />
+    </>
   );
 }
 

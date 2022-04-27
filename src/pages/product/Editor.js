@@ -325,7 +325,7 @@ const SubmitButton = styled.button`
   font-size: 20px;
 
   :hover {
-    cursor: ${props => (props.button ? 'cursor' : null)};
+    cursor: pointer;
   }
 `;
 
