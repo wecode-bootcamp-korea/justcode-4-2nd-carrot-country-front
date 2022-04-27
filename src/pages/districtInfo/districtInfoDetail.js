@@ -1,11 +1,13 @@
 // import React, { useContext } from 'react';
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import moment from 'moment';
 import { SERVER_PORT } from 'config';
+import { getDistrictDetail } from 'apis/district';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
-import { BsFillTrashFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
 // import { Usersign } from 'components/login/LoginStyle';
 
@@ -20,24 +22,25 @@ import {
   CommentTitle,
   CommentSignup,
 } from './DistrictInfoDetailStyled';
-
-const user = {
-  id: '1',
-  nickname: '최초사용자',
-  city: '서울',
-  district: '용산구',
-};
-const imageUrl = [
-  {
-    id: 1,
-    imageUrl: 'aaaaa1650789523542.jpg',
-  },
-];
+import { UserContext } from 'context/context';
 
 function DIDetail() {
+  const location = useLocation();
   const [comment, setComment] = useState([]);
+  const [comments, setComments] = useState([]);
   const [heart, setHeart] = useState('lightgray');
+  const [data, setData] = useState();
+  const myInfo = useContext(UserContext);
   // const [trash, setTrash] = useState('');
+  // const districtInfoId = location?.state.districtInfoId;
+
+  useEffect(() => {
+    getDistrictDetail(1).then(data => {
+      if (data.message === 'SUCCESS') {
+        setData(data.districtInfo);
+      }
+    });
+  }, []);
 
   const handleComment = e => {
     setComment(e.target.value);
@@ -69,26 +72,40 @@ function DIDetail() {
   //   const_comments = comments.filter((key) => key.id !== id);
   // };
 
-  return (
+  // const addComment = () => {
+  //   setComments(
+  //     comments.commnetsconcat({
+  //       id: comments.length + 1,
+  //       // content: input,
+  //       // userName: userDate,
+  //     })
+  //   );
+  // };
+
+  console.log('data >> ', data);
+  return data ? (
     <MainWrapper>
-      <ImageSlider images={imageUrl} />
+      {data.districtInfoImage && (
+        <ImageSlider images={data.districtInfoImage} />
+      )}
       <InfoWrapper>
         <UserInfo>
-          <UserProfile user={user} />
+          <UserProfile user={data.user} />
         </UserInfo>
         <Line />
         <InfoTop>
-          <h1>우리 동네 카페 추천해요</h1>
+          <h1>{data.title}</h1>
         </InfoTop>
         <InfoBottom>
           <div
             dangerouslySetInnerHTML={{
-              __html: `<p>이번 주말에 날씨가 좋아 용산역에서 가까운 카페 가봤네요~</p><p>새로 오픈한 카페여서 그런지 깔끔하고 직원분들도 친절하시네여ㅎㅎ</p><p>디저트도 짱 맛!! 추천합니당!! ㅎㅎ</p>`,
+              __html: `<p>${data.content}</p>`,
             }}
           />
           <div>
-            <span>4시간 전</span>
-            <span>조회 72</span>
+            <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
+            <span>조회 {data.viewCount ? data.viewCount : 0}</span>
+            <span>좋아요 {data.districtInfoLiked.length}</span>
           </div>
         </InfoBottom>
       </InfoWrapper>
@@ -118,6 +135,8 @@ function DIDetail() {
         </form>
       </CommentSignup>
     </MainWrapper>
+  ) : (
+    <div></div>
   );
 }
 
