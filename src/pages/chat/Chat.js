@@ -10,20 +10,29 @@ import styled from 'styled-components';
 function Chat() {
   const location = useLocation();
   const roomId = location.state?.roomId;
+
   const [useRoomId, setUseRoomId] = useState(roomId ? roomId : null);
+
   return (
     <MainWrapper>
       <section className="chatContainer" id="chatListWrapper">
         <ChatList useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
       </section>
       <section className="chatContainer" id="chatRoomWrapper">
-        <ChatRoom useRoomId={useRoomId} setUseRoomId={setUseRoomId} />
+        <ChatRoom
+          useRoomId={useRoomId}
+          setUseRoomId={setUseRoomId}
+          // product={product}
+        />
       </section>
     </MainWrapper>
   );
 }
 
 const MainWrapper = styled.main`
+  #chatRoomWrapper {
+    position: relative;
+  }
   @media (max-width: 890px) {
     #chatListWrapper {
       display: none;
@@ -47,11 +56,10 @@ const MainWrapper = styled.main`
   padding-top: 70px;
   #chatListWrapper {
     flex: 1;
-    border: 1px solid red;
   }
   #chatRoomWrapper {
     flex: 2;
-    border: 1px solid blue;
   }
 `;
+
 export default Chat;

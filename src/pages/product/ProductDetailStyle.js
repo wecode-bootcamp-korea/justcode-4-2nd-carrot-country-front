@@ -83,5 +83,27 @@ const InfoBottom = styled.div`
     }
   }
 `;
-
-export { MainWrapper, InfoWrapper, UserInfo, Line, InfoTop, InfoBottom };
+const InfoLike = styled.div`
+  display: flex;
+  width: fit-content;
+  padding: 20px 0px;
+  border-bottom: 1px solid #99999940;
+  cursor: pointer;
+  span {
+    font-weight: 500;
+  }
+  svg {
+    margin-left: 6px;
+    color: ${props =>
+      props.isIntrested ? props.theme.signColor : '#66666647'};
+  }
+`;
+export {
+  MainWrapper,
+  InfoWrapper,
+  UserInfo,
+  Line,
+  InfoTop,
+  InfoBottom,
+  InfoLike,
+};

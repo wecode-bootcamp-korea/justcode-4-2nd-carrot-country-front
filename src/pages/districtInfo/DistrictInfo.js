@@ -1,34 +1,74 @@
-import { useState, useEffect } from 'react';
-import { SERVER_PORT } from '../../config';
+import { useState, useEffect, useContext } from 'react';
+import styled from 'styled-components';
 import SubmitButton from 'components/buttons/RegisterButton';
 import ListTitle from 'components/list/ListTitle';
 import AreaTag from 'components/list/AreaTag';
 import DistrictInfoList from 'components/list/DistrictInfoList';
+import { getDistrictList } from 'apis/district';
+import { UserContext } from 'context/context';
+import { FaRegSadTear } from 'react-icons/fa';
 
-function DistrictInfo() {
+function DistrictInfoDelay() {
+  const user = useContext(UserContext);
+  const [isLogin, setIsLogin] = useState(Boolean(user.id));
   const [districtInfoData, setDistrictInfoData] = useState(mockdata);
 
   useEffect(() => {
-    fetch(`${SERVER_PORT}/infos`)
-      .then(res => res.json())
-      .then(result => setDistrictInfoData(result.districtInfos));
-  }, []);
+    setIsLogin(Boolean(user.id));
+  }, [user]);
+
+  useEffect(() => {
+    getDistrictList().then(data => setDistrictInfoData(data.districtInfos));
+  }, [isLogin]);
+
+  return isLogin ? (
+    <DistrictInfo data={districtInfoData} user={user} />
+  ) : (
+    <DistrictInfoNoLogin />
+  );
+}
+
+function DistrictInfoNoLogin() {
+  return (
+    <NoLoginWrapper>
+      <FaRegSadTear />
+      <p>우리 동네 소식은 로그인 후에 볼 수 있습니다</p>
+    </NoLoginWrapper>
+  );
+}
+
+function DistrictInfo(props) {
+  const { data, user } = props;
 
   return (
     <div>
       <ListTitle title="우리 동네 소식" />
       <AreaTag
         maxWidth={1024}
-        city={districtInfoData[0].city.cityName}
-        district={districtInfoData[0].district.districtName}
+        city={user.city.cityName}
+        district={user.district.districtName}
       />
-      <DistrictInfoList maxWidth={1024} data={districtInfoData} />
+      {data ? (
+        <DistrictInfoList maxWidth={1024} data={data} />
+      ) : (
+        <NoDistrictInfoData />
+      )}
       <SubmitButton />
     </div>
   );
 }
 
-export default DistrictInfo;
+function NoDistrictInfoData() {
+  return (
+    <NoDataTextWrapper>
+      <FaRegSadTear />
+      <p>이 지역에는 게시글이 없습니다</p>
+      <p>우리 동네 첫 소식을 등록해주세요!</p>
+    </NoDataTextWrapper>
+  );
+}
+
+export default DistrictInfoDelay;
 
 const mockdata = [
   {
@@ -52,3 +92,41 @@ const mockdata = [
     ],
   },
 ];
+
+const NoLoginWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 200px 0 200px 0;
+  font-size: 150px;
+  color: silver;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  :first-child {
+    padding-bottom: 200px;
+  }
+  p {
+    color: silver;
+    font-size: 20px;
+    padding-top: 10px;
+  }
+`;
+
+const NoDataTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 70px 0 140px 0;
+  font-size: 150px;
+  color: silver;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  :first-child {
+    padding-bottom: 200px;
+  }
+  p {
+    color: silver;
+    font-size: 20px;
+    padding-top: 10px;
+  }
+`;
