@@ -22,6 +22,8 @@ import {
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
 
+const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
 function ProductDetailDelay() {
   const location = useLocation();
   const { productId } = location.state;
@@ -50,18 +52,18 @@ function ProductDetail(props) {
   };
 
   const handleInterested = () => {
-    if (me.id === '') {
+    if (!token) {
       alert('로그인 후 이용 가능합니다.');
       return;
     }
     if (isIntrested) {
-      deleteIntrested(product.id, me.id).then(data =>
+      deleteIntrested(product.id).then(data =>
         data.message === 'UNLIKED SUCEESS'
           ? setIsIntrested(false)
           : alert('오류가 발생했습니다.')
       );
     } else {
-      updateIntrested(product.id, me.id).then(data =>
+      updateIntrested(product.id).then(data =>
         data.message === 'LIKED SUCCESS'
           ? setIsIntrested(true)
           : alert('오류가 발생했습니다.')
