@@ -37,15 +37,16 @@ function ProductDetailDelay() {
 }
 function ProductDetail(props) {
   const navigate = useNavigate();
-  const me = useContext(UserContext);
+  const myInfo = useContext(UserContext);
   const { product } = props;
   const [isIntrested, setIsIntrested] = useState(
     product.productIntrested.filter(item => {
-      return me.id === item.user.id;
+      return myInfo.id === item.user.id;
     }).length > 0
       ? true
       : false
   );
+  const isMe = myInfo.id === product.user.id;
 
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
@@ -76,12 +77,16 @@ function ProductDetail(props) {
       <InfoWrapper>
         <UserInfo>
           <UserProfile user={product.user} />
-          <div
-            className="ChatBtn"
-            onClick={() => handleCreateRoom(me.id, product.id, handleCallback)}
-          >
-            <span>판매자와 채팅하기</span>
-          </div>
+          {!isMe && (
+            <div
+              className="ChatBtn"
+              onClick={() =>
+                handleCreateRoom(myInfo.id, product.id, handleCallback)
+              }
+            >
+              <span>판매자와 채팅하기</span>
+            </div>
+          )}
         </UserInfo>
         <Line />
         <InfoTop>

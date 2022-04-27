@@ -34,6 +34,7 @@ function Signup(props) {
   const [useCity, setUseCity] = useState('');
   const [useDistrict, setUseDistrict] = useState('');
   const [usePolicy, setUsePolicy] = useState(false);
+  const [useFadeOut, setUseFadeOut] = useState(false);
 
   const handleId = e => {
     const { value } = e.target;
@@ -96,8 +97,11 @@ function Signup(props) {
       return alert('이용약관을 동의 해주세요');
     }
     signupUser(useId, useName, usePw, useCity, useDistrict).then(() => {
-      alert('당근나라 가입을 환영합니다.');
-      setVisible(false);
+      setUseFadeOut(true);
+      setTimeout(() => {
+        setVisible(false);
+        setUseFadeOut(false);
+      }, 500);
     });
   };
   return (
@@ -105,6 +109,7 @@ function Signup(props) {
       title="당근가입"
       visible={visible}
       setVisible={setVisible}
+      useFadeOut={useFadeOut}
       // closeBtn={true}
       // width="100px"
       // height="700px"
