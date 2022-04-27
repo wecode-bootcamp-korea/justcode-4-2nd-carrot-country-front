@@ -44,6 +44,7 @@ function Header() {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       dispatch({ type: 'LOGOUT' });
+      navigate('/');
     }
   };
   return (

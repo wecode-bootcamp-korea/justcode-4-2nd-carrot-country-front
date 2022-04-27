@@ -29,14 +29,11 @@ function ChatRoom(props) {
   useEffect(() => {
     if (roomId) {
       getChats(roomId).then(data => {
-        console.log('DATA >> ', data);
         setChats(data.chats);
         setProduct(data.product);
       });
     }
   }, [roomId]);
-  console.log('chat >> ', chats);
-  console.log('product >> ', product);
 
   useEffect(() => {
     socket.on('new_text', params => {

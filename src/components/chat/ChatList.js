@@ -3,10 +3,10 @@ import { handleEnterRoom } from 'apis/socket';
 import { getChatRooms } from 'apis/chat';
 import { UserContext } from 'context/context';
 import { SERVER_PORT, CLIENT_PORT } from 'config';
+import moment from 'moment';
 
 import { ImList } from 'react-icons/im';
 import styled from 'styled-components';
-import moment from 'moment';
 
 function ChatListDelay(props) {
   const { useRoomId, setUseRoomId } = props;
@@ -14,7 +14,12 @@ function ChatListDelay(props) {
   const myInfo = useContext(UserContext);
 
   useEffect(() => {
-    getChatRooms(myInfo.id).then(data => setRooms(data.rooms));
+    getChatRooms(myInfo.id).then(data => {
+      data.rooms.sort((a, b) => {
+        return a.chat[0]?.createdAt > b.chat[0]?.createdAt ? -1 : 1;
+      });
+      setRooms(data.rooms);
+    });
   }, [myInfo]);
 
   return (
@@ -41,58 +46,72 @@ function ChatListDelay(props) {
 }
 
 function ChatList(props) {
-  const { myInfo, rooms, useRoomId, setUseRoomId } = props;
+  const { rooms, useRoomId, setUseRoomId } = props;
+
   const handleCallback = roomId => {
     setUseRoomId(roomId);
   };
 
   return (
-    <ChatRoomWrapper>
+    <ChatListWrapper>
       {rooms.map(room => {
-        const otherUser =
-          myInfo.id === room.buyer.id
-            ? room.product.user.nickname
-            : room.buyer.nickname;
-        const otherUserDistrict =
-          myInfo.id === room.buyer.id
-            ? room.product.user.district.districtName
-            : myInfo.district.districtName;
-        const lastTime = room.lastVisitAt ? room.lastVisitAt : room.createdAt;
-
-        const isEnter = useRoomId === room.id;
-
         return (
-          <ItemWrapper
-            isEnter={isEnter}
+          <ChatListItem
             key={room.id}
-            onClick={() => {
-              handleEnterRoom(room.id, handleCallback);
-            }}
-          >
-            <div className="userImage">
-              <img
-                src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
-                alt="userImage"
-              />
-            </div>
-            <div className="userMiddle">
-              <div className="userInfo">
-                <span>{otherUser}</span>
-                <span>{otherUserDistrict}</span>
-                <span>{moment(lastTime).format('HH:mm')}</span>
-              </div>
-              <p className="lastChat">{room.chat[0]?.text}</p>
-            </div>
-            <div className="productImage">
-              <img
-                src={`${SERVER_PORT}/${room.product.productImage[0].imageUrl}`}
-                alt="productImage"
-              />
-            </div>
-          </ItemWrapper>
+            room={room}
+            useRoomId={useRoomId}
+            handleCallback={handleCallback}
+          />
         );
       })}
-    </ChatRoomWrapper>
+    </ChatListWrapper>
+  );
+}
+
+function ChatListItem(props) {
+  const { room, useRoomId, handleCallback } = props;
+  const myInfo = useContext(UserContext);
+  const otherUser =
+    myInfo.id === room.buyer.id
+      ? room.product.user.nickname
+      : room.buyer.nickname;
+  const otherUserDistrict =
+    myInfo.id === room.buyer.id
+      ? room.product.user.district.districtName
+      : myInfo.district.districtName;
+  const lastTime = room.lastVisitAt ? room.lastVisitAt : room.createdAt;
+
+  const isEnter = useRoomId === room.id;
+
+  return (
+    <ItemWrapper
+      isEnter={isEnter}
+      key={room.id}
+      onClick={() => {
+        handleEnterRoom(room.id, handleCallback);
+      }}
+    >
+      <div className="userImage">
+        <img
+          src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
+          alt="userImage"
+        />
+      </div>
+      <div className="userMiddle" id={room.id}>
+        <div className="userInfo">
+          <span>{otherUser}</span>
+          <span>{otherUserDistrict}</span>
+          <span>{moment(lastTime).format('HH:mm')}</span>
+        </div>
+        <p className="lastChat">{room.chat[0]?.text}</p>
+      </div>
+      <div className="productImage">
+        <img
+          src={`${SERVER_PORT}/${room.product.productImage[0].imageUrl}`}
+          alt="productImage"
+        />
+      </div>
+    </ItemWrapper>
   );
 }
 
@@ -106,6 +125,8 @@ function NotFoundRooms() {
 }
 const MainWrapper = styled.div`
   height: 100%;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid #f0f0f0;
   border-left: 1px solid #f0f0f0;
 `;
@@ -128,7 +149,7 @@ const ChatProfile = styled.div`
   }
 `;
 
-const ChatRoomWrapper = styled.div`
+const ChatListWrapper = styled.div`
   height: 100%;
   overflow: scroll;
 `;
