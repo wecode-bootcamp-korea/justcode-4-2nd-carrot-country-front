@@ -42,7 +42,6 @@ function ChatListDelay(props) {
 
 function ChatList(props) {
   const { myInfo, rooms, useRoomId, setUseRoomId } = props;
-  console.log('rooms >> ', rooms, myInfo);
   const handleCallback = roomId => {
     setUseRoomId(roomId);
   };
@@ -53,7 +52,7 @@ function ChatList(props) {
         const otherUser =
           myInfo.id === room.buyer.id
             ? room.product.user.nickname
-            : room.myInfo.nickname;
+            : room.buyer.nickname;
         const otherUserDistrict =
           myInfo.id === room.buyer.id
             ? room.product.user.district.districtName
