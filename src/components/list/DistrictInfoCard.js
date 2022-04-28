@@ -52,6 +52,9 @@ const Size = styled.div`
   width: ${props => props.maxWidth};
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  * {
+    cursor: pointer;
+  }
 `;
 
 const CardWrapper = styled.div`

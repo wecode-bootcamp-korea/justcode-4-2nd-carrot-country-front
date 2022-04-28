@@ -4,6 +4,7 @@ const MainWrapper = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 70px;
+  cursor: pointer;
 `;
 
 const InfoWrapper = styled.section`
