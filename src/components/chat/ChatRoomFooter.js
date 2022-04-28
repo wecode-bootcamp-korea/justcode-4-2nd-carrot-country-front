@@ -31,13 +31,13 @@ function ChatRoomFooter(props) {
   };
 
   const handleCallback = params => {
-    params.isMyChat = true;
     setChats([...chats, params]);
   };
 
   return (
     <MainWrapper>
-      <textarea
+      <input
+        type="text"
         className="chatInput"
         value={useText}
         onChange={handleText}
@@ -59,7 +59,6 @@ const MainWrapper = styled.div`
   border-radius: 0.3em;
   margin-left: 15px;
   width: 95%;
-  height: 100px;
   background-color: white;
 
   .chatInput {
@@ -70,6 +69,7 @@ const MainWrapper = styled.div`
     height: 100%;
     font-size: 15px;
     :placeholder-shown {
+      font-size: 13px;
       opacity: 0.5;
     }
     :focus {

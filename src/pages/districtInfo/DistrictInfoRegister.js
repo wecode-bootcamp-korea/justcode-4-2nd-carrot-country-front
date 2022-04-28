@@ -16,15 +16,30 @@ import { TiDelete } from 'react-icons/ti';
 
 function DistrictInfoRegister() {
   const location = useLocation();
-  const [title, setTitle] = useState('');
-  const [text, setText] = useState('');
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
+  const [districtInfoId, setdistrictInfoId] = useState(0);
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
 
-  usePrompt('변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?', true);
+  usePrompt(
+    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
+    !Boolean(districtInfoId)
+  );
+
+  useEffect(() => {
+    if (Boolean(districtInfoId)) {
+      goToDetail();
+    }
+  }, [districtInfoId]);
+
+  const goToDetail = () => {
+    navigate(`/district-info/detail`, {
+      state: { districtInfoId: districtInfoId },
+    });
+  };
 
   useLayoutEffect(() => {
     document.documentElement.scrollTo(0, 0);
@@ -33,6 +48,27 @@ function DistrictInfoRegister() {
   const onPhotoButtonClick = () => {
     hiddenFileInput.current.click();
   };
+
+  useEffect(() => {
+    if (selectedImage.length === 0) {
+      return;
+    }
+    if (selectedImage.length > 10) {
+      alert('사진을 10개를 초과할 수 없어요');
+      setSelectedImage([]);
+      setImageURLs([]);
+      return;
+    }
+  }, [selectedImage]);
+
+  useEffect(() => {
+    const newImageURLs = [];
+    selectedImage.forEach(image =>
+      newImageURLs.push(URL.createObjectURL(image))
+    );
+    setImageURLs(newImageURLs);
+  }, [selectedImage]);
+
   const onImageChange = event => {
     setSelectedImage([...event.target.files]);
   };
@@ -63,26 +99,6 @@ function DistrictInfoRegister() {
   //   setOpenModal(true);
   // };
 
-  useEffect(() => {
-    if (selectedImage.length === 0) {
-      return;
-    }
-    if (selectedImage.length > 10) {
-      alert('사진을 10개를 초과할 수 없어요');
-      setSelectedImage([]);
-      setImageURLs([]);
-      return;
-    }
-  }, [selectedImage]);
-
-  useEffect(() => {
-    const newImageURLs = [];
-    selectedImage.forEach(image =>
-      newImageURLs.push(URL.createObjectURL(image))
-    );
-    setImageURLs(newImageURLs);
-  }, [selectedImage]);
-
   return (
     <Wrapper>
       <div className="imageTextWrapper">
@@ -98,6 +114,7 @@ function DistrictInfoRegister() {
           <PhotoInput
             type="file"
             ref={hiddenFileInput}
+            name={'images/*'}
             accept={'image/*'}
             multiple
             onChange={e => {
@@ -122,12 +139,15 @@ function DistrictInfoRegister() {
               onClick={() => setOpenModal(true)}
               // onClick={() =>
               //   console.log('imageSrc: ', imageSrc, 'key: ', index)
-              // }
+              //
             />
           </div>
         ))}
       </PhotoLine>
-      <Editor setTitle={setTitle} setText={setText} />
+      <Editor
+        selectedImage={selectedImage}
+        setdistrictInfoId={setdistrictInfoId}
+      />
     </Wrapper>
   );
 }

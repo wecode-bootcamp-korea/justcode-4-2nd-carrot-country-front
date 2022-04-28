@@ -85,17 +85,24 @@ const InfoBottom = styled.div`
 `;
 const InfoLike = styled.div`
   display: flex;
-  width: fit-content;
   padding: 20px 0px;
+  margin-bottom: 20px;
   border-bottom: 1px solid #99999940;
-  cursor: pointer;
   span {
     font-weight: 500;
   }
   svg {
+    cursor: pointer;
     margin-left: 6px;
     color: ${props =>
       props.isIntrested ? props.theme.signColor : '#66666647'};
+  }
+`;
+const ProductsWrapper = styled.div`
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
   }
 `;
 export {
@@ -106,4 +113,5 @@ export {
   InfoTop,
   InfoBottom,
   InfoLike,
+  ProductsWrapper,
 };

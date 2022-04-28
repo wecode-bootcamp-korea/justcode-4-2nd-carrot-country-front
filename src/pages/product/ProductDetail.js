@@ -5,12 +5,16 @@ import {
   deleteIntrested,
   getProductDetail,
   updateIntrested,
+  getProductList,
+  getProductListBest,
 } from 'apis/product';
 import { UserContext } from 'context/context';
 import { priceFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
+import ProductInfoList from 'components/list/ProductInfoList';
+
 import {
   MainWrapper,
   InfoWrapper,
@@ -19,25 +23,37 @@ import {
   InfoTop,
   InfoBottom,
   InfoLike,
+  ProductsWrapper,
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
 import Loading from 'components/loading/Loading';
 
 function ProductDetailDelay() {
   const location = useLocation();
+  const myInfo = useContext(UserContext);
   const { productId } = location.state;
   const [product, setProduct] = useState();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProductDetail(productId).then(data => setProduct(data.product));
-  }, [productId]);
+    if (myInfo.id === '') {
+      getProductListBest().then(data => setProducts(data.bestProduct));
+    } else {
+      getProductList().then(data => setProducts(data.productList));
+    }
+  }, [productId, myInfo.id]);
 
-  return product ? <ProductDetail product={product} /> : <Loading />;
+  return product ? (
+    <ProductDetail product={product} products={products} />
+  ) : (
+    <Loading />
+  );
 }
 function ProductDetail(props) {
   const navigate = useNavigate();
   const myInfo = useContext(UserContext);
-  const { product } = props;
+  const { product, products } = props;
   const [isIntrested, setIsIntrested] = useState(
     product.productIntrested.filter(item => {
       return myInfo.id === item.user.id;
@@ -113,10 +129,14 @@ function ProductDetail(props) {
             <span>조회 {product.viewCount}</span>
           </div>
         </InfoBottom>
-        <InfoLike onClick={handleInterested} isIntrested={isIntrested}>
+        <InfoLike isIntrested={isIntrested}>
           <span>관심</span>
-          <BsHeartFill />
+          <BsHeartFill onClick={handleInterested} />
         </InfoLike>
+        <ProductsWrapper>
+          {myInfo.id === '' ? <h2>인기매물</h2> : <h2>우리동네 매물</h2>}
+          {products.length > 0 && <ProductInfoList data={products} />}
+        </ProductsWrapper>
       </InfoWrapper>
     </MainWrapper>
   );
