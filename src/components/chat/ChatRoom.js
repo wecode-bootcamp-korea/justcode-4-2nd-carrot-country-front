@@ -12,13 +12,9 @@ import { getChats } from 'apis/chat';
 import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
-  const { useRoomId, roomInfo } = props;
+  const { useRoomId } = props;
 
-  return useRoomId ? (
-    <ChatRoom roomId={useRoomId} roomInfo={roomInfo} />
-  ) : (
-    <NotFoundRoom />
-  );
+  return useRoomId ? <ChatRoom roomId={useRoomId} /> : <NotFoundRoom />;
 }
 
 function ChatRoom(props) {
