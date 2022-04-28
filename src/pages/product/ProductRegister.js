@@ -5,7 +5,6 @@ import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
-import { postProduct } from 'apis/product';
 
 const Register = () => {
   const location = useLocation();
@@ -70,7 +69,7 @@ const Register = () => {
   }; //파일 업로드
 
   const deleteImage = src => {
-    if (imageURLs.length == 0) {
+    if (imageURLs.length === 0) {
       return;
     } else {
       const imageIndex = imageURLs.indexOf(src);
@@ -106,15 +105,15 @@ const Register = () => {
             method="post"
             encType="multipart/form-data"
           >
-            <BsFillCameraFill className={'camera'} />
+            <BsFillCameraFill className="camera" />
             <PhotoCount>
               <PhotoTotal>{selectedImage.length}</PhotoTotal>
               <PhotoLimit> /10</PhotoLimit>
             </PhotoCount>
             <PhotoInput
-              type={'file'}
+              type="file"
               ref={hiddenFileInput}
-              name={'images'}
+              name={'images/*'}
               accept={'image/*'}
               multiple
               onChange={e => {
@@ -126,13 +125,14 @@ const Register = () => {
           {imageURLs.map((imageSrc, index) => (
             <div key={index} className="imageContainer">
               <TiDelete
-                className={'photoDiscard'}
+                className="photoDiscard"
                 value={imageSrc}
                 onClick={() => deleteImage(imageSrc)}
               />
               <img
                 src={imageSrc}
-                className={'eachImage'}
+                alt="selectedimage"
+                className="eachImage"
                 value={imageSrc}
                 ref={imageRef}
                 onClick={() => setOpenModal(true)}
@@ -144,12 +144,16 @@ const Register = () => {
         <PhotoModal onClick={() => setOpenModal(false)} open={openModal}>
           <ModalPhotoLine>
             <TiDelete
-              className={'modalTurnOff'}
+              className="modalTurnOff"
               onClick={() => setOpenModal(false)}
             />
             {imageURLs.map((imageSrc, index) => (
               <ModalImageContainer key={index}>
-                <img src={imageSrc} className={'modalEachImage'} />
+                <img
+                  alt="productimage"
+                  src={imageSrc}
+                  className="modalEachImage"
+                />
               </ModalImageContainer>
             ))}
           </ModalPhotoLine>
