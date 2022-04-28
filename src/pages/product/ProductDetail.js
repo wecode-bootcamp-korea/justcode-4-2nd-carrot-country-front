@@ -105,7 +105,6 @@ function ProductDetail(props) {
       );
     }
   };
-  console.log(product);
   return (
     <MainWrapper>
       <ImageSlider images={product.productImage} />
