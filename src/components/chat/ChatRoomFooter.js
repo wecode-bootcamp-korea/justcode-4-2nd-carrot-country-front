@@ -37,15 +37,16 @@ function ChatRoomFooter(props) {
 
   return (
     <MainWrapper>
-      <input
+      <textarea
         className="chatInput"
         value={useText}
         onChange={handleText}
         onKeyDown={handleEnterKey}
+        placeholder="메시지를 입력해주세요"
       />
       <BsFillArrowUpCircleFill
         className="submitBtn"
-        size={24}
+        size={30}
         onClick={handleSubmit}
       />
     </MainWrapper>
@@ -63,11 +64,14 @@ const MainWrapper = styled.div`
 
   .chatInput {
     flex: 1;
-    align-self: flex-start;
     padding: 10px;
     border: 0;
     border-radius: 0.3em;
+    height: 100%;
     font-size: 15px;
+    :placeholder-shown {
+      opacity: 0.5;
+    }
     :focus {
       outline: none;
     }
@@ -75,6 +79,7 @@ const MainWrapper = styled.div`
   .submitBtn {
     align-self: flex-end;
     margin: 10px;
+
     color: ${props => props.theme.signColor};
   }
 `;

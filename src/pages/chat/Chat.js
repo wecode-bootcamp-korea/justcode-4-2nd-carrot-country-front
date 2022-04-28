@@ -50,7 +50,6 @@ const MainWrapper = styled.main`
   height: 100vh;
   padding-bottom: 10px;
   padding-top: 70px;
-  overflow: hidden;
   #chatListWrapper {
     flex: 1;
   }

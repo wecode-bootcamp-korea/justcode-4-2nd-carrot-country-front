@@ -122,7 +122,7 @@ const ChatProfile = styled.div`
     border-radius: 100%;
   }
   h1 {
-    margin-right: 15px;
+    margin: auto 20px;
     font-size: 18px;
     font-weight: bold;
   }
@@ -178,10 +178,14 @@ const ItemWrapper = styled.div`
     }
   }
   .productImage {
+    width: 44px;
+    height: 44px;
     img {
-      width: 44px;
+      width: 100%;
+      height: 100%;
       border: 0.5px solid silver;
       border-radius: 5px;
+      object-fit: cover;
     }
   }
 `;

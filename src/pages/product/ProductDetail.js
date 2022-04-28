@@ -97,7 +97,9 @@ function ProductDetail(props) {
           </div>
           <div>
             <span>
-              {product.price ? priceFormat(product.price) + '원' : '무료나눔'}
+              {Number(product.price)
+                ? priceFormat(product.price) + '원'
+                : '무료나눔'}
             </span>
           </div>
         </InfoTop>
