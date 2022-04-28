@@ -6,6 +6,7 @@ const MainWrapper = styled.div`
   flex: 1;
   flex-direction: column-reverse;
   overflow-y: scroll;
+  padding: 0 10px;
   .textWrapper {
     li {
       display: flex;
