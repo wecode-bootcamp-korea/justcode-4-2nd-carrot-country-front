@@ -12,3 +12,15 @@ export async function postComment(districtInfoId, comment) {
     .then(res => res.json())
     .then(result => result);
 }
+
+export async function getCommentList(commentId) {
+  return await fetch(`${SERVER_PORT}/infos/${commentId}/comment`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+  })
+    .then(res => res.json())
+    .then(data => data);
+}

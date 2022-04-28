@@ -30,11 +30,12 @@ function DIDetail() {
   const [comment, setComment] = useState('');
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
-  // const myInfo = useContext(UserContext);
+  const [forceUpdate, setForceUpdate] = useState(false);
   // const [trash, setTrash] = useState('');
 
   useEffect(() => {
     getDistrictDetail(districtInfoId).then(data => {
+      console.log('dfd', districtInfoId);
       if (data.message === 'SUCCESS') {
         setData(data.districtInfo);
       }
@@ -46,11 +47,9 @@ function DIDetail() {
 
   const handleSubmit = () => {
     comment !== '' && postComment(districtInfoId, comment);
+    setComment('');
+    setForceUpdate(!forceUpdate);
   };
-
-  //   const onChange = e => {
-  //   setInput(e.target.value);
-  // };
 
   const handleHeart = () => {
     heart === 'lightgray' ? setHeart('tomato') : setHeart('lightgray');
@@ -60,16 +59,6 @@ function DIDetail() {
   //   // setTrashs(trashs.filter(trash => trash.id !== id));
   //   const {comments} = this.state;
   //   const_comments = comments.filter((key) => key.id !== id);
-  // };
-
-  // const addComment = () => {
-  //   setComments(
-  //     comments.commnetsconcat({
-  //       id: comments.length + 1,
-  //       // content: input,
-  //       // userName: userDate,
-  //     })
-  //   );
   // };
 
   return data ? (
@@ -94,7 +83,7 @@ function DIDetail() {
           <div>
             <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
             <span>조회 {data.viewCount ? data.viewCount : 0}</span>
-            <span>좋아요 {data.districtInfoLiked.length}</span>
+            {/* <span>좋아요 {data.districtInfoLiked.length}</span> */}
           </div>
         </InfoBottom>
       </InfoWrapper>
@@ -107,12 +96,16 @@ function DIDetail() {
             onClick={handleHeart}
           />
         </CommentTitle>
-        <CommentInput districtInfoId={districtInfoId} />
+        <CommentInput
+          forceUpdate={forceUpdate}
+          districtInfoId={districtInfoId}
+        />
       </CommentsWrapper>
       <CommentSignup>
         <form>
           <input
             type="text"
+            value={comment}
             onChange={e => handleComment(e)}
             placeholder="댓글을 입력해주세요"
           />

@@ -1,66 +1,60 @@
-import React, { useEffect, useState, useContext } from 'react';
-
-import { UserContext } from 'context/context';
+import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
-// import { SERVER_PORT } from 'config';
+import { getCommentList } from 'apis/comment';
 
 import UserProfile from 'components/profile/UserProfile';
 import { BsFillTrashFill } from 'react-icons/bs';
 import styled from 'styled-components';
+import { UserContext } from 'context/context';
 
-function CommentInput() {
-  // const [input, setInput] = useState();
-  // const { userData } = useContext(UserContext);
+function CommentInput(props) {
+  const { districtInfoId, forceUpdate } = props;
   const [data, setData] = useState();
-  const user = useContext(UserContext);
+  const myInfo = useContext(UserContext);
 
   useEffect(() => {
-    // fetch('http//localhost:3000/district-info/detail').then(res => {
-    //   return res.json();
-    // });
-  }, []);
-
-  // useEffect(() => {
-  //   getCommentList(infoCommentsId).then(data => {
-  //     if (data.message === 'SUCCESS') {
-  //       setData(data.infoCommentsId);
-  //     }
-  //   });
-  // }, [infoCommentsId]);
+    getCommentList(districtInfoId).then(data => {
+      if (data.message === 'SUCCESS') {
+        setData(data.infoComments);
+      }
+    });
+  }, [districtInfoId, forceUpdate]);
 
   return data ? (
-    <div>
+    <>
       {data.map(item => {
         return (
           <Comments key={item.id}>
             <UserProfile user={item.user} />
-            <BsFillTrashFill
-              className="trashIcon"
-              // onClick={() => this.handleRemove(e.id)}
-            />
-            <div
-              dangerouslySetInnerHTML={{
-                __html: `<p>${item.comment}</p>`,
-              }}
-            />
+            <div className="commentBox">
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `<p>${item.comment}</p>`,
+                }}
+              />
+              {myInfo.id === item.user.id && (
+                <BsFillTrashFill
+                  className="trashIcon"
+                  // onClick={() => this.handleRemove(e.id)}
+                />
+              )}
+            </div>
             <span>{moment(item.createdAt).format('YYYY-MM-DD')}</span>
           </Comments>
         );
       })}
-    </div>
+    </>
   ) : (
-    <div></div>
+    <div />
   );
 }
 
 const Comments = styled.div`
-  padding: 20px 6px 20px 6px;
+  padding: 10px 6px 10px 6px;
   border-bottom: 1px solid #99999940;
-  div {
-    padding: 15px 0px;
-    font-size: 15px;
-    line-height: 1.47;
-    letter-spacing: -0.5px;
+  .commentBox {
+    display: flex;
+    justify-content: space-between;
   }
   span {
     font-size: 13px;
@@ -68,8 +62,10 @@ const Comments = styled.div`
   }
   .trashIcon {
     /* margin-left: 10px; */
+
     width: 15px;
     color: #ababab;
+    cursor: pointer;
   }
 `;
 
