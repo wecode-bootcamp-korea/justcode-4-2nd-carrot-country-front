@@ -4,6 +4,7 @@ import { FaRegSmileWink } from 'react-icons/fa';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { BsChatSquareDots } from 'react-icons/bs';
 import { IoIosArrowForward } from 'react-icons/io';
+import { FaCommentAlt } from 'react-icons/fa';
 import styled from 'styled-components';
 
 const user = {
@@ -21,11 +22,14 @@ function Mypage() {
           <UserProfile user={user} />
         </UserInfo>
         <Line />
+        <div className="mannerTemp">매너온도</div>
         <div className="temp">
           68.2℃ <FaRegSmileWink className="smile" />
         </div>
         <div className="progress-bar">
-          <div className="progress">.</div>
+          <div className="progress">
+            <p>.</p>
+          </div>
         </div>
         <UserBox>
           <div>
@@ -41,19 +45,17 @@ function Mypage() {
         </UserBox>
       </InfoWrapper>
       <UserLife>
-        {/* <SellProduct>판매상품</SellProduct>
-        <Neighborhood>동네생활</Neighborhood>
-        <Evaluation>받은 매너평가</Evaluation> */}
         <div>
           판매상품 <IoIosArrowForward className="rightArrow" />
         </div>
         <div>
           동네생활 <IoIosArrowForward className="rightArrow" />
         </div>
-        <div>
-          받은 매너평가 <IoIosArrowForward className="rightArrow" />
-        </div>
       </UserLife>
+      <UserEstimation>
+        <div>받은 매너평가</div>
+        <FaCommentAlt className="comment" />
+      </UserEstimation>
       <UserChat>
         <div className="ChatBtn">
           <span>판매자와 채팅하기</span>
@@ -74,13 +76,20 @@ const UserInfo = styled.div`
   justify-content: space-between;
   align-items: center;
 `;
-const InfoWrapper = styled.section`
+
+const InfoWrapper = styled.div`
   @media (max-width: 890px) {
     padding: 0px 15px;
   }
   @media (min-width: 891px) {
     width: 677px;
     margin: 0px auto;
+  }
+  .mannerTemp {
+    display: inline-block;
+    margin-left: 3px;
+    color: gray;
+    font-size: 13px;
   }
   .temp {
     /* float: right; */
@@ -114,15 +123,24 @@ const InfoWrapper = styled.section`
     color: #111;
     border-radius: 25px;
   }
+  .progress > p {
+    color: #319e45;
+  }
 `;
 
 const Line = styled.div`
   border-bottom: 1px solid #99999940;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 `;
 
 const UserBox = styled.div`
-  padding: 25px 10px 25px 25px;
+  @media (max-width: 500px) {
+    padding: 20px 30px 20px 20px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+  }
+  padding: 25px 35px 25px 25px;
   border-radius: 3px;
   background-color: whitesmoke;
   div {
@@ -133,10 +151,11 @@ const UserBox = styled.div`
     font-weight: 600;
   }
   .userBoxSecond {
-    margin-left: 40%;
+    float: right;
+    /* margin-left: 40%; */
   }
   .userBoxIcons {
-    font-size: 20px;
+    font-size: 18px;
     margin: 0px 4px 0px 0px;
   }
   p {
@@ -161,6 +180,24 @@ const UserLife = styled.section`
   .rightArrow {
     font-size: 20px;
     float: right;
+  }
+`;
+
+const UserEstimation = styled.div`
+  @media (max-width: 890px) {
+    padding: 5px 15px;
+  }
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  }
+  div {
+    padding: 0px 23px;
+  }
+  .comment {
+    /* padding-left: 40px; */
+    font-size: 10px;
+    color: gray;
   }
 `;
 
