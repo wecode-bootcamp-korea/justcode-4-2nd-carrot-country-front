@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import moment from 'moment';
 import { SERVER_PORT } from 'config';
 import { UserContext } from 'context/context';
+import { UserProfile } from 'components/profile/UserProfile';
 import {
   MainWrapper,
   ProductWrapper,
@@ -12,15 +13,27 @@ import { FaImage } from 'react-icons/fa';
 import { priceFormat } from 'utils/format';
 
 function ChatRoomContentDelay(props) {
+  const me = useContext(UserContext);
   const { chats, product } = props;
+
+  console.log('여기~!', product);
 
   return chats.length > 0 ? (
     <>
+      <ChatUserProfile me={me} />
       <ChatProductComtent product={product} />
-      <ChatRoomContent chats={chats} />
+      <ChatRoomContent chats={chats} me={me} />
     </>
   ) : (
     <NotFoundChats />
+  );
+}
+
+function ChatUserProfile(props) {
+  return (
+    <>
+      <></>
+    </>
   );
 }
 

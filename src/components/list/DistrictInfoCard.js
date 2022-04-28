@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { SERVER_PORT } from 'config';
 import { FaRegHeart, FaRegComment } from 'react-icons/fa';
 
 function DistrictInfoCard({ data, maxWidth }) {
   const navigate = useNavigate();
   const { id } = data;
+  console.log('범인!!!!!', data);
   return (
     <Size
       maxWidth={maxWidth}
@@ -13,11 +15,14 @@ function DistrictInfoCard({ data, maxWidth }) {
       }}
     >
       <CardWrapper>
-        {data.imageUrl && (
+        {data.districtInfoImage.length ? (
           <Image maxWidth={maxWidth}>
-            <img src={data.imageUrl} alt={data.id} />
+            <img
+              src={`${SERVER_PORT}/${data.districtInfoImage[0].imageUrl}`}
+              alt={data.id}
+            />
           </Image>
-        )}
+        ) : null}
         <TextWrapper>
           <Title>{data.title}</Title>
           <Content>
@@ -47,6 +52,9 @@ const Size = styled.div`
   width: ${props => props.maxWidth};
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  * {
+    cursor: pointer;
+  }
 `;
 
 const CardWrapper = styled.div`
@@ -64,11 +72,12 @@ const Image = styled.div`
   margin-right: 30px;
   width: ${props => (props.maxWidth === 1024 ? '150px' : '120px')};
   height: ${props => (props.maxWidth === 1024 ? '150px' : '120px')};
-  object-fit: contain;
+
   img {
     display: block;
     border-radius: 0.5rem;
     width: 100%;
+    object-fit: cover;
   }
 `;
 

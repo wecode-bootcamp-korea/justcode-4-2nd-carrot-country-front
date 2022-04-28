@@ -169,9 +169,9 @@ const Editor = props => {
             <PlaceHolder value="0" ref={categorySelection}>
               카테고리 선택
             </PlaceHolder>
-            {category.categories.map(props => (
-              <DropDown key={props.id} value={props.id}>
-                {props.categoryName}
+            {category.categories.map(data => (
+              <DropDown key={data.id} value={data.id}>
+                {data.categoryName}
               </DropDown>
             ))}
           </CategorySelect>
@@ -325,7 +325,7 @@ const SubmitButton = styled.button`
   font-size: 20px;
 
   :hover {
-    cursor: ${props => (props.button ? 'cursor' : null)};
+    cursor: pointer;
   }
 `;
 

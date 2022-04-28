@@ -1,65 +1,49 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { getCities, getDistricts } from 'apis/category';
 
-const DistrictSelectDropDown = () => {
-  const [cities, setCities] = useState({
-    message: '',
-    cities: [],
-  }); //도시 정보 가져와서 담을 state
+const DistrictSelectDropDown = props => {
+  const {
+    setSelectedCity,
+    selectedCity,
+    cities,
+    setSelectedDistrict,
+    districts,
+  } = props;
 
-  const [selectedCity, setSelectedCity] = useState(); //선택된 도시 정보
-
-  const [districts, setDistricts] = useState({
-    message: '',
-    districts: [],
-  }); //구 정보 담을 state
-
-  const [selectedDistricts, setSelectedDistricts] = useState(); //선택된 구 정보
-
-  useEffect(() => {
-    getCities().then(data => setCities(data));
-  }, []);
-
-  useEffect(() => {
-    console.log('selectedCity>>', selectedCity);
-    getDistricts(selectedCity).then(data => setDistricts(data));
-    console.log('useEffect>>', districts);
-  }, [selectedCity]); //도시 선택시 구 정보 불러오는 이펙트
-
+  console.log('District >>> ', districts);
   const onCityChange = e => {
-    console.log(e.target.value);
+    console.log('도시 선택시 >> ', e.target.value);
     setSelectedCity(e.target.value); //도시 선택시
   };
 
-  const onDistritcChange = e => {
-    setSelectedDistricts(e.target.value);
-    console.log(selectedDistricts);
+  const onDistrictChange = e => {
+    console.log('구 선택시 >> ', e.target.value);
+    setSelectedDistrict(e.target.value);
   };
+
   return (
-    cities.cities && (
-      <DistrictWrapper>
-        <CityDropDown onChange={e => onCityChange(e)}>
-          <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
-          {cities.cities.map(cities => (
-            <option value={cities.id} key={cities.id}>
-              {cities.cityName}
+    // cities.cities && (
+    <DistrictWrapper>
+      <CityDropDown onChange={e => onCityChange(e)}>
+        <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
+        {cities.cities.map(cities => (
+          <option value={cities.id} key={cities.id}>
+            {cities.cityName}
+          </option>
+        ))}
+      </CityDropDown>
+      <DistrictDropDown onChange={e => onDistrictChange(e)}>
+        <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
+        {districts.districts &&
+          districts.districts.map(districts => (
+            <option value={districts.id} key={districts.id}>
+              {districts.districtName}
             </option>
           ))}
-        </CityDropDown>
-        <DistrictDropDown onChange={e => onDistritcChange(e)}>
-          <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
-          {selectedCity > 0
-            ? districts.districts.map(data => (
-                <option value={data.id} key={data.id}>
-                  {data.districtName}
-                </option>
-              ))
-            : null}
-        </DistrictDropDown>
-      </DistrictWrapper>
-    )
+      </DistrictDropDown>
+    </DistrictWrapper>
   );
+  // );
 };
 export default DistrictSelectDropDown;
 
