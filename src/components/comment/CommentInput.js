@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
-import { getCommentList } from 'apis/comment';
+import { deleteTrash, getCommentList } from 'apis/comment';
 
 import UserProfile from 'components/profile/UserProfile';
 import { BsFillTrashFill } from 'react-icons/bs';
@@ -10,6 +10,8 @@ import { UserContext } from 'context/context';
 function CommentInput(props) {
   const { districtInfoId, forceUpdate } = props;
   const [data, setData] = useState();
+  const [trash, setTrash] = useState();
+  const [trashs, setTrashs] = useState();
   const myInfo = useContext(UserContext);
 
   useEffect(() => {
@@ -19,6 +21,23 @@ function CommentInput(props) {
       }
     });
   }, [districtInfoId, forceUpdate]);
+
+  // useEffect(() => {
+  //   deleteTrash(getCommentList).then(data => {
+  //     console.log('sss', deleteTrash)
+  //     if (data.message === "SUCCESS DELETE COMMENT") {
+  //       // setData(data.infoComments);
+  //     }
+  //   });
+  // }, []);
+
+  // }
+
+  // const onRemove = e => {
+  //   setTrashs(trashs.filter(trash => trash.id !== id));
+  //   // const { commentsT } = this.state;
+  //   // const commentsT = commentsT.filter(key => key.id !== id);
+  // };
 
   return data ? (
     <>
@@ -35,11 +54,15 @@ function CommentInput(props) {
               {myInfo.id === item.user.id && (
                 <BsFillTrashFill
                   className="trashIcon"
+                  method="delete"
+                  // onClick={onRemove}
                   // onClick={() => this.handleRemove(e.id)}
                 />
               )}
             </div>
-            <span>{moment(item.createdAt).format('YYYY-MM-DD')}</span>
+            <span className="date">
+              {moment(item.createdAt).format('YYYY-MM-DD')}
+            </span>
           </Comments>
         );
       })}
@@ -50,13 +73,14 @@ function CommentInput(props) {
 }
 
 const Comments = styled.div`
-  padding: 10px 6px 10px 6px;
+  padding: 5px 6px 10px 6px;
   border-bottom: 1px solid #99999940;
   .commentBox {
     display: flex;
     justify-content: space-between;
+    padding-bottom: 3px;
   }
-  span {
+  .date {
     font-size: 13px;
     color: #71717199;
   }

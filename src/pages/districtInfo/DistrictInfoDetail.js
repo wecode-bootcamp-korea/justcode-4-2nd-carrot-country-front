@@ -55,12 +55,6 @@ function DIDetail() {
     heart === 'lightgray' ? setHeart('tomato') : setHeart('lightgray');
   };
 
-  // const handleRemove = e => {
-  //   // setTrashs(trashs.filter(trash => trash.id !== id));
-  //   const {comments} = this.state;
-  //   const_comments = comments.filter((key) => key.id !== id);
-  // };
-
   return data ? (
     <MainWrapper>
       {data.districtInfoImage && (
