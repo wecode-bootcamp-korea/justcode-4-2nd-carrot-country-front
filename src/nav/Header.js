@@ -22,6 +22,7 @@ function Header() {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [useOpenSignup, setUseOpenSignup] = useState(false);
   const [useOpenLogin, setUseOpenLogin] = useState(false);
+  const [useKeyword, setUseKeyword] = useState('');
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
@@ -44,8 +45,21 @@ function Header() {
       localStorage.removeItem('token');
       sessionStorage.removeItem('token');
       dispatch({ type: 'LOGOUT' });
+      navigate('/');
     }
   };
+
+  const handleSearch = e => {
+    const { value } = e.target;
+    setUseKeyword(value);
+  };
+
+  const handleKeyDown = e => {
+    if (e.keyCode === 13 && useKeyword !== '') {
+      navigate('/search', { state: { keyword: useKeyword } });
+    }
+  };
+
   return (
     <HeaderSize>
       <HeaderWrapper>
@@ -59,8 +73,10 @@ function Header() {
 
         <SearchBarWrapper isFocus={isSearchForcus}>
           <SearchBar
-            type="search"
+            type="text"
             placeholder="동네 이름, 물품명 등을 검색해보세요!"
+            onChange={handleSearch}
+            onKeyDown={handleKeyDown}
             onFocus={() => {
               setIsSearchForcus(true);
             }}

@@ -9,6 +9,10 @@ import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
 import Mypage from 'pages/Mypage';
+import ProductList from 'pages/product/ProducInfo';
+import Chat from 'pages/chat/Chat';
+import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
+import SearchMain from 'pages/search/SearchMain';
 
 function App() {
   return (
@@ -21,6 +25,10 @@ function App() {
           <Route path="/product/register" element={<ProductRegister />} />
           <Route path="/district-info" element={<DistrictInfo />} />
           <Route path="/mypage" element={<Mypage />} />
+          <Route path="/product" element={<ProductList />} />
+          <Route path="/chat" element={<Chat />} />
+          <Route path="/district-info/register" element={<DIRegister />} />
+          <Route path="/search" element={<SearchMain />} />
         </Routes>
         <Footer />
       </ContextProvider>

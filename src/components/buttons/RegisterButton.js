@@ -17,7 +17,12 @@ function RegisterButton() {
   };
   return (
     <>
-      <Background isListOpen={isListOpen} />
+      <Background
+        isListOpen={isListOpen}
+        onClick={() => {
+          setIsListOpen(prev => !prev);
+        }}
+      />
       <ButtonWrapper>
         <ContentWrapper isListOpen={isListOpen}>
           <ListWrapper isListOpen={isListOpen}>

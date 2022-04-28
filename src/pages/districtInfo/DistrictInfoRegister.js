@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePrompt } from 'hoc/blocker';
 import {
   Wrapper,
@@ -9,11 +9,8 @@ import {
   PhotoTotal,
   PhotoLimit,
   PhotoInput,
-  ButtonWrapper,
-  SubmitButton,
 } from './DistrictInfoRegisterStyled';
 import Editor from 'pages/districtInfo/Editor';
-import WGButton from 'components/buttons/LeavePageButton';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 
@@ -66,10 +63,6 @@ function DistrictInfoRegister() {
   //   setOpenModal(true);
   // };
 
-  const onSubmit = () => {
-    text.ops && console.log(text.ops[0].insert, title);
-  };
-
   useEffect(() => {
     if (selectedImage.length === 0) {
       return;
@@ -92,7 +85,9 @@ function DistrictInfoRegister() {
 
   return (
     <Wrapper>
-      <Editor setTitle={setTitle} setText={setText} />
+      <div className="imageTextWrapper">
+        <p>이미지 등록하기 (선택)</p>
+      </div>
       <PhotoLine>
         <PhotoButton onClick={onPhotoButtonClick}>
           <BsFillCameraFill className="camera" />
@@ -132,10 +127,7 @@ function DistrictInfoRegister() {
           </div>
         ))}
       </PhotoLine>
-      <ButtonWrapper>
-        <SubmitButton onClick={onSubmit}>완료</SubmitButton>
-        <WGButton content="취소" />
-      </ButtonWrapper>
+      <Editor setTitle={setTitle} setText={setText} />
     </Wrapper>
   );
 }
