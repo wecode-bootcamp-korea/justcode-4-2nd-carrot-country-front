@@ -12,6 +12,7 @@ import ProductList from 'pages/product/ProducInfo';
 import Chat from 'pages/chat/Chat';
 import DIRegister from 'pages/districtInfo/DistrictInfoRegister';
 import DIDetail from 'pages/districtInfo/DistrictInfoDetail';
+import SearchMain from 'pages/search/SearchMain';
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/chat" element={<Chat />} />
           <Route path="/district-info/register" element={<DIRegister />} />
           <Route path="/district-info/detail" element={<DIDetail />} />
+          <Route path="/search" element={<SearchMain />} />
         </Routes>
         <Footer />
       </ContextProvider>

@@ -6,6 +6,7 @@ const MainWrapper = styled.div`
   flex: 1;
   flex-direction: column-reverse;
   overflow-y: scroll;
+  padding: 0 10px;
   .textWrapper {
     li {
       display: flex;
@@ -66,19 +67,48 @@ const NoTalkWrapper = styled.div`
 
 const ProductWrapper = styled.div`
   display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   align-items: center;
   border-bottom: 1px solid silver;
+  padding: 0 10px;
+  height: 64px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  .imageWrapper {
-    width: 50px;
-    img {
-      width: 100%;
-    }
+
+  .stateWrapper {
+    border: 1px solid gray;
+    border-radius: 0.3em;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: bolder;
   }
-  .textWrapper {
-    p:first-child {
-      font-weight: 700;
+
+  .middleWrapper {
+    display: flex;
+    align-items: center;
+    .imageWrapper {
+      border: 1px solid silver;
+      border-radius: 0.3em;
+      text-align: center;
+      color: silver;
+      width: 50px;
+      height: 50px;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+    .textWrapper {
+      padding-left: 20px;
+      p:first-child {
+        padding-bottom: 5px;
+        font-size: 13px;
+      }
+      p:last-child {
+        font-weight: bolder;
+      }
     }
   }
 `;

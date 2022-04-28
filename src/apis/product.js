@@ -1,11 +1,9 @@
 import { SERVER_PORT } from 'config';
 
-const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
 async function getProductList() {
   return await fetch(`${SERVER_PORT}/products`, {
     headers: {
-      token,
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
     },
   })
     .then(res => res.json())
@@ -67,7 +65,10 @@ async function postProduct(allContents, imageResult) {
 async function updateIntrested(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}/interested`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', token },
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
     body: JSON.stringify({
       productId,
     }),
@@ -79,7 +80,10 @@ async function updateIntrested(productId) {
 async function deleteIntrested(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}/unInterested`, {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json', token },
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
     body: JSON.stringify({
       productId,
     }),

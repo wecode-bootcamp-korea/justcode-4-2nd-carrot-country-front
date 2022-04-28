@@ -25,7 +25,7 @@ const Size = styled.div`
 
 const Area = styled.span`
   display: flex;
-  padding: 5px;
+  padding: 10px;
   color: ${theme.signColor};
   font-size: 19px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,

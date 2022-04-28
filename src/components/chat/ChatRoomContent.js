@@ -8,6 +8,7 @@ import {
   NoTalkWrapper,
 } from './ChatRoomContentStyled';
 import { BsChatDots } from 'react-icons/bs';
+import { FaImage } from 'react-icons/fa';
 
 function ChatRoomContentDelay(props) {
   const { chats, product } = props;
@@ -28,15 +29,24 @@ function ChatProductComtent(props) {
   return (
     product && (
       <ProductWrapper>
-        <div className="imageWrapper">
-          <img
-            src={SERVER_PORT + '/' + product.productImage[0].imageUrl}
-            alt="productUImages"
-          />
+        <div className="middleWrapper">
+          <div className="imageWrapper">
+            {product.productImage.length ? (
+              <img
+                src={SERVER_PORT + '/' + product.productImage[0].imageUrl}
+                alt="productUImages"
+              />
+            ) : (
+              <FaImage />
+            )}
+          </div>
+          <div className="textWrapper">
+            <p>{product.title}</p>
+            <p>{Number(product.price).toLocaleString('ko-KR')}원</p>
+          </div>
         </div>
-        <div className="textWrapper">
-          <p>{product.title}</p>
-          <p>{Number(product.price).toLocaleString('ko-KR')}원</p>
+        <div className="stateWrapper">
+          <p>판매중</p>
         </div>
       </ProductWrapper>
     )

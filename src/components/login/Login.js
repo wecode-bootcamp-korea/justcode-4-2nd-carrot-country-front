@@ -3,6 +3,7 @@ import React, { useState, useContext } from 'react';
 import { CLIENT_PORT } from 'config.js';
 import { loginUser } from 'apis/user';
 import { UserDispatchContext } from 'context/context';
+import { useNavigate } from 'react-router-dom';
 // components
 import Modal from 'components/modal/Modal';
 // styles
@@ -20,6 +21,8 @@ import {
 function Login(props) {
   const { visible, setVisible, setOpenSignup } = props;
   const dispatch = useContext(UserDispatchContext);
+  const navigate = useNavigate();
+
   const [id, setId] = useState('');
   const [pw, setPw] = useState('');
   const [useSave, setUseSave] = useState(false);
@@ -64,6 +67,7 @@ function Login(props) {
         setVisible(false);
         setUseFadeOut(false);
       }, 500);
+      navigate('/');
     });
   };
   const handleIdInput = e => {
