@@ -9,7 +9,7 @@ import {
   getProductList,
 } from 'apis/product';
 import { UserContext } from 'context/context';
-import { priceFormat } from 'utils/format';
+import { priceFormat, timeFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
@@ -105,6 +105,7 @@ function ProductDetail(props) {
       );
     }
   };
+  console.log(product);
   return (
     <MainWrapper>
       <ImageSlider images={product.productImage} />
@@ -127,7 +128,7 @@ function ProductDetail(props) {
           <h1>{product.title}</h1>
           <div>
             <span>{product.category.categoryName}</span>
-            <span>2시간 전</span>
+            <span>{timeFormat(product.createdAt)}</span>
           </div>
           <div>
             <span>{priceFormat(product.price)}</span>

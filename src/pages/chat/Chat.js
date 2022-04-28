@@ -14,6 +14,7 @@ function Chat() {
 
   const [useRoomId, setUseRoomId] = useState(roomId ? roomId : null);
   const [forceUpdate, setForceUpdate] = useState(false);
+
   useEffect(() => {
     if (roomId) {
       socket.emit('enter_room', roomId, () => {});
@@ -67,10 +68,10 @@ const MainWrapper = styled.main`
   padding-bottom: 10px;
   padding-top: 70px;
   #chatListWrapper {
-    flex: 1;
+    flex: 1.2;
   }
   #chatRoomWrapper {
-    flex: 2;
+    flex: 1.8;
   }
 `;
 
