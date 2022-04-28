@@ -14,12 +14,17 @@ function ChatListDelay(props) {
   const myInfo = useContext(UserContext);
 
   useEffect(() => {
-    getChatRooms(myInfo.id).then(data => {
-      data.rooms.sort((a, b) => {
-        return a.chat[0]?.createdAt > b.chat[0]?.createdAt ? -1 : 1;
+    if (myInfo.id) {
+      getChatRooms(myInfo.id).then(data => {
+        data.rooms.sort((a, b) => {
+          return moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
+            moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+            ? -1
+            : 1;
+        });
+        setRooms(data.rooms);
       });
-      setRooms(data.rooms);
-    });
+    }
   }, [myInfo]);
 
   return (
@@ -101,7 +106,7 @@ function ChatListItem(props) {
         <div className="userInfo">
           <span>{otherUser}</span>
           <span>{otherUserDistrict}</span>
-          <span>{moment(lastTime).format('HH:mm')}</span>
+          <span>{moment(lastTime).format('h:mm a')}</span>
         </div>
         <p className="lastChat">{room.chat[0]?.text}</p>
       </div>
@@ -133,18 +138,15 @@ const MainWrapper = styled.div`
 
 const ChatProfile = styled.div`
   display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   background-color: ${props => props.theme.signColor};
   color: #ffff;
   img {
     width: 44px;
-    margin: 10px 20px;
+    margin: 10px 10px 10px 20px;
     border-radius: 100%;
   }
   h1 {
-    margin: auto 20px;
-    font-size: 18px;
+    margin: auto 0px;
     font-weight: bold;
   }
 `;
