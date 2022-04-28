@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import { getProductList, getProductListBest } from 'apis/product';
 import { UserContext } from 'context/context';
+import Loading from 'components/loading/Loading';
 import ProductInfoList from 'components/list/ProductInfoList';
 import ListTitle from 'components/list/ListTitle';
 import RegisterButton from 'components/buttons/RegisterButton';
@@ -11,6 +12,7 @@ import { FaRegSadTear } from 'react-icons/fa';
 
 const ProductInfoDelay = () => {
   const user = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(Boolean(user.id));
   const [productInfoData, setProductInfoData] = useState([]);
 
@@ -20,13 +22,19 @@ const ProductInfoDelay = () => {
 
   useEffect(() => {
     isLogin
-      ? getProductList().then(data => setProductInfoData(data.productList))
+      ? getProductList().then(data => {
+          setProductInfoData(data.productList);
+          setLoading(false);
+        })
       : getProductListBest().then(data => {
           setProductInfoData(data.bestProduct);
+          setLoading(false);
         });
   }, [isLogin]);
 
-  return isLogin ? (
+  return loading ? (
+    <Loading />
+  ) : isLogin ? (
     <>
       <ProductInfoWhenLogin data={productInfoData} user={user} />
       <RegisterButton />
