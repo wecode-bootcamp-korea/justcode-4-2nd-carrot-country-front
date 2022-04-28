@@ -1,15 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { handleEnterRoom } from 'apis/socket';
+import { handleEnterRoom, socket } from 'apis/socket';
 import { getChatRooms } from 'apis/chat';
 import { UserContext } from 'context/context';
 import { SERVER_PORT, CLIENT_PORT } from 'config';
 import moment from 'moment';
 
 import { ImList } from 'react-icons/im';
+import { BsFillCircleFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 function ChatListDelay(props) {
-  const { useRoomId, setUseRoomId } = props;
+  const { useRoomId, setUseRoomId, forceUpdate } = props;
   const [rooms, setRooms] = useState([]);
   const myInfo = useContext(UserContext);
 
@@ -17,15 +18,17 @@ function ChatListDelay(props) {
     if (myInfo.id) {
       getChatRooms(myInfo.id).then(data => {
         data.rooms.sort((a, b) => {
-          return moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
-            moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+          return a.chat.length === 0 || b.chat.length === 0
+            ? 1
+            : moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
+              moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
             ? -1
             : 1;
         });
         setRooms(data.rooms);
       });
     }
-  }, [myInfo]);
+  }, [myInfo, forceUpdate]);
 
   return (
     <MainWrapper>
@@ -42,6 +45,7 @@ function ChatListDelay(props) {
           useRoomId={useRoomId}
           setUseRoomId={setUseRoomId}
           rooms={rooms}
+          setRooms={setRooms}
         />
       ) : (
         <NotFoundRooms />
@@ -51,11 +55,32 @@ function ChatListDelay(props) {
 }
 
 function ChatList(props) {
-  const { rooms, useRoomId, setUseRoomId } = props;
+  const { rooms, setRooms, useRoomId, setUseRoomId } = props;
 
   const handleCallback = roomId => {
     setUseRoomId(roomId);
   };
+
+  socket.on('new_alarm', (roomId, chat) => {
+    const updateRoom = rooms.map(room => {
+      if (room.id === roomId) {
+        room.chat[0].text = chat.text;
+        room.chat[0].createdAt = chat.createdAt;
+        room.newText = true;
+      }
+      return room;
+    });
+
+    updateRoom.sort((a, b) => {
+      return a.chat.length === 0 || b.chat.length === 0
+        ? 1
+        : moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
+          moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+        ? -1
+        : 1;
+    });
+    setRooms(updateRoom);
+  });
 
   return (
     <ChatListWrapper>
@@ -64,6 +89,8 @@ function ChatList(props) {
           <ChatListItem
             key={room.id}
             room={room}
+            rooms={rooms}
+            setRooms={setRooms}
             useRoomId={useRoomId}
             handleCallback={handleCallback}
           />
@@ -74,7 +101,7 @@ function ChatList(props) {
 }
 
 function ChatListItem(props) {
-  const { room, useRoomId, handleCallback } = props;
+  const { room, rooms, setRooms, useRoomId, handleCallback } = props;
   const myInfo = useContext(UserContext);
   const otherUser =
     myInfo.id === room.buyer.id
@@ -87,13 +114,22 @@ function ChatListItem(props) {
   const lastTime = room.lastVisitAt ? room.lastVisitAt : room.createdAt;
 
   const isEnter = useRoomId === room.id;
+  const isNew = !!room.newText;
 
   return (
     <ItemWrapper
+      id={room.id}
       isEnter={isEnter}
-      key={room.id}
+      newAlarm={room.newAlarm ? true : false}
       onClick={() => {
         handleEnterRoom(room.id, handleCallback);
+        let updateRoom = rooms.map(_room => {
+          if (_room.id === room.id) {
+            delete _room.newText;
+          }
+          return _room;
+        });
+        setRooms(updateRoom);
       }}
     >
       <div className="userImage">
@@ -101,6 +137,7 @@ function ChatListItem(props) {
           src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
           alt="userImage"
         />
+        {isNew && <BsFillCircleFill size={10} />}
       </div>
       <div className="userMiddle" id={room.id}>
         <div className="userInfo">
@@ -154,6 +191,9 @@ const ChatProfile = styled.div`
 const ChatListWrapper = styled.div`
   height: 100%;
   overflow: scroll;
+  #new {
+    background-color: red !important;
+  }
 `;
 
 const ItemWrapper = styled.div`
@@ -166,10 +206,16 @@ const ItemWrapper = styled.div`
     background-color: #f0f0f0;
   }
   .userImage {
+    position: relative;
     img {
       width: 44px;
       border-radius: 100%;
       border: 0.5px solid silver;
+    }
+    svg {
+      position: absolute;
+      left: 0;
+      color: ${props => props.theme.signColor};
     }
   }
   .userMiddle {

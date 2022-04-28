@@ -12,17 +12,22 @@ import { getChats } from 'apis/chat';
 import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
-  const { useRoomId, roomInfo } = props;
+  const { useRoomId, roomInfo, forceUpdate, setForceUpdate } = props;
 
   return useRoomId ? (
-    <ChatRoom roomId={useRoomId} roomInfo={roomInfo} />
+    <ChatRoom
+      roomId={useRoomId}
+      roomInfo={roomInfo}
+      forceUpdate={forceUpdate}
+      setForceUpdate={setForceUpdate}
+    />
   ) : (
     <NotFoundRoom />
   );
 }
 
 function ChatRoom(props) {
-  const { roomId, roomInfo } = props;
+  const { roomId, roomInfo, forceUpdate, setForceUpdate } = props;
   const [chats, setChats] = useState([]);
   const [product, setProduct] = useState([]);
 
@@ -41,6 +46,11 @@ function ChatRoom(props) {
     });
   }, [chats]);
 
+  const handleCallback = params => {
+    setChats([...chats, params]);
+    setForceUpdate(!forceUpdate);
+  };
+
   return (
     <MainWrapper>
       <ChatRoomContent
@@ -50,7 +60,7 @@ function ChatRoom(props) {
         product={product}
         roomInfo={roomInfo}
       />
-      <ChatRoomFooter roomId={roomId} chats={chats} setChats={setChats} />
+      <ChatRoomFooter roomId={roomId} handleCallback={handleCallback} />
     </MainWrapper>
   );
 }
