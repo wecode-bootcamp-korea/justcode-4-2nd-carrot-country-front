@@ -80,6 +80,7 @@ const ListCardWrapper = styled.div`
   align-content: center;
   justify-content: center;
   margin: auto;
+  cursor: pointer;
   @media (max-width: 690px) {
   }
   // 아이패드 (모바일 버전)
