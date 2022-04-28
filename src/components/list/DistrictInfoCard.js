@@ -4,11 +4,12 @@ import { FaRegHeart, FaRegComment } from 'react-icons/fa';
 
 function DistrictInfoCard({ data, maxWidth }) {
   const navigate = useNavigate();
+  const { id } = data;
   return (
     <Size
       maxWidth={maxWidth}
       onClick={() => {
-        navigate(`/district-info/detail`);
+        navigate(`/district-info/detail`, { state: { districtInfoId: id } });
       }}
     >
       <CardWrapper>

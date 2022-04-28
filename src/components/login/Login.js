@@ -70,7 +70,6 @@ function Login(props) {
       navigate('/');
     });
   };
-
   const handleIdInput = e => {
     setId(e.target.value);
   };
