@@ -12,7 +12,7 @@ import { FaRegSadTear } from 'react-icons/fa';
 const ProductInfoDelay = () => {
   const user = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(Boolean(user.id));
-  const [productInfoData, setProductInfoData] = useState(initialData);
+  const [productInfoData, setProductInfoData] = useState([]);
 
   useEffect(() => {
     setIsLogin(Boolean(user.id));
@@ -138,36 +138,4 @@ const NoproductTextWrapper = styled.div`
   }
 `;
 
-const initialData = [
-  {
-    id: 3,
-    title: '2019년 16인치 맥북 팝니다',
-    price: '2000000',
-    viewCount: 32,
-    updatedAt: '2022-04-25T09:16:32.250Z',
-    city: {
-      id: 1,
-      cityName: '서울',
-    },
-    district: {
-      id: 2,
-      districtName: '종로구',
-    },
-    chatRoom: [
-      {
-        id: 3,
-      },
-      {
-        id: 73,
-      },
-    ],
-    productIntrested: [],
-    productImage: [
-      {
-        id: 4,
-        imageUrl: 'eeeee1650849301189.jpg',
-      },
-    ],
-  },
-];
 export default ProductInfoDelay;

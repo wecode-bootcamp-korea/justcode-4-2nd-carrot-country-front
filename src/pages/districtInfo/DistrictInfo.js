@@ -11,7 +11,7 @@ import { FaRegSadTear } from 'react-icons/fa';
 function DistrictInfoDelay() {
   const user = useContext(UserContext);
   const [isLogin, setIsLogin] = useState(Boolean(user.id));
-  const [districtInfoData, setDistrictInfoData] = useState(mockdata);
+  const [districtInfoData, setDistrictInfoData] = useState([]);
 
   useEffect(() => {
     setIsLogin(Boolean(user.id));
@@ -70,29 +70,6 @@ function NoDistrictInfoData() {
 }
 
 export default DistrictInfoDelay;
-
-const mockdata = [
-  {
-    id: 1,
-    title: '맛집알려주세요.',
-    content: '이동네 이사 처음왔는데 맛집 어딨나요?',
-    viewCount: 1,
-    city: {
-      id: 1,
-      cityName: '서울',
-    },
-    district: {
-      id: 1,
-      districtName: '중구',
-    },
-    districtInfoImage: [],
-    districtInfoLiked: [
-      {
-        id: 3,
-      },
-    ],
-  },
-];
 
 const NoLoginWrapper = styled.div`
   display: flex;
