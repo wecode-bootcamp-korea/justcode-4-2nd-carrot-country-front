@@ -3,6 +3,7 @@ import { UserContext } from 'context/context';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 import { SERVER_PORT } from 'config';
+import { postComment } from 'apis/comment';
 import { getDistrictDetail } from 'apis/district';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
@@ -24,41 +25,32 @@ import {
 import Loading from 'components/loading/Loading';
 
 function DIDetail() {
-  // const location = useLocation();
-  const [comment, setComment] = useState([]);
+  const location = useLocation();
+  const { districtInfoId } = location.state;
+  const [comment, setComment] = useState('');
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
   // const myInfo = useContext(UserContext);
   // const [trash, setTrash] = useState('');
-  // const districtInfoId = location?.state.districtInfoId;
 
   useEffect(() => {
-    getDistrictDetail(1).then(data => {
+    getDistrictDetail(districtInfoId).then(data => {
       if (data.message === 'SUCCESS') {
         setData(data.districtInfo);
       }
     });
-  }, []);
-
+  }, [districtInfoId]);
   const handleComment = e => {
     setComment(e.target.value);
   };
 
   const handleSubmit = () => {
-    if (comment !== '') {
-      fetch(`${SERVER_PORT}/infos/comment`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          token: localStorage.getItem('token'),
-          infoId: '1',
-          comment: comment,
-        }),
-      });
-    }
+    comment !== '' && postComment(districtInfoId, comment);
   };
+
+  //   const onChange = e => {
+  //   setInput(e.target.value);
+  // };
 
   const handleHeart = () => {
     heart === 'lightgray' ? setHeart('tomato') : setHeart('lightgray');
@@ -115,14 +107,13 @@ function DIDetail() {
             onClick={handleHeart}
           />
         </CommentTitle>
-        <CommentInput />
+        <CommentInput districtInfoId={districtInfoId} />
       </CommentsWrapper>
       <CommentSignup>
         <form>
           <input
             type="text"
-            value={comment}
-            onChange={handleComment}
+            onChange={e => handleComment(e)}
             placeholder="댓글을 입력해주세요"
           />
           <BsFillArrowRightCircleFill

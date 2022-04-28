@@ -1,36 +1,32 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { useLocation } from 'react-router-dom';
+
 import { UserContext } from 'context/context';
 import moment from 'moment';
 // import { SERVER_PORT } from 'config';
-import { getCommentList } from 'apis/comment';
+
 import UserProfile from 'components/profile/UserProfile';
 import { BsFillTrashFill } from 'react-icons/bs';
 import styled from 'styled-components';
 
 function CommentInput() {
-  const location = useLocation();
-  const [comment, setComment] = useState([]);
   // const [input, setInput] = useState();
   // const { userData } = useContext(UserContext);
   const [data, setData] = useState();
   const user = useContext(UserContext);
 
   useEffect(() => {
-    // fetch('http//localhost:3000/district-info/detail')
-    // .then(res => {
+    // fetch('http//localhost:3000/district-info/detail').then(res => {
     //   return res.json();
-    // })
-    getCommentList(1).then(data => {
-      if (data.message === 'SUCCESS') {
-        setData(data.infoComments);
-      }
-    });
+    // });
   }, []);
 
-  // const onChange = e => {
-  //   setInput(e.target.value);
-  // };
+  // useEffect(() => {
+  //   getCommentList(infoCommentsId).then(data => {
+  //     if (data.message === 'SUCCESS') {
+  //       setData(data.infoCommentsId);
+  //     }
+  //   });
+  // }, [infoCommentsId]);
 
   return data ? (
     <div>
