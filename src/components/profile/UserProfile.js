@@ -5,7 +5,6 @@ import styled from 'styled-components';
 
 function UserProfile(props) {
   const { user } = props;
-  console.log(user);
   const userImage = user.userImage
     ? user.userImage
     : '/images/profile/userImageNotFound.png';

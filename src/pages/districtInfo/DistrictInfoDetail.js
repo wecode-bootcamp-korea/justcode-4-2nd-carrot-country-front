@@ -9,7 +9,6 @@ import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
-// import { Usersign } from 'components/login/LoginStyle';
 
 import {
   MainWrapper,
@@ -22,13 +21,14 @@ import {
   CommentTitle,
   CommentSignup,
 } from './DistrictInfoDetailStyled';
+import Loading from 'components/loading/Loading';
 
 function DIDetail() {
-  const location = useLocation();
+  // const location = useLocation();
   const [comment, setComment] = useState([]);
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
-  const myInfo = useContext(UserContext);
+  // const myInfo = useContext(UserContext);
   // const [trash, setTrash] = useState('');
   // const districtInfoId = location?.state.districtInfoId;
 
@@ -80,7 +80,6 @@ function DIDetail() {
   //   );
   // };
 
-  console.log('data >> ', data);
   return data ? (
     <MainWrapper>
       {data.districtInfoImage && (
@@ -134,7 +133,7 @@ function DIDetail() {
       </CommentSignup>
     </MainWrapper>
   ) : (
-    <div></div>
+    <Loading />
   );
 }
 

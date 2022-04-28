@@ -21,6 +21,7 @@ import {
   InfoLike,
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
+import Loading from 'components/loading/Loading';
 
 function ProductDetailDelay() {
   const location = useLocation();
@@ -31,7 +32,7 @@ function ProductDetailDelay() {
     getProductDetail(productId).then(data => setProduct(data.product));
   }, [productId]);
 
-  return product ? <ProductDetail product={product} /> : '';
+  return product ? <ProductDetail product={product} /> : <Loading />;
 }
 function ProductDetail(props) {
   const navigate = useNavigate();
