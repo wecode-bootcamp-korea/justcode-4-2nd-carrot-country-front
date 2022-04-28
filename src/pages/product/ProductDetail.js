@@ -22,8 +22,6 @@ import {
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
 
-const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-
 function ProductDetailDelay() {
   const location = useLocation();
   const { productId } = location.state;
@@ -53,7 +51,7 @@ function ProductDetail(props) {
   };
 
   const handleInterested = () => {
-    if (!token) {
+    if (myInfo.id === '') {
       alert('로그인 후 이용 가능합니다.');
       return;
     }
@@ -96,11 +94,7 @@ function ProductDetail(props) {
             <span>2시간 전</span>
           </div>
           <div>
-            <span>
-              {Number(product.price)
-                ? priceFormat(product.price) + '원'
-                : '무료나눔'}
-            </span>
+            <span>{priceFormat(product.price)}</span>
           </div>
         </InfoTop>
         <InfoBottom>

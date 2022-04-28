@@ -33,9 +33,7 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
         </ImageWrapper>
         <LettersWrapper>
           <ProductTitle>{title}</ProductTitle>
-          <ProductPrice>
-            {Number(price) ? priceFormat(price) + '원' : '무료나눔'}
-          </ProductPrice>
+          <ProductPrice>{priceFormat(price)}</ProductPrice>
           <ProductDistrict>
             {city.cityName} {district.districtName}
           </ProductDistrict>
