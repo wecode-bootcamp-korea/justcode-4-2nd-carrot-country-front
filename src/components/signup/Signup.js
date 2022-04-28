@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'components/modal/Modal';
-import { AiFillCheckSquare } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
+import { getCities, getDistricts } from 'apis/area';
+import { duplicateIdCheck, signupUser } from 'apis/user';
 
 import {
   InputIdWrapper,
@@ -11,11 +13,11 @@ import {
   SignupBtn,
   PolicyAgreed,
 } from 'components/signup/SignupStyle';
-import { duplicateIdCheck, signupUser } from 'apis/user';
-import { getCities, getDistricts } from 'apis/area';
+import { AiFillCheckSquare } from 'react-icons/ai';
 
 function Signup(props) {
   // input state
+  const navigate = useNavigate();
   const { visible, setVisible } = props;
   const [useId, setUseId] = useState('');
   const [useIdCheck, setUseIdCheck] = useState(false);
@@ -102,6 +104,7 @@ function Signup(props) {
         setVisible(false);
         setUseFadeOut(false);
       }, 500);
+      navigate('/');
     });
   };
   return (
