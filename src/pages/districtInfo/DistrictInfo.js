@@ -19,6 +19,7 @@ function DistrictInfoDelay() {
 
   useEffect(() => {
     getDistrictList().then(data => setDistrictInfoData(data.districtInfos));
+    console.log(districtInfoData);
   }, [isLogin]);
 
   return isLogin ? (
@@ -48,7 +49,7 @@ function DistrictInfo(props) {
         city={user.city.cityName}
         district={user.district.districtName}
       />
-      {data.lenght ? (
+      {data.length ? (
         <DistrictInfoList maxWidth={1024} data={data} />
       ) : (
         <NoDistrictInfoData />
