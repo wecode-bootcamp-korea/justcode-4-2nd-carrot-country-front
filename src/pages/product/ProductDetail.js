@@ -5,15 +5,16 @@ import {
   deleteIntrested,
   getProductDetail,
   updateIntrested,
-  getProductList,
   getProductListBest,
+  getProductList,
 } from 'apis/product';
 import { UserContext } from 'context/context';
 import { priceFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
-import ProductInfoList from 'components/list/ProductInfoList';
+import GridList from 'components/list/GridList';
+import Loading from 'components/loading/Loading';
 
 import {
   MainWrapper,
@@ -23,10 +24,8 @@ import {
   InfoTop,
   InfoBottom,
   InfoLike,
-  ProductsWrapper,
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
-import Loading from 'components/loading/Loading';
 
 function ProductDetailDelay() {
   const location = useLocation();
@@ -38,9 +37,29 @@ function ProductDetailDelay() {
   useEffect(() => {
     getProductDetail(productId).then(data => setProduct(data.product));
     if (myInfo.id === '') {
-      getProductListBest().then(data => setProducts(data.bestProduct));
+      getProductListBest().then(data => {
+        const _data = [];
+        for (let i = 0; i < 6; i++) {
+          const product = data.bestProduct[i];
+          if (!product) {
+            return;
+          }
+          _data.push(product);
+        }
+        setProducts(_data);
+      });
     } else {
-      getProductList().then(data => setProducts(data.productList));
+      getProductList().then(data => {
+        const _data = [];
+        for (let i = 0; i < 6; i++) {
+          const product = data.productList[i];
+          if (!product) {
+            return;
+          }
+          _data.push(product);
+        }
+        setProducts(_data);
+      });
     }
   }, [productId, myInfo.id]);
 
@@ -133,11 +152,8 @@ function ProductDetail(props) {
           <span>관심</span>
           <BsHeartFill onClick={handleInterested} />
         </InfoLike>
-        <ProductsWrapper>
-          {myInfo.id === '' ? <h2>인기매물</h2> : <h2>우리동네 매물</h2>}
-          {products.length > 0 && <ProductInfoList data={products} />}
-        </ProductsWrapper>
       </InfoWrapper>
+      {products.length > 0 && <GridList data={products} />}
     </MainWrapper>
   );
 }

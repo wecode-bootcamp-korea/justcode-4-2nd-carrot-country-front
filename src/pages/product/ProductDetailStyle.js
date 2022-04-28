@@ -98,13 +98,7 @@ const InfoLike = styled.div`
       props.isIntrested ? props.theme.signColor : '#66666647'};
   }
 `;
-const ProductsWrapper = styled.div`
-  h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-`;
+
 export {
   MainWrapper,
   InfoWrapper,
@@ -113,5 +107,4 @@ export {
   InfoTop,
   InfoBottom,
   InfoLike,
-  ProductsWrapper,
 };
