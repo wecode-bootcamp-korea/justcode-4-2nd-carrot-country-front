@@ -53,23 +53,24 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
 export default ProductInfoListCard;
 
 const CardWrapper = styled.div`
-  /* display: flex; */
-  justify-content: space-between;
+  justify-content: center;
   padding-bottom: 40px;
   height: auto;
+
   @media (max-width: 690px) {
-    width: 40%;
-    margin: 0 5%;
+    /* width: 200px; */
+    width: 100%;
+    /* margin: 0 5%; */
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
-    width: 25%;
-    margin: 0 2%;
+    /* width: 230px; */
+    width: 100%;
   }
   // 모니터
   @media (min-width: 891px) {
-    width: 20%;
-    margin: 0 2%;
+    width: 100%;
+    height: auto;
   }
 `;
 
@@ -77,24 +78,71 @@ const ListCardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
+  margin: auto;
+  @media (max-width: 690px) {
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+  }
+  // 모니터
+  @media (min-width: 891px) {
+  }
 `;
 
 const ImageWrapper = styled.div`
   display: flex;
   flex: none;
-  width: 100%;
   aspect-ratio: 1/1;
+  margin: auto;
+  @media (max-width: 690px) {
+    width: 200px;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 210px;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 220px;
+    height: auto;
+  }
 `;
 
 const ImageItself = styled.img`
   display: block;
   border-radius: 15px;
   border: 1px solid silver;
-  width: 100%;
   object-fit: cover;
   aspect-ratio: 1/1;
+  width: 100%;
+  @media (max-width: 690px) {
+    /* margin: 0 5%; */
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    /* margin: 0 2%; */
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    /* margin: 0 2%; */
+  }
 `;
-const LettersWrapper = styled.div``;
+const LettersWrapper = styled.div`
+  @media (max-width: 690px) {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    font-size: 17px;
+    margin: 15px 0;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    margin-left: 10%;
+  }
+`;
 
 const ProductTitle = styled.p`
   @media (max-width: 690px) {
