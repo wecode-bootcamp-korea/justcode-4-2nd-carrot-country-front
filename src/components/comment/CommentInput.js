@@ -32,22 +32,26 @@ function CommentInput() {
   //   setInput(e.target.value);
   // };
 
-  console.log('data >>> ', data);
   return data ? (
-    <Comments>
-      {/* {comment.map()} */}
-      <UserProfile user={data.user} />
-      <BsFillTrashFill
-        className="trashIcon"
-        // onClick={() => this.handleRemove(e.id)}
-      />
-      <div
-        dangerouslySetInnerHTML={{
-          __html: `<p>${data.comment}</p>`,
-        }}
-      />
-      <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
-    </Comments>
+    <div>
+      {data.map(item => {
+        return (
+          <Comments key={item.id}>
+            <UserProfile user={item.user} />
+            <BsFillTrashFill
+              className="trashIcon"
+              // onClick={() => this.handleRemove(e.id)}
+            />
+            <div
+              dangerouslySetInnerHTML={{
+                __html: `<p>${item.comment}</p>`,
+              }}
+            />
+            <span>{moment(item.createdAt).format('YYYY-MM-DD')}</span>
+          </Comments>
+        );
+      })}
+    </div>
   ) : (
     <div></div>
   );
