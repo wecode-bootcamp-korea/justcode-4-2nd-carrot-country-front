@@ -15,11 +15,25 @@ const MainWrapper = styled.div`
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
         Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     }
+    .newDateLine {
+      text-align: center;
+      font-size: 13px;
+      padding: 20px 0px;
+      span {
+        color: #ffff;
+        font-weight: 600;
+        background-color: #66666649;
+        padding: 5px 20px;
+        border-radius: 20px;
+      }
+    }
     .isMy {
       display: flex;
       align-items: flex-end;
       justify-content: flex-end;
       .chatWrapper {
+        max-width: 200px;
+        word-wrap: break-word;
         padding: 15px 20px;
         background-color: ${theme.signColor};
         color: white;
@@ -39,6 +53,8 @@ const MainWrapper = styled.div`
       justify-content: flex-end;
       flex-direction: row-reverse;
       .chatWrapper {
+        max-width: 200px;
+        word-wrap: break-word;
         padding: 15px 20px;
         background-color: #eaebee;
         border-top-right-radius: 1rem;

@@ -53,7 +53,7 @@ const ProductInfoListCard = ({ data, maxWidth }) => {
 export default ProductInfoListCard;
 
 const CardWrapper = styled.div`
-  display: flex;
+  /* display: flex; */
   justify-content: space-between;
   padding-bottom: 40px;
   height: auto;

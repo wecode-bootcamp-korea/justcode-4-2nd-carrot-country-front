@@ -37,7 +37,6 @@ function ChatRoom(props) {
 
   useEffect(() => {
     socket.on('new_text', params => {
-      params.isMyChat = false;
       setChats([...chats, params]);
     });
   }, [chats]);
