@@ -105,41 +105,6 @@ const CommentTitle = styled.div`
   }
 `;
 
-const CommentSignup = styled.div`
-  @media (max-width: 890px) {
-    padding: 0px 15px;
-  }
-  @media (min-width: 891px) {
-    width: 677px;
-    margin: 0px auto;
-  }
-  div {
-    display: flex;
-    align-items: center;
-    margin: 20px 0px;
-  }
-  input {
-    width: 500px;
-    height: 40px;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    background-color: #f6f6f6;
-    :focus {
-      outline: none;
-      border: 0.5px solid black;
-    }
-  }
-  .submitIcon {
-    margin-left: 10px;
-    font-size: 25px;
-    color: #ff8a3d96;
-  }
-  .submitIcon:hover {
-    color: #ff8a3d;
-  }
-`;
-
 export {
   MainWrapper,
   InfoWrapper,
@@ -149,5 +114,4 @@ export {
   UserInfo,
   CommentsWrapper,
   CommentTitle,
-  CommentSignup,
 };

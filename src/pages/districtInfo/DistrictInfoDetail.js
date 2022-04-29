@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
-import { postComment } from 'apis/comment';
 import { getDistrictDetail } from 'apis/district';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
-import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
 
 import {
@@ -18,18 +16,14 @@ import {
   UserInfo,
   CommentsWrapper,
   CommentTitle,
-  CommentSignup,
 } from './DistrictInfoDetailStyled';
 import Loading from 'components/loading/Loading';
 
 function DIDetail() {
   const location = useLocation();
   const { districtInfoId } = location.state;
-  const [comment, setComment] = useState('');
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
-  const [forceUpdate, setForceUpdate] = useState(false);
-  // const [trash, setTrash] = useState('');
 
   useEffect(() => {
     getDistrictDetail(districtInfoId).then(data => {
@@ -38,15 +32,6 @@ function DIDetail() {
       }
     });
   }, [districtInfoId]);
-  const handleComment = e => {
-    setComment(e.target.value);
-  };
-
-  const handleSubmit = () => {
-    comment !== '' && postComment(districtInfoId, comment);
-    setComment('');
-    setForceUpdate(!forceUpdate);
-  };
 
   const handleHeart = () => {
     heart === 'lightgray' ? setHeart('tomato') : setHeart('lightgray');
@@ -87,25 +72,8 @@ function DIDetail() {
             onClick={handleHeart}
           />
         </CommentTitle>
-        <CommentInput
-          forceUpdate={forceUpdate}
-          districtInfoId={districtInfoId}
-        />
+        <CommentInput districtInfoId={districtInfoId} />
       </CommentsWrapper>
-      <CommentSignup>
-        <div>
-          <input
-            type="text"
-            value={comment}
-            onChange={e => handleComment(e)}
-            placeholder="댓글을 입력해주세요"
-          />
-          <BsFillArrowUpCircleFill
-            className="submitIcon"
-            onClick={handleSubmit}
-          />
-        </div>
-      </CommentSignup>
     </MainWrapper>
   ) : (
     <Loading />

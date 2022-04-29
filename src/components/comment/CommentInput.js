@@ -1,27 +1,30 @@
 import React, { useContext, useEffect, useState } from 'react';
 import moment from 'moment';
 import { deleteTrash, getCommentList } from 'apis/comment';
-
-import UserProfile from 'components/profile/UserProfile';
-import { BsFillTrashFill } from 'react-icons/bs';
-import styled from 'styled-components';
+import { postComment } from 'apis/comment';
 import { UserContext } from 'context/context';
 
+import UserProfile from 'components/profile/UserProfile';
+
+import { BsFillTrashFill } from 'react-icons/bs';
+import styled from 'styled-components';
+import { BsFillArrowUpCircleFill } from 'react-icons/bs';
+
 function CommentInput(props) {
-  const { districtInfoId, forceUpdate } = props;
-  const [data, setData] = useState();
+  const { districtInfoId } = props;
+  const [data, setData] = useState([]);
   const [commentID, setCommentID] = useState(0);
   // const [trash, setTrash] = useState();
   const myInfo = useContext(UserContext);
+  const [comment, setComment] = useState('');
 
   useEffect(() => {
     getCommentList(districtInfoId).then(data => {
       if (data.message === 'SUCCESS') {
         setData(data.infoComments);
       }
-      console.log(data);
     });
-  }, [districtInfoId, forceUpdate]);
+  }, [districtInfoId]);
 
   // useEffect(() => {
   //   deleteTrash(getCommentList).then(data => {
@@ -42,13 +45,26 @@ function CommentInput(props) {
   //   trashDelete = e.target.key;
   //   deleteTrash(trashDelete);
   // };
+  const handleComment = e => {
+    setComment(e.target.value);
+  };
+
+  const handleSubmit = () => {
+    comment !== '' && postComment(districtInfoId, comment);
+    setComment('');
+  };
 
   const handleRemove = id => {
     setCommentID(id);
     deleteTrash(commentID).then(data => console.log(data));
   };
 
-  return data ? (
+  const handleEnter = e => {
+    if (e.keyCode === 13) {
+      handleSubmit();
+    }
+  };
+  return data.length > 0 ? (
     <>
       {data.map(item => {
         return (
@@ -75,6 +91,21 @@ function CommentInput(props) {
           </Comments>
         );
       })}
+      <CommentSignup>
+        <div>
+          <input
+            type="text"
+            value={comment}
+            onChange={e => handleComment(e)}
+            onKeyDown={handleEnter}
+            placeholder="댓글을 입력해주세요"
+          />
+          <BsFillArrowUpCircleFill
+            className="submitIcon"
+            onClick={handleSubmit}
+          />
+        </div>
+      </CommentSignup>
     </>
   ) : (
     <div />
@@ -99,6 +130,40 @@ const Comments = styled.div`
     width: 15px;
     color: #ababab;
     cursor: pointer;
+  }
+`;
+
+const CommentSignup = styled.div`
+  @media (max-width: 890px) {
+  }
+  @media (min-width: 891px) {
+    width: 100%;
+    margin: 0px auto;
+  }
+  div {
+    display: flex;
+    align-items: center;
+    margin: 20px 0px;
+  }
+  input {
+    width: 100%;
+    height: 40px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background-color: #f6f6f6;
+    :focus {
+      outline: none;
+      border: 0.5px solid black;
+    }
+  }
+  .submitIcon {
+    margin-left: 10px;
+    font-size: 25px;
+    color: #ff8a3d96;
+  }
+  .submitIcon:hover {
+    color: #ff8a3d;
   }
 `;
 
