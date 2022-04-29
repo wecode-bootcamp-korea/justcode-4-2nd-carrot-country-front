@@ -18,6 +18,7 @@ function SearchMain() {
 
   useEffect(() => {
     getSearchProductList(keyword).then(data => {
+      setYesProduct(false);
       if (data === 'NO SEARCH RESULTS') {
         setYesProduct(false);
         setProductInfoData([]);
@@ -31,9 +32,10 @@ function SearchMain() {
 
   useEffect(() => {
     getSearchDistrictList(keyword).then(data => {
+      setYesDistrict(false);
       if (data === 'NO SEARCH RESULTS') {
-        setDistrictInfoData([]);
         setYesDistrict(false);
+        setDistrictInfoData([]);
       }
       if (data.message == 'SUCCESS') {
         setYesDistrict(true);
