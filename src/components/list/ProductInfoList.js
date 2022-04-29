@@ -1,11 +1,10 @@
 import styled from 'styled-components';
-
+import NoProductInfo from './NoProductInfo';
 import ProductInfoListCard from './ProductInfoListCard';
 
 function ProductInfoList(props) {
   const { maxWidth, data } = props;
-
-  return (
+  return data.length >= 1 ? (
     <AllWrapper>
       <ListWrapper>
         {data.map(data => (
@@ -14,36 +13,42 @@ function ProductInfoList(props) {
         {maxWidth === 800 && <MoreView> 더보기 </MoreView>}
       </ListWrapper>
     </AllWrapper>
+  ) : (
+    <>
+      <NoProductInfo />
+    </>
   );
 }
 
 export default ProductInfoList;
 
 const AllWrapper = styled.div`
-  display: flex;
+  display: grid;
   justify-content: center;
   width: 100%;
-  max-width: 1024px;
-  /* //스마트폰
-  @media (max-width: 690px) {
-  }
-  // 아이패드 (모바일 버전)
-  @media (min-width: 691px) and (max-width: 890px) {
-    width: 800px;
-  }
-  // 모니터
-  @media (min-width: 891px) {
-    width: 1024px;
-  } */
 `;
 
 const ListWrapper = styled.div`
-  display: flex;
+  display: grid;
   flex-direction: row;
-  justify-content: center;
+  justify-content: flex-start;
   flex-wrap: wrap;
-  width: 100%;
   background-color: white;
+  @media (max-width: 690px) {
+    grid-template-columns: 1fr 1fr;
+    max-width: 600px;
+    min-width: 350px;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 690px;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 `;
 
 const MoreView = styled.button`

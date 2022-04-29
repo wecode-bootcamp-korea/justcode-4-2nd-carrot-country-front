@@ -5,12 +5,17 @@ import {
   deleteIntrested,
   getProductDetail,
   updateIntrested,
+  getProductListBest,
+  getProductList,
 } from 'apis/product';
 import { UserContext } from 'context/context';
-import { priceFormat } from 'utils/format';
+import { priceFormat, timeFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
+import GridList from 'components/list/GridList';
+import Loading from 'components/loading/Loading';
+
 import {
   MainWrapper,
   InfoWrapper,
@@ -24,19 +29,53 @@ import { BsHeartFill } from 'react-icons/bs';
 
 function ProductDetailDelay() {
   const location = useLocation();
+  const myInfo = useContext(UserContext);
   const { productId } = location.state;
   const [product, setProduct] = useState();
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProductDetail(productId).then(data => setProduct(data.product));
-  }, [productId]);
+    if (myInfo.id === '') {
+      getProductListBest().then(data => {
+        const _data = [];
+        for (let i = 0; i < 6; i++) {
+          const product = data.bestProduct[i];
+          if (!product) {
+            return;
+          }
+          _data.push(product);
+        }
+        setProducts(_data);
+      });
+    } else {
+      getProductList().then(data => {
+        const _data = [];
+        for (let i = 0; 6 > _data.length; i++) {
+          const product = data.productList[i];
+          if (!product) {
+            return;
+          }
+          if (product.id !== productId) {
+            _data.push(product);
+          }
+        }
+        setProducts(_data);
+      });
+    }
+    document.documentElement.scrollTo(0, 0);
+  }, [productId, myInfo.id]);
 
-  return product ? <ProductDetail product={product} /> : '';
+  return product ? (
+    <ProductDetail product={product} products={products} />
+  ) : (
+    <Loading />
+  );
 }
 function ProductDetail(props) {
   const navigate = useNavigate();
   const myInfo = useContext(UserContext);
-  const { product } = props;
+  const { product, products } = props;
   const [isIntrested, setIsIntrested] = useState(
     product.productIntrested.filter(item => {
       return myInfo.id === item.user.id;
@@ -78,9 +117,12 @@ function ProductDetail(props) {
           {!isMe && (
             <div
               className="ChatBtn"
-              onClick={() =>
-                handleCreateRoom(myInfo.id, product.id, handleCallback)
-              }
+              onClick={() => {
+                if (myInfo.id === '') {
+                  alert('로그인 후 이용 가능합니다.');
+                }
+                handleCreateRoom(myInfo.id, product.id, handleCallback);
+              }}
             >
               <span>판매자와 채팅하기</span>
             </div>
@@ -91,7 +133,7 @@ function ProductDetail(props) {
           <h1>{product.title}</h1>
           <div>
             <span>{product.category.categoryName}</span>
-            <span>2시간 전</span>
+            <span>{timeFormat(product.createdAt)}</span>
           </div>
           <div>
             <span>{priceFormat(product.price)}</span>
@@ -112,11 +154,12 @@ function ProductDetail(props) {
             <span>조회 {product.viewCount}</span>
           </div>
         </InfoBottom>
-        <InfoLike onClick={handleInterested} isIntrested={isIntrested}>
+        <InfoLike isIntrested={isIntrested}>
           <span>관심</span>
-          <BsHeartFill />
+          <BsHeartFill onClick={handleInterested} />
         </InfoLike>
       </InfoWrapper>
+      {products.length > 0 && <GridList data={products} />}
     </MainWrapper>
   );
 }

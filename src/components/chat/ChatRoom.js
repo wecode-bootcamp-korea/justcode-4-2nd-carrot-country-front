@@ -12,46 +12,46 @@ import { getChats } from 'apis/chat';
 import { BiMessageSquareDots } from 'react-icons/bi';
 
 function ChatRoomDelay(props) {
-  const { useRoomId, roomInfo } = props;
+  const { useRoomId } = props;
 
-  return useRoomId ? (
-    <ChatRoom roomId={useRoomId} roomInfo={roomInfo} />
-  ) : (
-    <NotFoundRoom />
-  );
+  return useRoomId ? <ChatRoom {...props} /> : <NotFoundRoom />;
 }
 
 function ChatRoom(props) {
-  const { roomId, roomInfo } = props;
+  const { useRoomId, roomInfo, forceUpdate, setForceUpdate } = props;
   const [chats, setChats] = useState([]);
   const [product, setProduct] = useState([]);
 
   useEffect(() => {
-    if (roomId) {
-      getChats(roomId).then(data => {
+    if (useRoomId) {
+      getChats(useRoomId).then(data => {
         setChats(data.chats);
         setProduct(data.product);
       });
     }
-  }, [roomId]);
+  }, [useRoomId]);
 
   useEffect(() => {
     socket.on('new_text', params => {
-      params.isMyChat = false;
       setChats([...chats, params]);
     });
   }, [chats]);
 
+  const handleCallback = params => {
+    setChats([...chats, params]);
+    setForceUpdate(!forceUpdate);
+  };
+
   return (
     <MainWrapper>
       <ChatRoomContent
-        roomId={roomId}
+        roomId={useRoomId}
         chats={chats}
         setChats={setChats}
         product={product}
         roomInfo={roomInfo}
       />
-      <ChatRoomFooter roomId={roomId} chats={chats} setChats={setChats} />
+      <ChatRoomFooter roomId={useRoomId} handleCallback={handleCallback} />
     </MainWrapper>
   );
 }
@@ -68,7 +68,6 @@ function NotFoundRoom() {
 }
 
 const MainWrapper = styled.div`
-  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -76,11 +75,9 @@ const MainWrapper = styled.div`
 `;
 
 const NotFoundRoomWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  height: 100%;
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
   color: gray;

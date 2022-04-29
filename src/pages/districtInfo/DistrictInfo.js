@@ -7,9 +7,11 @@ import DistrictInfoList from 'components/list/DistrictInfoList';
 import { getDistrictList } from 'apis/district';
 import { UserContext } from 'context/context';
 import { FaRegSadTear } from 'react-icons/fa';
+import Loading from 'components/loading/Loading';
 
 function DistrictInfoDelay() {
   const user = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(Boolean(user.id));
   const [districtInfoData, setDistrictInfoData] = useState([]);
 
@@ -18,11 +20,16 @@ function DistrictInfoDelay() {
   }, [user]);
 
   useEffect(() => {
-    getDistrictList().then(data => setDistrictInfoData(data.districtInfos));
-    console.log(districtInfoData);
+    getDistrictList().then(data => {
+      console.log(data);
+      setDistrictInfoData(data.districtInfos);
+      setLoading(false);
+    });
   }, [isLogin]);
 
-  return isLogin ? (
+  return loading ? (
+    <Loading />
+  ) : isLogin ? (
     <DistrictInfo data={districtInfoData} user={user} />
   ) : (
     <DistrictInfoNoLogin />

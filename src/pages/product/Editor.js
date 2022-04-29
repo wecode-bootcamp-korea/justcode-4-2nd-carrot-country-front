@@ -3,7 +3,7 @@ import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 import { type } from '@testing-library/user-event/dist/type';
-import { postProduct, postImage } from 'apis/product';
+import { postProduct } from 'apis/product';
 import { SERVER_PORT } from 'config';
 import { UserContext } from 'context/context';
 import LeavePageButton from 'components/buttons/LeavePageButton';
@@ -20,7 +20,6 @@ const Editor = props => {
   const quillInstance = useRef(null); //quill 생성용
   const categorySelection = useRef(null);
   const selectBox = useRef(null);
-  const [buttonEnable, setButtonEnable] = useState(false); //버튼 활성화
   const [priceInput, setPriceInput] = useState(false); //₩ 색 변경위한 state
   const [allContents, setAllContents] = useState({
     title: '',
@@ -31,6 +30,8 @@ const Editor = props => {
     price: '0',
     description: '',
   }); //게시글 정보 묶어서 저장
+
+  const { selectedImage, setProductId } = props;
 
   // 카테고리 받아와서 넘기기 위한 State
   const [category, setCategory] = useState({
@@ -62,10 +63,10 @@ const Editor = props => {
 
   //이미지 url 폼데이터로 변환 하는 함수
   const handleURLs = () => {
-    console.log('images', props.selectedImage);
+    console.log('images', selectedImage);
     const formData = new FormData();
-    for (let i = 0; i < props.selectedImage.length; i++) {
-      formData.append('images', props.selectedImage[i]);
+    for (let i = 0; i < selectedImage.length; i++) {
+      formData.append('images', selectedImage[i]);
     }
     for (let value of formData.values()) {
       console.log(value);
@@ -122,17 +123,17 @@ const Editor = props => {
       alert('제목을 더 입력해주세요');
       return;
     }
-    if (!sendableResult.categoryId || sendableResult.categoryId == '0') {
+    if (!sendableResult.categoryId || sendableResult.categoryId === '0') {
       onCategoryNotSelected();
       alert('카테고리를 선택해주세요');
       return;
     }
-    if (props.selectedImage.length < 1) {
+    if (selectedImage.length < 1) {
       alert('사진을 등록해주세요');
       return;
     } else {
       postProduct(sendableResult, imageResult).then(data =>
-        props.setProductId(data.productId)
+        setProductId(data.productId)
       );
     }
   };
@@ -168,9 +169,9 @@ const Editor = props => {
             <PlaceHolder value="0" ref={categorySelection}>
               카테고리 선택
             </PlaceHolder>
-            {category.categories.map(props => (
-              <DropDown key={props.id} value={props.id}>
-                {props.categoryName}
+            {category.categories.map(data => (
+              <DropDown key={data.id} value={data.id}>
+                {data.categoryName}
               </DropDown>
             ))}
           </CategorySelect>
@@ -183,7 +184,6 @@ const Editor = props => {
       </EditorWrapper>
       <ButtonWrapper>
         <SubmitButton
-          button={buttonEnable}
           // onClick={buttonEnable ? () => handleSubmit() : null}
           onClick={() => onButtonClick()}
         >
@@ -195,21 +195,11 @@ const Editor = props => {
   ) : null;
 };
 
-const EditorWrapper = styled.div`
-  /* display: flex;
-  justify-content: center;
-  overflow: auto; */
-`;
+const EditorWrapper = styled.div``;
 const EditorBlock = styled.div`
   display: flex;
   flex-direction: column;
-  /* @media (max-width: 1024px) {
-    padding: 0px 15px;
-  }
-  @media (min-width: 891px) {
-    width: 677px;
-    margin: 0px auto;
-  } */
+
   @media (max-width: 690px) {
     width: 500px;
   }
@@ -335,7 +325,7 @@ const SubmitButton = styled.button`
   font-size: 20px;
 
   :hover {
-    cursor: ${props => (props.button ? 'cursor' : null)};
+    cursor: pointer;
   }
 `;
 

@@ -8,9 +8,9 @@ const getCities = async () => {
     .then(data => data);
 };
 
-const getDistricts = async cities => {
-  console.log('api내에서>>', cities.selectedCity);
-  return await fetch(`${SERVER_PORT}/area/district/${cities}`, {
+const getDistricts = async selectedCity => {
+  console.log('api내에서>>', selectedCity);
+  return await fetch(`${SERVER_PORT}/area/district/${selectedCity}`, {
     method: 'GET',
   })
     .then(res => res.json())

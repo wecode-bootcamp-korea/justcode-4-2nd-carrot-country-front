@@ -1,35 +1,55 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { handleEnterRoom } from 'apis/socket';
+import { handleEnterRoom, socket } from 'apis/socket';
 import { getChatRooms } from 'apis/chat';
 import { UserContext } from 'context/context';
 import { SERVER_PORT, CLIENT_PORT } from 'config';
 import moment from 'moment';
 
 import { ImList } from 'react-icons/im';
-import styled from 'styled-components';
+import { BsFillCircleFill, BsList } from 'react-icons/bs';
+import {
+  MainWrapper,
+  ChatProfile,
+  ChatListWrapper,
+  ItemWrapper,
+  NotFoundWrapper,
+} from 'components/chat/ChatListStyle';
+import { timeFormat } from 'utils/format';
 
 function ChatListDelay(props) {
-  const { useRoomId, setUseRoomId } = props;
+  const { useRoomId, setUseRoomId, forceUpdate, dropDown, setDropDown } = props;
   const [rooms, setRooms] = useState([]);
   const myInfo = useContext(UserContext);
 
   useEffect(() => {
-    getChatRooms(myInfo.id).then(data => {
-      data.rooms.sort((a, b) => {
-        return a.chat[0]?.createdAt > b.chat[0]?.createdAt ? -1 : 1;
+    if (myInfo.id) {
+      getChatRooms(myInfo.id).then(data => {
+        data.rooms.sort((a, b) => {
+          return a.chat.length === 0 || b.chat.length === 0
+            ? 1
+            : moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
+              moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+            ? -1
+            : 1;
+        });
+        setRooms(data.rooms);
       });
-      setRooms(data.rooms);
-    });
-  }, [myInfo]);
+    }
+  }, [myInfo, forceUpdate]);
 
   return (
     <MainWrapper>
       <ChatProfile>
-        <img
-          src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
-          alt="userImage"
-        />
-        <h1>{myInfo.nickname}</h1>
+        <div>
+          <img
+            src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
+            alt="userImage"
+          />
+          <h1>{myInfo.nickname}</h1>
+        </div>
+        <div onClick={() => setDropDown(!dropDown)}>
+          <BsList size={24} />
+        </div>
       </ChatProfile>
       {rooms && rooms.length > 0 ? (
         <ChatList
@@ -37,6 +57,8 @@ function ChatListDelay(props) {
           useRoomId={useRoomId}
           setUseRoomId={setUseRoomId}
           rooms={rooms}
+          setRooms={setRooms}
+          setDropDown={setDropDown}
         />
       ) : (
         <NotFoundRooms />
@@ -46,11 +68,32 @@ function ChatListDelay(props) {
 }
 
 function ChatList(props) {
-  const { rooms, useRoomId, setUseRoomId } = props;
+  const { rooms, setRooms, useRoomId, setUseRoomId, setDropDown } = props;
 
   const handleCallback = roomId => {
     setUseRoomId(roomId);
   };
+
+  socket.on('new_alarm', (roomId, chat) => {
+    const updateRoom = rooms.map(room => {
+      if (room.id === roomId) {
+        room.chat[0].text = chat.text;
+        room.chat[0].createdAt = chat.createdAt;
+        room.newText = true;
+      }
+      return room;
+    });
+
+    updateRoom.sort((a, b) => {
+      return a.chat.length === 0 || b.chat.length === 0
+        ? 1
+        : moment(a.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss') >
+          moment(b.chat[0]?.createdAt).format('YYYY-MM-DD HH:mm:ss')
+        ? -1
+        : 1;
+    });
+    setRooms(updateRoom);
+  });
 
   return (
     <ChatListWrapper>
@@ -59,8 +102,11 @@ function ChatList(props) {
           <ChatListItem
             key={room.id}
             room={room}
+            rooms={rooms}
+            setRooms={setRooms}
             useRoomId={useRoomId}
             handleCallback={handleCallback}
+            setDropDown={setDropDown}
           />
         );
       })}
@@ -69,7 +115,8 @@ function ChatList(props) {
 }
 
 function ChatListItem(props) {
-  const { room, useRoomId, handleCallback } = props;
+  const { room, rooms, setRooms, useRoomId, handleCallback, setDropDown } =
+    props;
   const myInfo = useContext(UserContext);
   const otherUser =
     myInfo.id === room.buyer.id
@@ -82,13 +129,23 @@ function ChatListItem(props) {
   const lastTime = room.lastVisitAt ? room.lastVisitAt : room.createdAt;
 
   const isEnter = useRoomId === room.id;
+  const isNew = !!room.newText;
 
   return (
     <ItemWrapper
+      id={room.id}
       isEnter={isEnter}
-      key={room.id}
+      newAlarm={room.newAlarm ? true : false}
       onClick={() => {
+        setDropDown(false);
         handleEnterRoom(room.id, handleCallback);
+        let updateRoom = rooms.map(_room => {
+          if (_room.id === room.id) {
+            delete _room.newText;
+          }
+          return _room;
+        });
+        setRooms(updateRoom);
       }}
     >
       <div className="userImage">
@@ -96,12 +153,13 @@ function ChatListItem(props) {
           src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
           alt="userImage"
         />
+        {isNew && <BsFillCircleFill size={10} />}
       </div>
       <div className="userMiddle" id={room.id}>
         <div className="userInfo">
           <span>{otherUser}</span>
           <span>{otherUserDistrict}</span>
-          <span>{moment(lastTime).format('HH:mm')}</span>
+          <span>{timeFormat(lastTime)}</span>
         </div>
         <p className="lastChat">{room.chat[0]?.text}</p>
       </div>
@@ -123,104 +181,5 @@ function NotFoundRooms() {
     </NotFoundWrapper>
   );
 }
-const MainWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #f0f0f0;
-  border-left: 1px solid #f0f0f0;
-`;
 
-const ChatProfile = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  background-color: ${props => props.theme.signColor};
-  color: #ffff;
-  img {
-    width: 44px;
-    margin: 10px 20px;
-    border-radius: 100%;
-  }
-  h1 {
-    margin: auto 20px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-`;
-
-const ChatListWrapper = styled.div`
-  height: 100%;
-  overflow: scroll;
-`;
-
-const ItemWrapper = styled.div`
-  display: flex;
-  padding: 20px;
-  border-bottom: 1px solid #f0f0f0;
-  cursor: pointer;
-  background-color: ${props => (props.isEnter ? '#f0f0f0' : '#ffff')};
-  :hover {
-    background-color: #f0f0f0;
-  }
-  .userImage {
-    img {
-      width: 44px;
-      border-radius: 100%;
-      border: 0.5px solid silver;
-    }
-  }
-  .userMiddle {
-    width: 0px;
-    flex: 1;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin-left: 10px;
-    .userInfo {
-      span:nth-child(1) {
-        font-weight: bold;
-        font-size: 14px;
-      }
-      span:nth-child(2),
-      span:nth-child(3) {
-        font-size: 13px;
-        margin-left: 6px;
-        color: gray;
-      }
-    }
-    .lastChat {
-      margin-top: 10px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      font-size: 14px;
-      color: #424242;
-    }
-  }
-  .productImage {
-    width: 44px;
-    height: 44px;
-    img {
-      width: 100%;
-      height: 100%;
-      border: 0.5px solid silver;
-      border-radius: 5px;
-      object-fit: cover;
-    }
-  }
-`;
-
-const NotFoundWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 100px;
-  p {
-    margin-top: 30px;
-    color: gray;
-  }
-`;
 export default ChatListDelay;

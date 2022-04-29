@@ -16,6 +16,27 @@ async function getProductListBest() {
     .then(data => data);
 }
 
+async function getProductListCity(selectedCity) {
+  console.log('get product list city api>> ', selectedCity);
+  return await fetch(`${SERVER_PORT}/products/best?cityId=${selectedCity}`)
+    .then(res => res.json())
+    .then(data => data);
+}
+
+async function getProductListDistrict(selectedCity, selectedDistrict) {
+  console.log(
+    'product js: selectedCity >>>',
+    selectedCity,
+    ' selectedDistrict >>> ',
+    selectedDistrict
+  );
+  return await fetch(
+    `${SERVER_PORT}/products/best?cityId=${selectedCity}&districtId=${selectedDistrict}`
+  )
+    .then(res => res.json())
+    .then(data => data);
+}
+
 async function getProductDetail(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}`)
     .then(res => res.json())
@@ -38,7 +59,6 @@ async function postProduct(allContents, imageResult) {
       fetch(`${SERVER_PORT}/products/images`, {
         method: 'POST',
         headers: {
-          // 'Content-Type': 'multipart/form-data',
           token:
             localStorage.getItem('token') || sessionStorage.getItem('token'),
         },
@@ -48,19 +68,6 @@ async function postProduct(allContents, imageResult) {
         .then(data => data)
     );
 }
-
-// function postImage(props) {
-//   fetch(`${SERVER_PORT}/products/images`, {
-//     method: 'POST',
-//     headers: {
-//       // 'Content-Type': 'multipart/form-data',
-//       token: localStorage.getItem('token') || sessionStorage.getItem('token'),
-//     },
-//     body: props,
-//   })
-//     .then(res => res.json())
-//     .then(data => console.log(data));
-// }
 
 async function updateIntrested(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}/interested`, {
@@ -92,12 +99,22 @@ async function deleteIntrested(productId) {
     .then(data => data);
 }
 
+async function getSearchProductList(keyword) {
+  return await fetch(
+    `${SERVER_PORT}/products/search/product?keyword=${keyword}`
+  )
+    .then(res => res.json())
+    .then(data => data);
+}
+
 export {
   getProductList,
   getProductListBest,
+  getProductListCity,
+  getProductListDistrict,
   getProductDetail,
   postProduct,
-  // postImage,
   updateIntrested,
   deleteIntrested,
+  getSearchProductList,
 };
