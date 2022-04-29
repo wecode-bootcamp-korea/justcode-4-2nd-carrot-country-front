@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
 import Login from 'components/login/Login';
@@ -24,21 +24,18 @@ function Header() {
   const [useOpenLogin, setUseOpenLogin] = useState(false);
   const [useKeyword, setUseKeyword] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
-  const goToMain = () => {
-    navigate('/');
+  useEffect(() => {
+    setIsButtonClicked(false);
+  }, [location.pathname]);
+
+  const handleNavigate = path => {
+    navigate(path);
   };
-  const goToDistrictInfo = () => {
-    navigate('/district-info');
-  };
-  const goToProducts = () => {
-    navigate('/product');
-  };
-  const gotoChat = () => {
-    navigate('/chat');
-  };
+
   const handleLogout = () => {
     const logoutconfirm = window.confirm('로그아웃 하시겠습니까?');
     if (logoutconfirm) {
@@ -63,7 +60,7 @@ function Header() {
   return (
     <HeaderSize>
       <HeaderWrapper>
-        <LogoWrapper onClick={goToMain}>
+        <LogoWrapper onClick={() => handleNavigate('/')}>
           <img
             src={`${CLIENT_PORT}/images/logo/logo2.png`}
             alt="logo"
@@ -94,8 +91,8 @@ function Header() {
           <AiOutlineMenu />
         </NavButton>
         <NavMenu isButtonClicked={isButtonClicked}>
-          <li onClick={goToProducts}>동네매물</li>
-          <li onClick={goToDistrictInfo}>동네소식</li>
+          <li onClick={() => handleNavigate('/product')}>동네매물</li>
+          <li onClick={() => handleNavigate('/district-info')}>동네소식</li>
           <li>|</li>
           {user.id !== '' ? (
             <>
@@ -110,7 +107,9 @@ function Header() {
           )}
         </NavMenu>
         {user.id !== '' && (
-          <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
+          <ChatButton onClick={() => handleNavigate('/chat')}>
+            당근채팅
+          </ChatButton>
         )}
       </HeaderWrapper>
       {useOpenLogin && (

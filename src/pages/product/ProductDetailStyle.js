@@ -94,8 +94,12 @@ const InfoLike = styled.div`
   svg {
     cursor: pointer;
     margin-left: 6px;
+    transition: transform 300ms ease;
     color: ${props =>
       props.isIntrested ? props.theme.signColor : '#66666647'};
+    :hover {
+      transform: scale(1.2);
+    }
   }
 `;
 
