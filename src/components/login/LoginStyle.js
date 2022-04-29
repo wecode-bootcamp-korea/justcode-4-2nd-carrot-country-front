@@ -1,27 +1,22 @@
 import styled from 'styled-components';
 
 const LoginBox = styled.div`
-  @media (max-width: 800px) {
-    width: 365px;
-    margin: auto;
-  }
-  @media (min-width: 800px) {
-    width: 365px;
-    margin: auto;
-  }
+  width: 300px;
+  margin: auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
   padding: 21px 23px 23px 23px;
-  div {
-    text-align: center;
-  }
 `;
 
+const LogoBox = styled.div`
+  img {
+    width: 100%;
+  }
+`;
 const Id = styled.input`
-  width: 255px;
+  width: 100%;
   padding: 14px;
-  margin: 26px 0px 4px 0px;
+  margin: 50px 0px 20px 0px;
   border: 0;
   border-bottom: 1px solid ${props => props.theme.signColor};
   :focus {
@@ -30,9 +25,8 @@ const Id = styled.input`
 `;
 
 const Password = styled.input`
-  width: 255px;
+  width: 100%;
   padding: 14px;
-  margin: 10px;
   border: 0;
   border-bottom: 1px solid ${props => props.theme.signColor};
   :focus {
@@ -41,7 +35,7 @@ const Password = styled.input`
 `;
 
 const LoginBtn = styled.button`
-  width: 255px;
+  width: 100%;
   margin: 20px 0px 2px 0px;
   padding: 11px 0px;
   cursor: pointer;
@@ -52,27 +46,26 @@ const LoginBtn = styled.button`
   border: 0;
   background-color: #ff8a3d;
   ${({ disabled }) => disabled && `background-color: #ff8a3d96;`}
+  ${({ disabled }) => disabled && `cursor: default`}
 `;
 
 const Usersign = styled.div`
-  width: 300px;
-  font-size: 13px;
-  margin-top: 93px;
   padding: 35px 0px 10px 0px;
+  margin-top: 93px;
   text-align: center;
+  font-size: 13px;
 `;
 
 const Usersignup = styled.span`
-  color: #ff8a3d;
-  font-size: 13px;
-  margin: 0px 0px 2px 10px;
+  margin: 0px 0px 0px 10px;
   cursor: pointer;
+  color: #ff8a3d;
 `;
 
 const Save = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px 170px 0px 0px;
+  margin: 8px 0px 0px 0px;
   font-size: 13px;
   color: ${props => (props.isChecked ? props.theme.signColor : '#8c8c8c8f')};
   cursor: pointer;
@@ -81,4 +74,13 @@ const Save = styled.div`
   }
 `;
 
-export { LoginBox, Id, Password, LoginBtn, Save, Usersign, Usersignup };
+export {
+  LoginBox,
+  LogoBox,
+  Id,
+  Password,
+  LoginBtn,
+  Save,
+  Usersign,
+  Usersignup,
+};
