@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 import ChatList from 'components/chat/ChatList';
 import ChatRoom from 'components/chat/ChatRoom';
 // styles
-import styled from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { socket } from 'apis/socket';
 
 function Chat() {
@@ -45,10 +45,35 @@ function Chat() {
   );
 }
 
+const dropDownAnimation = keyframes`
+  0%{
+    height:64px;
+  }100%{
+    height: 100%;
+  }
+`;
+
+const dropUpAnimation = keyframes`
+ 0%{
+  height: 100%;
+ }100%{
+  height:64px;
+ }
+`;
+
+const dropDownStyled = css`
+  animation: ${dropDownAnimation} 0.2s linear;
+`;
+
+const dropUpStyled = css`
+  animation: ${dropUpAnimation} 0.1s linear;
+`;
+
 const MainWrapper = styled.main`
   @media (max-width: 890px) {
     flex-direction: column;
     #chatListWrapper {
+      ${props => (props.dropDown ? dropDownStyled : dropUpStyled)}
       height: ${props => (props.dropDown ? 100 + '%' : 64 + 'px')};
     }
     #chatRoomWrapper {
