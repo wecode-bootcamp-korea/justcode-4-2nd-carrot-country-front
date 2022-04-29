@@ -6,7 +6,7 @@ import { FaRegHeart, FaRegComment } from 'react-icons/fa';
 function DistrictInfoCard({ data, maxWidth }) {
   const navigate = useNavigate();
   const { id } = data;
-  console.log('범인!!!!!', data);
+
   return (
     <Size
       maxWidth={maxWidth}
