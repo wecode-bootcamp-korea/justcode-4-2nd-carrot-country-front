@@ -51,12 +51,14 @@ function ProductDetailDelay() {
     } else {
       getProductList().then(data => {
         const _data = [];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; 6 > _data.length; i++) {
           const product = data.productList[i];
           if (!product) {
             return;
           }
-          _data.push(product);
+          if (product.id !== productId) {
+            _data.push(product);
+          }
         }
         setProducts(_data);
       });
