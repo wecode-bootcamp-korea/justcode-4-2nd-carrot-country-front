@@ -57,6 +57,10 @@ function Header() {
     }
   };
 
+  const handleClick = () => {
+    navigate('/search', { state: { keyword: useKeyword } });
+  };
+
   return (
     <HeaderSize>
       <HeaderWrapper>
@@ -81,14 +85,17 @@ function Header() {
               setIsSearchForcus(false);
             }}
           />
-          <IoSearchOutline />
+          <IoSearchOutline
+            onClick={() => handleClick()}
+            className="maginfier"
+          />
         </SearchBarWrapper>
         <NavButton
           onClick={() => {
             setIsButtonClicked(prev => !prev);
           }}
         >
-          <AiOutlineMenu />
+          <AiOutlineMenu style={{}} />
         </NavButton>
         <NavMenu isButtonClicked={isButtonClicked}>
           <li onClick={() => handleNavigate('/product')}>동네매물</li>
