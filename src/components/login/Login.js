@@ -10,6 +10,7 @@ import Modal from 'components/modal/Modal';
 import { AiFillCheckSquare } from 'react-icons/ai';
 import {
   LoginBox,
+  LogoBox,
   Id,
   Password,
   LoginBtn,
@@ -98,11 +99,9 @@ function Login(props) {
       useFadeOut={useFadeOut}
     >
       <LoginBox width="200px">
-        <img
-          src={`${CLIENT_PORT}/images/logo/logo1.png`}
-          alt="logo"
-          width="225px"
-        />
+        <LogoBox>
+          <img src={`${CLIENT_PORT}/images/logo/logo1.png`} alt="logo" />
+        </LogoBox>
         <div>
           <Id
             onChange={handleIdInput}
@@ -121,15 +120,17 @@ function Login(props) {
             required
           />
         </div>
-        <LoginBtn disabled={!isValidButton} onClick={handleLogin}>
-          로그인
-        </LoginBtn>
+        <div>
+          <LoginBtn disabled={!isValidButton} onClick={handleLogin}>
+            로그인
+          </LoginBtn>
+        </div>
         <Save isChecked={useSave} onClick={handleSave}>
           <AiFillCheckSquare size={18} />
           <span>자동로그인</span>
         </Save>
         <Usersign>
-          아직 회원이 아니신가요?
+          <span>아직 회원이 아니신가요?</span>
           <Usersignup onClick={goToSignup}>회원가입</Usersignup>
         </Usersign>
       </LoginBox>

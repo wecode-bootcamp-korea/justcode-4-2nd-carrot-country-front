@@ -59,7 +59,6 @@ async function postProduct(allContents, imageResult) {
       fetch(`${SERVER_PORT}/products/images`, {
         method: 'POST',
         headers: {
-          // 'Content-Type': 'multipart/form-data',
           token:
             localStorage.getItem('token') || sessionStorage.getItem('token'),
         },
@@ -100,6 +99,14 @@ async function deleteIntrested(productId) {
     .then(data => data);
 }
 
+async function getSearchProductList(keyword) {
+  return await fetch(
+    `${SERVER_PORT}/products/search/product?keyword=${keyword}`
+  )
+    .then(res => res.json())
+    .then(data => data);
+}
+
 export {
   getProductList,
   getProductListBest,
@@ -109,4 +116,5 @@ export {
   postProduct,
   updateIntrested,
   deleteIntrested,
+  getSearchProductList,
 };

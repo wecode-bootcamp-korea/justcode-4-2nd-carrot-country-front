@@ -1,27 +1,15 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { UserContext } from 'context/context';
 import { SERVER_PORT } from 'config';
+import { useNavigate } from 'react-router-dom';
+
+import { priceFormat } from 'utils/format';
 
 import styled from 'styled-components';
-import { priceFormat } from 'utils/format';
-import { useNavigate } from 'react-router-dom';
 
 function GridList({ data }) {
   const myInfo = useContext(UserContext);
   const navigate = useNavigate();
-  const [useWidth, setUseWidth] = useState(
-    window.innerWidth > 890 ? 0 : window.innerWidth
-  );
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  const handleResize = () => {
-    setUseWidth(window.innerWidth);
-  };
 
   const handleNavigate = productId => {
     navigate(`/product/detail`, { state: { productId } });
@@ -31,7 +19,7 @@ function GridList({ data }) {
       <Header>
         {myInfo.id === '' ? <h2>인기매물</h2> : <h2>우리동네 매물</h2>}
       </Header>
-      <Content width={useWidth}>
+      <Content>
         {data.map(item => {
           return (
             <div
@@ -100,7 +88,7 @@ const Content = styled.div`
 
       .imageWrapper {
         width: 100%;
-        max-height: 220px;
+        height: 220px;
       }
     }
   }

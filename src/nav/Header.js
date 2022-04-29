@@ -1,4 +1,4 @@
-import React, { useContext, useState, useLayoutEffect } from 'react';
+import React, { useContext, useState, useEffect, useLayoutEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
@@ -19,12 +19,12 @@ import { UserContext, UserDispatchContext } from 'context/context';
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isSearchForcus, setIsSearchForcus] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [useOpenSignup, setUseOpenSignup] = useState(false);
   const [useOpenLogin, setUseOpenLogin] = useState(false);
   const [useKeyword, setUseKeyword] = useState('');
-  const navigate = useNavigate();
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
@@ -32,18 +32,14 @@ function Header() {
     document.documentElement.scrollTo(0, 0);
   }, [location.pathname]);
 
-  const goToMain = () => {
-    navigate('/');
+  useEffect(() => {
+    setIsButtonClicked(false);
+  }, [location.pathname]);
+
+  const handleNavigate = path => {
+    navigate(path);
   };
-  const goToDistrictInfo = () => {
-    navigate('/district-info');
-  };
-  const goToProducts = () => {
-    navigate('/product');
-  };
-  const gotoChat = () => {
-    navigate('/chat');
-  };
+
   const handleLogout = () => {
     const logoutconfirm = window.confirm('로그아웃 하시겠습니까?');
     if (logoutconfirm) {
@@ -65,10 +61,14 @@ function Header() {
     }
   };
 
+  const handleClick = () => {
+    navigate('/search', { state: { keyword: useKeyword } });
+  };
+
   return (
     <HeaderSize>
       <HeaderWrapper>
-        <LogoWrapper onClick={goToMain}>
+        <LogoWrapper onClick={() => handleNavigate('/')}>
           <img
             src={`${CLIENT_PORT}/images/logo/logo2.png`}
             alt="logo"
@@ -89,18 +89,21 @@ function Header() {
               setIsSearchForcus(false);
             }}
           />
-          <IoSearchOutline />
+          <IoSearchOutline
+            onClick={() => handleClick()}
+            className="maginfier"
+          />
         </SearchBarWrapper>
         <NavButton
           onClick={() => {
             setIsButtonClicked(prev => !prev);
           }}
         >
-          <AiOutlineMenu />
+          <AiOutlineMenu style={{}} />
         </NavButton>
         <NavMenu isButtonClicked={isButtonClicked}>
-          <li onClick={goToProducts}>동네매물</li>
-          <li onClick={goToDistrictInfo}>동네소식</li>
+          <li onClick={() => handleNavigate('/product')}>동네매물</li>
+          <li onClick={() => handleNavigate('/district-info')}>동네소식</li>
           <li>|</li>
           {user.id !== '' ? (
             <>
@@ -115,7 +118,9 @@ function Header() {
           )}
         </NavMenu>
         {user.id !== '' && (
-          <ChatButton onClick={() => gotoChat()}>당근채팅</ChatButton>
+          <ChatButton onClick={() => handleNavigate('/chat')}>
+            당근채팅
+          </ChatButton>
         )}
       </HeaderWrapper>
       {useOpenLogin && (

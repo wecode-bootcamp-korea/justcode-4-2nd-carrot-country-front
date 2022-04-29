@@ -9,7 +9,7 @@ import {
   getProductList,
 } from 'apis/product';
 import { UserContext } from 'context/context';
-import { priceFormat } from 'utils/format';
+import { priceFormat, timeFormat } from 'utils/format';
 
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
@@ -51,12 +51,14 @@ function ProductDetailDelay() {
     } else {
       getProductList().then(data => {
         const _data = [];
-        for (let i = 0; i < 6; i++) {
+        for (let i = 0; 6 > _data.length; i++) {
           const product = data.productList[i];
           if (!product) {
             return;
           }
-          _data.push(product);
+          if (product.id !== productId) {
+            _data.push(product);
+          }
         }
         setProducts(_data);
       });
@@ -127,7 +129,7 @@ function ProductDetail(props) {
           <h1>{product.title}</h1>
           <div>
             <span>{product.category.categoryName}</span>
-            <span>2시간 전</span>
+            <span>{timeFormat(product.createdAt)}</span>
           </div>
           <div>
             <span>{priceFormat(product.price)}</span>

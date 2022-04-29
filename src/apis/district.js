@@ -41,3 +41,11 @@ export async function postDistrict(allContents, imageResult) {
         .then(data => data)
     );
 }
+
+export async function getSearchDistrictList(districtInfoData) {
+  return await fetch(
+    `${SERVER_PORT}/infos/search/info?keyword=${districtInfoData}`
+  )
+    .then(res => res.json())
+    .then(data => data);
+}
