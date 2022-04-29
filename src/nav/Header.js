@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState, useLayoutEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
 import Login from 'components/login/Login';
@@ -18,6 +18,7 @@ import { AiOutlineMenu } from 'react-icons/ai';
 import { UserContext, UserDispatchContext } from 'context/context';
 
 function Header() {
+  const location = useLocation();
   const [isSearchForcus, setIsSearchForcus] = useState(false);
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [useOpenSignup, setUseOpenSignup] = useState(false);
@@ -26,6 +27,10 @@ function Header() {
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
+
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
 
   const goToMain = () => {
     navigate('/');
