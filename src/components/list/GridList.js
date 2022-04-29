@@ -88,7 +88,7 @@ const Content = styled.div`
 
       .imageWrapper {
         width: 100%;
-        max-height: 220px;
+        height: 220px;
       }
     }
   }

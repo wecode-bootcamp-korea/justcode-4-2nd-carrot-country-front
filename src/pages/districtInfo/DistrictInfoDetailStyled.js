@@ -113,7 +113,7 @@ const CommentSignup = styled.div`
     width: 677px;
     margin: 0px auto;
   }
-  form {
+  div {
     display: flex;
     align-items: center;
     margin: 20px 0px;
@@ -125,6 +125,10 @@ const CommentSignup = styled.div`
     border: none;
     border-radius: 8px;
     background-color: #f6f6f6;
+    :focus {
+      outline: none;
+      border: 0.5px solid black;
+    }
   }
   .submitIcon {
     margin-left: 10px;

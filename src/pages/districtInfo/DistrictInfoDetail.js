@@ -1,14 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from 'context/context';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
-import { SERVER_PORT } from 'config';
 import { postComment } from 'apis/comment';
 import { getDistrictDetail } from 'apis/district';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
-import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
 
 import {
@@ -30,8 +28,6 @@ function DIDetail() {
   const [comment, setComment] = useState('');
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
-  // const myInfo = useContext(UserContext);
-  // const [trash, setTrash] = useState('');
 
   useEffect(() => {
     getDistrictDetail(districtInfoId).then(data => {
@@ -110,17 +106,17 @@ function DIDetail() {
         <CommentInput districtInfoId={districtInfoId} />
       </CommentsWrapper>
       <CommentSignup>
-        <form>
+        <div>
           <input
             type="text"
             onChange={e => handleComment(e)}
             placeholder="댓글을 입력해주세요"
           />
-          <BsFillArrowRightCircleFill
+          <BsFillArrowUpCircleFill
             className="submitIcon"
             onClick={handleSubmit}
           />
-        </form>
+        </div>
       </CommentSignup>
     </MainWrapper>
   ) : (
