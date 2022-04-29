@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
 import Login from 'components/login/Login';
+import Mypage from 'pages/Mypage';
 import {
   HeaderSize,
   HeaderWrapper,
@@ -24,6 +25,7 @@ function Header() {
   const [isButtonClicked, setIsButtonClicked] = useState(false);
   const [useOpenSignup, setUseOpenSignup] = useState(false);
   const [useOpenLogin, setUseOpenLogin] = useState(false);
+  const [useOpenMypage, setUseOpenMypage] = useState(false);
   const [useKeyword, setUseKeyword] = useState('');
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
@@ -105,7 +107,7 @@ function Header() {
           {user.id !== '' ? (
             <>
               <li onClick={() => handleLogout()}>로그아웃</li>
-              <li onClick={() => setUseOpenLogin(true)}>마이페이지</li>
+              <li onClick={() => handleNavigate('/mypage')}>마이페이지</li>
             </>
           ) : (
             <>

@@ -200,6 +200,7 @@ const UserLife = styled.div`
     margin: 0px auto;
   }
   div {
+    font-weight: 600;
     padding: 23px;
     border-bottom: 1px solid #99999940;
   }
@@ -222,7 +223,8 @@ const UserEstimation = styled.div`
     padding: 23px;
   } */
   .estimateTitle {
-    padding: 0px 23px 5px 23px;
+    font-weight: 600;
+    padding: 3px 23px 5px 23px;
   }
   /* .comment {
     font-size: 10px;
@@ -244,13 +246,13 @@ const UserEstimation = styled.div`
     display: inline-block;
     border-radius: 5px;
     margin-bottom: 10px;
-    padding: 13px;
+    padding: 15px 13px;
     background-color: #f5f5f5;
   }
 `;
 
 const UserChat = styled.div`
-  margin: 30px;
+  margin: 20px 30px 30px 30px;
   @media (max-width: 890px) {
     padding: 0px 15px;
   }
