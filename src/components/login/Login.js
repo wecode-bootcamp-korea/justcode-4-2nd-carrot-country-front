@@ -78,7 +78,11 @@ function Login(props) {
   const handlePwInput = e => {
     setPw(e.target.value);
   };
-
+  const handleEnter = e => {
+    if (e.keyCode === 13) {
+      handleLogin();
+    }
+  };
   const isValidButton = isValidId(id) && isValidPw(pw);
 
   function isValidId(str) {
@@ -105,6 +109,7 @@ function Login(props) {
         <div>
           <Id
             onChange={handleIdInput}
+            onKeyDown={handleEnter}
             type="text"
             placeholder="아이디를 입력하세요"
             id="id"
@@ -113,6 +118,7 @@ function Login(props) {
           />
           <Password
             onChange={handlePwInput}
+            onKeyDown={handleEnter}
             type="password"
             placeholder="비밀번호를 입력하세요"
             id="password"

@@ -6,7 +6,7 @@ import { SERVER_PORT, CLIENT_PORT } from 'config';
 import moment from 'moment';
 
 import { ImList } from 'react-icons/im';
-import { BsFillCircleFill } from 'react-icons/bs';
+import { BsFillCircleFill, BsList } from 'react-icons/bs';
 import {
   MainWrapper,
   ChatProfile,
@@ -17,7 +17,7 @@ import {
 import { timeFormat } from 'utils/format';
 
 function ChatListDelay(props) {
-  const { useRoomId, setUseRoomId, forceUpdate } = props;
+  const { useRoomId, setUseRoomId, forceUpdate, dropDown, setDropDown } = props;
   const [rooms, setRooms] = useState([]);
   const myInfo = useContext(UserContext);
 
@@ -40,11 +40,16 @@ function ChatListDelay(props) {
   return (
     <MainWrapper>
       <ChatProfile>
-        <img
-          src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
-          alt="userImage"
-        />
-        <h1>{myInfo.nickname}</h1>
+        <div>
+          <img
+            src={`${CLIENT_PORT}/images/profile/userImageNotFound.png`}
+            alt="userImage"
+          />
+          <h1>{myInfo.nickname}</h1>
+        </div>
+        <div onClick={() => setDropDown(!dropDown)}>
+          <BsList size={24} />
+        </div>
       </ChatProfile>
       {rooms && rooms.length > 0 ? (
         <ChatList
@@ -53,6 +58,7 @@ function ChatListDelay(props) {
           setUseRoomId={setUseRoomId}
           rooms={rooms}
           setRooms={setRooms}
+          setDropDown={setDropDown}
         />
       ) : (
         <NotFoundRooms />
@@ -62,7 +68,7 @@ function ChatListDelay(props) {
 }
 
 function ChatList(props) {
-  const { rooms, setRooms, useRoomId, setUseRoomId } = props;
+  const { rooms, setRooms, useRoomId, setUseRoomId, setDropDown } = props;
 
   const handleCallback = roomId => {
     setUseRoomId(roomId);
@@ -100,6 +106,7 @@ function ChatList(props) {
             setRooms={setRooms}
             useRoomId={useRoomId}
             handleCallback={handleCallback}
+            setDropDown={setDropDown}
           />
         );
       })}
@@ -108,7 +115,8 @@ function ChatList(props) {
 }
 
 function ChatListItem(props) {
-  const { room, rooms, setRooms, useRoomId, handleCallback } = props;
+  const { room, rooms, setRooms, useRoomId, handleCallback, setDropDown } =
+    props;
   const myInfo = useContext(UserContext);
   const otherUser =
     myInfo.id === room.buyer.id
@@ -129,6 +137,7 @@ function ChatListItem(props) {
       isEnter={isEnter}
       newAlarm={room.newAlarm ? true : false}
       onClick={() => {
+        setDropDown(false);
         handleEnterRoom(room.id, handleCallback);
         let updateRoom = rooms.map(_room => {
           if (_room.id === room.id) {
