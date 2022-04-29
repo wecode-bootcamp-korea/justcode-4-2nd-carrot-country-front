@@ -117,9 +117,12 @@ function ProductDetail(props) {
           {!isMe && (
             <div
               className="ChatBtn"
-              onClick={() =>
-                handleCreateRoom(myInfo.id, product.id, handleCallback)
-              }
+              onClick={() => {
+                if (myInfo.id === '') {
+                  alert('로그인 후 이용 가능합니다.');
+                }
+                handleCreateRoom(myInfo.id, product.id, handleCallback);
+              }}
             >
               <span>판매자와 채팅하기</span>
             </div>

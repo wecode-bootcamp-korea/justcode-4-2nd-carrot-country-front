@@ -10,16 +10,33 @@ const MainWrapper = styled.div`
 
 const ChatProfile = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   background-color: ${props => props.theme.signColor};
   color: #ffff;
-  img {
-    width: 44px;
-    margin: 10px 10px 10px 20px;
-    border-radius: 100%;
+  div:nth-child(1) {
+    display: flex;
+    img {
+      width: 44px;
+      margin: 10px 10px 10px 20px;
+      border-radius: 100%;
+    }
+    h1 {
+      margin: auto 0px;
+      font-weight: bold;
+    }
   }
-  h1 {
-    margin: auto 0px;
-    font-weight: bold;
+  div:nth-child(2) {
+    @media (max-width: 890px) {
+      svg {
+        display: block !important;
+        margin-right: 20px;
+        cursor: pointer;
+      }
+    }
+    svg {
+      display: none;
+    }
   }
 `;
 

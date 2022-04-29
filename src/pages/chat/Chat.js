@@ -14,6 +14,7 @@ function Chat() {
 
   const [useRoomId, setUseRoomId] = useState(roomId ? roomId : null);
   const [forceUpdate, setForceUpdate] = useState(false);
+  const [dropDown, setDropDown] = useState(false);
 
   useEffect(() => {
     if (roomId) {
@@ -22,12 +23,14 @@ function Chat() {
   }, [roomId]);
 
   return (
-    <MainWrapper>
+    <MainWrapper dropDown={dropDown}>
       <section className="chatContainer" id="chatListWrapper">
         <ChatList
           useRoomId={useRoomId}
           setUseRoomId={setUseRoomId}
           forceUpdate={forceUpdate}
+          dropDown={dropDown}
+          setDropDown={setDropDown}
         />
       </section>
       <section className="chatContainer" id="chatRoomWrapper">
@@ -43,35 +46,48 @@ function Chat() {
 }
 
 const MainWrapper = styled.main`
-  #chatRoomWrapper {
-    position: relative;
-  }
   @media (max-width: 890px) {
+    flex-direction: column;
     #chatListWrapper {
-      display: none;
+      height: ${props => (props.dropDown ? 100 + '%' : 64 + 'px')};
     }
     #chatRoomWrapper {
-      margin-left: 10px;
-      margin-right: 10px;
+      min-height: 0%;
+      display: ${props => (props.dropDown ? 'none' : '')};
+      border-top: 1px solid silver;
     }
   }
   @media (min-width: 891px) and (max-width: 1024px) {
     padding-left: 10px;
     padding-right: 10px;
+    #chatListWrapper {
+      flex: 1.2;
+    }
+    #chatRoomWrapper {
+      flex: 1.8;
+      position: relative;
+    }
   }
   @media (min-width: 1025px) {
     width: 1005px;
     margin: 0px auto;
+    #chatListWrapper {
+      flex: 1.2;
+    }
+    #chatRoomWrapper {
+      flex: 1.8;
+      position: relative;
+    }
   }
   display: flex;
   height: 100vh;
   padding-bottom: 10px;
   padding-top: 70px;
+
   #chatListWrapper {
-    flex: 1.2;
   }
   #chatRoomWrapper {
-    flex: 1.8;
+    height: 100%;
   }
 `;
 
