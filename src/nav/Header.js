@@ -30,9 +30,6 @@ function Header() {
 
   useLayoutEffect(() => {
     document.documentElement.scrollTo(0, 0);
-  }, [location.pathname]);
-
-  useEffect(() => {
     setIsButtonClicked(false);
   }, [location.pathname]);
 

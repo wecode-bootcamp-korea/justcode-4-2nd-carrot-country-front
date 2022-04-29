@@ -63,6 +63,7 @@ function ProductDetailDelay() {
         setProducts(_data);
       });
     }
+    document.documentElement.scrollTo(0, 0);
   }, [productId, myInfo.id]);
 
   return product ? (
