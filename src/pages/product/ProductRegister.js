@@ -87,14 +87,6 @@ const Register = () => {
     }
   };
 
-  // const openImage = e => {
-  //   setModalImageInfo({
-  //     index: e.target.value.index + 1,
-  //     imageSrc: e.target.value,
-  //   });
-  //   setOpenModal(true);
-  // };
-
   return (
     <WholeWrapper>
       <RegisterWrapper>
@@ -107,7 +99,9 @@ const Register = () => {
           >
             <BsFillCameraFill className="camera" />
             <PhotoCount>
-              <PhotoTotal>{selectedImage.length}</PhotoTotal>
+              <PhotoTotal length={selectedImage.length}>
+                {selectedImage.length}
+              </PhotoTotal>
               <PhotoLimit> /10</PhotoLimit>
             </PhotoCount>
             <PhotoInput
@@ -169,22 +163,41 @@ const Register = () => {
 const WholeWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 30px;
-  /* max-width: 1024px; */
-  @media (max-width: 1024px) {
-    padding: 0px 15px;
+  // 스마트폰
+  /* @media (max-width: 690px) {
+    width: 80%;
+    margin: 0px auto;
   }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 500px;
+    margin: 0px auto;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 677px;
+    margin: 0px auto;
+  } */
+`;
+const RegisterWrapper = styled.div`
+  /* display: flex; */
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  @media (max-width: 690px) {
+    width: 80%;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    justify-content: center;
+    width: 500px;
+  }
+  // 모니터
   @media (min-width: 891px) {
     width: 677px;
     margin: 0px auto;
   }
-`;
-const RegisterWrapper = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  align-items: center; */
-  width: 677px;
-  padding: 80px 0;
 `;
 
 const PhotoLine = styled.div`
@@ -199,7 +212,7 @@ const PhotoLine = styled.div`
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
-    width: 677px;
+    width: 500px;
     height: 140px;
     margin: 0px auto;
   }
@@ -271,7 +284,7 @@ const PhotoCount = styled.div`
   font-size: 150%;
 `;
 const PhotoTotal = styled.p`
-  color: #f47804;
+  color: ${props => (props.length > 0 ? '#f47804' : 'lightgray')};
 `;
 
 const PhotoLimit = styled.p`

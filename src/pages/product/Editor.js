@@ -200,7 +200,7 @@ const EditorBlock = styled.div`
   display: flex;
   flex-direction: column;
 
-  @media (max-width: 690px) {
+  /* @media (max-width: 690px) {
     width: 500px;
   }
   // 아이패드 (모바일 버전)
@@ -211,7 +211,7 @@ const EditorBlock = styled.div`
   // 모니터
   @media (min-width: 891px) {
     padding: 0px 15px;
-  }
+  } */
 `;
 
 const TitleInput = styled.input`
