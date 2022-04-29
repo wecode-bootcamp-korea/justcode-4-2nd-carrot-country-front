@@ -8,7 +8,7 @@ import styled from 'styled-components';
 
 function ChatRoomFooter(props) {
   const user = useContext(UserContext);
-  const { roomId, chats, setChats } = props;
+  const { roomId, handleCallback } = props;
   const [useText, setUseText] = useState('');
 
   const handleEnterKey = e => {
@@ -24,14 +24,10 @@ function ChatRoomFooter(props) {
   };
 
   const handleSubmit = () => {
-    if (useText !== '') {
+    if (useText.trim() !== '') {
       handleNewText(user.id, roomId, useText, handleCallback);
       setUseText('');
     }
-  };
-
-  const handleCallback = params => {
-    setChats([...chats, params]);
   };
 
   return (

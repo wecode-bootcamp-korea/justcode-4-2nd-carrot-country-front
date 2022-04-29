@@ -1,5 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from 'context/context';
+
 import styled, { keyframes, css } from 'styled-components';
 import theme from 'styles/theme';
 import { AiOutlinePlus } from 'react-icons/ai';
@@ -7,6 +9,7 @@ import { AiOutlinePlus } from 'react-icons/ai';
 function RegisterButton() {
   const navigate = useNavigate();
   const [isListOpen, setIsListOpen] = useState(false);
+  const myInfo = useContext(UserContext);
 
   const goToProductRegister = () => {
     navigate('/product/register');
@@ -15,7 +18,7 @@ function RegisterButton() {
   const goToDistrictRegister = () => {
     navigate('/district-info/register');
   };
-  return (
+  return myInfo.id !== '' ? (
     <>
       <Background
         isListOpen={isListOpen}
@@ -40,6 +43,8 @@ function RegisterButton() {
         </StyledButton>
       </ButtonWrapper>
     </>
+  ) : (
+    ''
   );
 }
 

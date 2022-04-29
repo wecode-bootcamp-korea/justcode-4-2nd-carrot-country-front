@@ -1,14 +1,12 @@
-import { useContext, useEffect, useState } from 'react';
-import { UserContext } from 'context/context';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
-import { SERVER_PORT } from 'config';
 import { postComment } from 'apis/comment';
 import { getDistrictDetail } from 'apis/district';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
-import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { BsFillArrowUpCircleFill } from 'react-icons/bs';
 import { AiFillHeart } from 'react-icons/ai';
 
 import {
@@ -35,7 +33,6 @@ function DIDetail() {
 
   useEffect(() => {
     getDistrictDetail(districtInfoId).then(data => {
-      console.log('dfd', districtInfoId);
       if (data.message === 'SUCCESS') {
         setData(data.districtInfo);
       }
@@ -96,18 +93,18 @@ function DIDetail() {
         />
       </CommentsWrapper>
       <CommentSignup>
-        <form>
+        <div>
           <input
             type="text"
             value={comment}
             onChange={e => handleComment(e)}
             placeholder="댓글을 입력해주세요"
           />
-          <BsFillArrowRightCircleFill
+          <BsFillArrowUpCircleFill
             className="submitIcon"
             onClick={handleSubmit}
           />
-        </form>
+        </div>
       </CommentSignup>
     </MainWrapper>
   ) : (

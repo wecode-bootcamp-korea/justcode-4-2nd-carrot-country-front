@@ -10,8 +10,8 @@ import { UserContext } from 'context/context';
 function CommentInput(props) {
   const { districtInfoId, forceUpdate } = props;
   const [data, setData] = useState();
-  const [trash, setTrash] = useState();
-  const [trashs, setTrashs] = useState();
+  const [commentID, setCommentID] = useState(0);
+  // const [trash, setTrash] = useState();
   const myInfo = useContext(UserContext);
 
   useEffect(() => {
@@ -19,6 +19,7 @@ function CommentInput(props) {
       if (data.message === 'SUCCESS') {
         setData(data.infoComments);
       }
+      console.log(data);
     });
   }, [districtInfoId, forceUpdate]);
 
@@ -33,11 +34,19 @@ function CommentInput(props) {
 
   // }
 
-  // const onRemove = e => {
-  //   setTrashs(trashs.filter(trash => trash.id !== id));
-  //   // const { commentsT } = this.state;
-  //   // const commentsT = commentsT.filter(key => key.id !== id);
+  // let trashDelete = null;
+
+  // const handleRemove = e => {
+  //   // console.log('key', e.target.key);
+  //   console.log('data', data.id);
+  //   trashDelete = e.target.key;
+  //   deleteTrash(trashDelete);
   // };
+
+  const handleRemove = id => {
+    setCommentID(id);
+    deleteTrash(commentID).then(data => console.log(data));
+  };
 
   return data ? (
     <>
@@ -56,7 +65,7 @@ function CommentInput(props) {
                   className="trashIcon"
                   method="delete"
                   // onClick={onRemove}
-                  // onClick={() => this.handleRemove(e.id)}
+                  onClick={() => handleRemove(item.id)}
                 />
               )}
             </div>

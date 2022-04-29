@@ -94,17 +94,15 @@ const InfoLike = styled.div`
   svg {
     cursor: pointer;
     margin-left: 6px;
+    transition: transform 300ms ease;
     color: ${props =>
       props.isIntrested ? props.theme.signColor : '#66666647'};
+    :hover {
+      transform: scale(1.2);
+    }
   }
 `;
-const ProductsWrapper = styled.div`
-  h2 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 20px;
-  }
-`;
+
 export {
   MainWrapper,
   InfoWrapper,
@@ -113,5 +111,4 @@ export {
   InfoTop,
   InfoBottom,
   InfoLike,
-  ProductsWrapper,
 };
