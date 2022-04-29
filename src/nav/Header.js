@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useContext, useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
 import Login from 'components/login/Login';
@@ -24,11 +24,15 @@ function Header() {
   const [useOpenLogin, setUseOpenLogin] = useState(false);
   const [useKeyword, setUseKeyword] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
 
-  const handleNavigate = path => {
+  useEffect(() => {
     setIsButtonClicked(false);
+  }, [location.pathname]);
+
+  const handleNavigate = path => {
     navigate(path);
   };
 
