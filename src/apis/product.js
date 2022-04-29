@@ -24,12 +24,6 @@ async function getProductListCity(selectedCity) {
 }
 
 async function getProductListDistrict(selectedCity, selectedDistrict) {
-  console.log(
-    'product js: selectedCity >>>',
-    selectedCity,
-    ' selectedDistrict >>> ',
-    selectedDistrict
-  );
   return await fetch(
     `${SERVER_PORT}/products/best?cityId=${selectedCity}&districtId=${selectedDistrict}`
   )
