@@ -38,7 +38,7 @@ function DistrictInfoCard({ data, maxWidth }) {
         </LikeCount>
         <CommentCount>
           <FaRegComment />
-          {data.commentCount}
+          {data.comment.length}
         </CommentCount>
       </CardWrapper>
     </Size>

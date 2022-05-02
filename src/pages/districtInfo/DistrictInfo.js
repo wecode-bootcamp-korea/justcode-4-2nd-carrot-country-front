@@ -21,7 +21,6 @@ function DistrictInfoDelay() {
 
   useEffect(() => {
     getDistrictList().then(data => {
-      console.log(data);
       setDistrictInfoData(data.districtInfos);
       setLoading(false);
     });

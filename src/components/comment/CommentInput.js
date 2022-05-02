@@ -64,33 +64,35 @@ function CommentInput(props) {
       handleSubmit();
     }
   };
-  return data.length > 0 ? (
+  return (
     <>
-      {data.map(item => {
-        return (
-          <Comments key={item.id}>
-            <UserProfile user={item.user} />
-            <div className="commentBox">
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `<p>${item.comment}</p>`,
-                }}
-              />
-              {myInfo.id === item.user.id && (
-                <BsFillTrashFill
-                  className="trashIcon"
-                  method="delete"
-                  // onClick={onRemove}
-                  onClick={() => handleRemove(item.id)}
-                />
-              )}
-            </div>
-            <span className="date">
-              {moment(item.createdAt).format('YYYY-MM-DD')}
-            </span>
-          </Comments>
-        );
-      })}
+      {data.length > 0
+        ? data.map(item => {
+            return (
+              <Comments key={item.id}>
+                <UserProfile user={item.user} />
+                <div className="commentBox">
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: `<p>${item.comment}</p>`,
+                    }}
+                  />
+                  {myInfo.id === item.user.id && (
+                    <BsFillTrashFill
+                      className="trashIcon"
+                      method="delete"
+                      // onClick={onRemove}
+                      onClick={() => handleRemove(item.id)}
+                    />
+                  )}
+                </div>
+                <span className="date">
+                  {moment(item.createdAt).format('YYYY-MM-DD')}
+                </span>
+              </Comments>
+            );
+          })
+        : ''}
       <CommentSignup>
         <div>
           <input
@@ -107,8 +109,6 @@ function CommentInput(props) {
         </div>
       </CommentSignup>
     </>
-  ) : (
-    <div />
   );
 }
 
