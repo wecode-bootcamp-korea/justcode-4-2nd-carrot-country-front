@@ -48,6 +48,10 @@
 
 ![screencapture-1485989](public/images/thump/screencapture-1485989.png)
 
+> 동네소식 등록
+
+![screencapture-1485123](public/images/thump/screencapture-1485123.png)
+
 > 매물/동네정보 검색 리스트
 
 ![screencapture-1486032](public/images/thump/screencapture-1486032.png)
