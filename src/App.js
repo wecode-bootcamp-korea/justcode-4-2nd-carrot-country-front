@@ -8,7 +8,7 @@ import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
-import Mypage from 'pages/Mypage';
+import Mypage from 'pages/mypage/Mypage';
 import ProductList from 'pages/product/ProducInfo';
 import Chat from 'pages/chat/Chat';
 import DIRegister from 'pages/districtInfo/DistrictInfoRegister';

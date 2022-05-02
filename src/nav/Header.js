@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { CLIENT_PORT } from 'config';
 import Signup from 'components/signup/Signup';
 import Login from 'components/login/Login';
-import Mypage from 'pages/Mypage';
+import Mypage from 'pages/mypage/Mypage';
 import {
   HeaderSize,
   HeaderWrapper,
