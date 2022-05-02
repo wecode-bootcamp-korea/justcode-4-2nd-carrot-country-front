@@ -14,7 +14,6 @@ import ListTitle from 'components/list/ListTitle';
 import RegisterButton from 'components/buttons/RegisterButton';
 import AreaTag from 'components/list/AreaTag';
 import DistrictSelectDropDown from 'components/buttons/DistrictSelectDropDown';
-import { getDistrictList } from 'apis/district';
 import NoProductInfo from 'components/list/NoProductInfo';
 
 //조건부 렌더링 함수
