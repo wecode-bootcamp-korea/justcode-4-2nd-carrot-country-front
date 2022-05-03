@@ -16,22 +16,16 @@ async function getProductListBest() {
     .then(data => data);
 }
 
-async function getProductListCity(selectedCity) {
-  console.log('get product list city api>> ', selectedCity);
-  return await fetch(`${SERVER_PORT}/products/best?cityId=${selectedCity}`)
-    .then(res => res.json())
-    .then(data => data);
-}
-
-async function getProductListDistrict(selectedCity, selectedDistrict) {
-  console.log(
-    'get product list cisty & district api >>> ',
-    selectedCity,
-    'district>>> ',
-    selectedDistrict
-  );
+async function getProductListLocation(selectedCity, selectedDistrict) {
+  const districtQuery = selectedDistrict
+    ? `&districtId=${selectedDistrict}`
+    : '';
+  if (selectedCity === undefined) {
+    console.log('getProductListBest stopped');
+    return;
+  }
   return await fetch(
-    `${SERVER_PORT}/products/best?cityId=${selectedCity}&districtId=${selectedDistrict}`
+    `${SERVER_PORT}/products/best?cityId=${selectedCity}` + districtQuery
   )
     .then(res => res.json())
     .then(data => data);
@@ -110,8 +104,7 @@ async function getSearchProductList(keyword) {
 export {
   getProductList,
   getProductListBest,
-  getProductListCity,
-  getProductListDistrict,
+  getProductListLocation,
   getProductDetail,
   postProduct,
   updateIntrested,

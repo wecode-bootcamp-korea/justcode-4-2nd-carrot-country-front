@@ -79,8 +79,10 @@ const Editor = props => {
     if (e.target.value.length > 9) {
       e.target.value = 999999999;
     }
+    if (e.target.value.length < 1) {
+      setPriceInput(false);
+    } else setPriceInput(true);
     setAllContents({ ...allContents, price: e.target.value });
-    setPriceInput(true);
   };
   //제목 저장
   const onChangeTitle = e => {
@@ -199,19 +201,6 @@ const EditorWrapper = styled.div``;
 const EditorBlock = styled.div`
   display: flex;
   flex-direction: column;
-
-  /* @media (max-width: 690px) {
-    width: 500px;
-  }
-  // 아이패드 (모바일 버전)
-  @media (min-width: 691px) and (max-width: 890px) {
-    width: 677px;
-    margin: 0px auto;
-  }
-  // 모니터
-  @media (min-width: 891px) {
-    padding: 0px 15px;
-  } */
 `;
 
 const TitleInput = styled.input`

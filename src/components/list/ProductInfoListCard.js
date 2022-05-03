@@ -119,13 +119,16 @@ const ImageItself = styled.img`
   width: 100%;
   @media (max-width: 690px) {
     /* margin: 0 5%; */
+    width: 200px;
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
+    width: 210px;
     /* margin: 0 2%; */
   }
   // 모니터
   @media (min-width: 891px) {
+    width: 220px;
     /* margin: 0 2%; */
   }
 `;
@@ -133,11 +136,13 @@ const LettersWrapper = styled.div`
   @media (max-width: 690px) {
     font-size: 16px;
     margin: 10px 0;
+    padding-left: 3%;
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
     font-size: 17px;
     margin: 15px 0;
+    padding-left: 5%;
   }
   // 모니터
   @media (min-width: 891px) {
@@ -146,6 +151,11 @@ const LettersWrapper = styled.div`
 `;
 
 const ProductTitle = styled.p`
+  text-overflow: ellipsis;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
   @media (max-width: 690px) {
     font-size: 16px;
     margin: 10px 0;
