@@ -14,9 +14,7 @@ function ProductInfoList(props) {
       </ListWrapper>
     </AllWrapper>
   ) : (
-    <>
-      <NoProductInfo />
-    </>
+    <NoProductInfo />
   );
 }
 

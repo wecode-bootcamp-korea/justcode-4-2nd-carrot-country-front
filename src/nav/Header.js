@@ -31,7 +31,6 @@ function Header() {
   const dispatch = useContext(UserDispatchContext);
 
   useLayoutEffect(() => {
-    document.documentElement.scrollTo(0, 0);
     setIsButtonClicked(false);
   }, [location.pathname]);
 
