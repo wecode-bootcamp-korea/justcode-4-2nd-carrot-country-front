@@ -104,22 +104,23 @@ const ProductInfo = ({ data }) => {
     getCities().then(data => setCities(data));
   }, []);
 
-  useEffect(() => {}, [cityInfoData, districtInfoData]);
-
   useEffect(() => {
-    getProductListCity(selectedCity).then(data =>
-      setCityInfoData(data.bestProductsByCity)
-    );
+    getProductListCity(selectedCity).then(data => {
+      setCityInfoData(data.message !== 'SUCCESS' ? 0 : data.bestProductsByCity);
+    });
     getDistricts(selectedCity).then(data => setDistricts(data));
     console.log('setDisrict후 >>> ', districts);
+    setSelectedDistrict(0);
   }, [selectedCity]);
 
   //도시 productInfo 뱉어냄
 
   useEffect(() => {
-    getProductListDistrict(selectedCity, selectedDistrict).then(data =>
-      setDistrictInfoData(data.getBestProductsBycityNDistrict)
-    );
+    getProductListDistrict(selectedCity, selectedDistrict).then(data => {
+      setDistrictInfoData(
+        data.message !== 'SUCCESS' ? 0 : data.getBestProductsBycityNDistrict
+      );
+    });
     console.log('disrict info data >> ', districtInfoData);
   }, [selectedDistrict]);
 
@@ -127,16 +128,7 @@ const ProductInfo = ({ data }) => {
   return (
     bestProduct && (
       <>
-        <ListTitle
-          title={
-            // selectedCity > 0
-            //   ? selectedDistrict > 0
-            //     ? `${cities[selectedCity]}시 ${districts[selectedDistrict]} 인기 매물`
-            //     : `${selectedCity}시 인기 매물`
-            //   : `중고 거래 인기 매물`
-            `중고 거래 인기 매물`
-          }
-        />
+        <ListTitle title={`중고 거래 인기 매물`} />
         <WholeWrapper>
           <ContentsWrapper>
             <DistrictSelectDropDown
@@ -150,8 +142,8 @@ const ProductInfo = ({ data }) => {
               <ProductInfoList
                 maxWidth={1024}
                 data={
-                  cityInfoData !== undefined
-                    ? districtInfoData !== undefined
+                  cityInfoData
+                    ? districtInfoData.length
                       ? districtInfoData
                       : cityInfoData
                     : bestProduct
@@ -164,16 +156,6 @@ const ProductInfo = ({ data }) => {
     )
   );
 };
-
-// const NoProductInfo = () => {
-//   return (
-//     <NoproductTextWrapper>
-//       <FaRegSadTear />
-//       <p>이 지역에는 등록된 매물이 없습니다!</p>
-//       <p>우리 동네 첫 매물을 등록해주세요!</p>
-//     </NoproductTextWrapper>
-//   );
-// };
 
 const WholeWrapper = styled.div`
   display: flex;
