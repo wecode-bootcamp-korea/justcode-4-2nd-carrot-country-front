@@ -66,7 +66,7 @@ const ItemWrapper = styled.div`
     }
     svg {
       position: absolute;
-      left: 0;
+      right: 0;
       color: ${props => props.theme.signColor};
     }
   }
