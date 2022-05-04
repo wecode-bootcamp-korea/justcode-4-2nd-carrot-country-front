@@ -16,8 +16,6 @@ function ChatRoomContentDelay(props) {
   const me = useContext(UserContext);
   const { chats, product } = props;
 
-  console.log('여기~!', product);
-
   return chats.length > 0 ? (
     <>
       <ChatUserProfile me={me} />
