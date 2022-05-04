@@ -87,7 +87,7 @@ const ProductWrapper = styled.div`
   flex-wrap: wrap;
   align-items: center;
   border-bottom: 1px solid silver;
-  padding: 0 10px;
+  padding: 0 18px;
   height: 64px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
