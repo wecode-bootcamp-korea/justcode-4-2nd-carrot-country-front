@@ -1,70 +1,135 @@
-# Getting Started with Create React App
+![logo](/public/images/logo/logo2.png)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# 당근나라 소개
 
-## Available Scripts
+> 온 국민이 알고 있는 중고 거래 사이트이며, 동네 정보까지 나눠 이웃과 가깝고 따뜻한 온기를 나눌 수 있는 어플리케이션 입니다.
 
-In the project directory, you can run:
+### 개발 인원 및 기간
 
-### `npm start`
+> 개발 기간: 2022-04-18 ~ 2022-04-29
+> 
+> 개발 인원: 프론트 4명, 백엔드 1명
+> 
+> [백엔드 github 링크](https://github.com/wecode-bootcamp-korea/justcode-4-2nd-carrot-country-back)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 프로젝트 선정 이유
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+> 2주라는 짧은 기간 안에 복잡한 데이터베이스와, 어려운 기능보다는 프론트, 백엔드 포지션 모두가 만족할 수 있는 기본에 충실한 웹 사이트로 클린한 코드와 지금까지 배웠던 기술들을 잘 녹여낼 수 있는 프로젝트라 생각합니다.
 
-### `npm test`
+### 데모 이미지
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+> 메인화면
 
-### `npm run build`
+![screencapture-1485543](public/images/thump/screencapture-1485543.png)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+> 로그인
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+![screencapture-1485571](public/images/thump/screencapture-1485571.png)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+> 회원가입
 
-### `npm run eject`
+![screencapture-1485596](public/images/thump/screencapture-1485596.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+> 매물 리스트
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+![screencapture-1485833](public/images/thump/screencapture-1485898.png)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+> 매물 상세보기
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+![screencapture-1485866](public/images/thump/screencapture-1485866.png)
 
-## Learn More
+> 매물 등록
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+![screencapture-1485933](public/images/thump/screencapture-1485933.png)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+> 동네소식 리스트
 
-### Code Splitting
+![screencapture-1485951](public/images/thump/screencapture-1485951.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+> 동네소식 상세보기
 
-### Analyzing the Bundle Size
+![screencapture-1485989](public/images/thump/screencapture-1485989.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+> 동네소식 등록
 
-### Making a Progressive Web App
+![screencapture-1485123](public/images/thump/screencapture-1485123.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> 매물/동네정보 검색 리스트
 
-### Advanced Configuration
+![screencapture-1486032](public/images/thump/screencapture-1486032.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+> 채팅
 
-### Deployment
+![screencapture-1486060](public/images/thump/screencapture-1486060.png)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# 적용 기술 및 구현 기능
 
-### `npm run build` fails to minify
+### 적용 기술
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+> 프론트엔드 : React, styled-comonpents, Context API, socket.io-client, jest, React-Quill
+>
+> 백엔드 : Node.js, Express.js, MySQL, bcrypt, jsonwebtoken, prisma, multer, socket.io
+>
+> 공통 : RESTful API, MVC Pattern, Github, Slack, Notion
+
+### 구현 기능
+
+**Header**
+- 로고 클릭시 메인으로
+- 동네매물, 동네소식, 마이페이지, 당근채팅으로 이동
+
+**메인화면**
+- 인기매물 보러가기, 동네정보 보러가기
+
+**회원가입**
+- 중복아이디 확인
+- 패스워드 일치 확인
+- 동네선택
+
+**로그인**
+
+**마이페이지**
+
+**매물 리스트**
+- 로그인시 해당 유저의 지역의 인기 매물 리스트
+- 비로그인시 지역 선택 드롭다운에 따라 선택된 지역의 인기 매물 리스트
+- 게시물 클릭시 상세 정보로 이동
+
+**매물 상세정보**
+- 판매자와 채팅하기
+- 매물 이미지 클릭 시 원본 보기
+- 하단 다른 매물 리스트 컴포넌트 제공
+- 관심 등록 기능
+
+**매물 등록**
+- 모든 종류의 이미지 파일 10장까지 업로드 가능
+- 업로드 후 프리뷰에서 삭제 가능
+- 프리뷰 클릭시 이미지 확대 가능
+- 제목 1글자 이상 입력, 카테고리 선택, 이미지 최소 1장 등록, 게시글 내용 5자 이상이어야 등록 가능
+- 가격 최대 금액 999999999원
+
+**동네소식 리스트** 
+- 글 좋아요, 댓글 수 보이기
+- 글 클릭시 동네소식 상세정보로 이동
+
+**동네소식 상세정보**
+
+**동네소식 등록**
+- 이미지 업로드는 선택사항
+- 제목 1글자 이상, 게시글 내용 5자 이상 등록가능
+
+**매물/동네정보 검색 리스트**
+- 입력된 검색어에 맞는 매물/동네정보 리스트 출력
+
+**채팅 리스트**
+- 유저 사진과 닉네임 보이기
+- 최신순으로 정렬
+- 마지막 대화 표시
+
+**채팅 룸**
+- 날짜별로 라인 표시
+- 자신 채팅과 상대 채팅 UI 구분
+- 현재 채팅 중인 매물 보이기
+
+**Footer**
+- 팀 노션, 팀원 블로그로 이동
