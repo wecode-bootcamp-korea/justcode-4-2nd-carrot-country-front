@@ -3,7 +3,6 @@ import styled from 'styled-components';
 
 function LeavePageButton({ content }) {
   const navigate = useNavigate();
-
   const goBack = () => {
     navigate(-1);
   };

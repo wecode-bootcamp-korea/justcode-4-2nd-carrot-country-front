@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
@@ -9,6 +10,7 @@ import LeavePageButton from 'components/buttons/LeavePageButton';
 import theme from 'styles/theme';
 
 const Editor = props => {
+  const navigate = useNavigate();
   const user = useContext(UserContext);
   const quillElement = useRef(null);
   const quillInstance = useRef(null);
@@ -17,41 +19,39 @@ const Editor = props => {
     content: '',
   }); //게시글 정보 묶어서 저장
 
-  const { selectedImage, setdistrictInfoId } = props;
+  const { selectedImage, districtInfoId, setdistrictInfoId } = props;
 
-  // district 통신 부분
+  const goToDetail = () => {
+    navigate(`/district-info/detail`, {
+      state: { districtInfoId: districtInfoId },
+      replace: true,
+    });
+  };
 
-  const handleURLs = () => {
-    console.log('images', selectedImage);
+  const onHandleURLs = () => {
     const formData = new FormData();
     for (let i = 0; i < selectedImage.length; i++) {
       formData.append('images', selectedImage[i]);
     }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
     return formData;
   };
-
   const onChangeTitle = e => {
     setAllContents({
       ...allContents,
       title: e.target.value,
     });
   };
-
-  const handleSubmit = () => {
+  const onHandleSubmit = () => {
     setAllContents({
       ...allContents,
     });
     const contentText = quillElement.current.innerText;
-    console.log(allContents);
     return { ...allContents, content: contentText };
   };
 
   const onButtonClick = async () => {
-    const sendableResult = handleSubmit();
-    const imageResult = handleURLs();
+    const sendableResult = onHandleSubmit();
+    const imageResult = onHandleURLs();
     if (sendableResult.content.length < 5) {
       alert('내용을 5자 이상 등록해주세요');
       return;
@@ -63,6 +63,7 @@ const Editor = props => {
       postDistrict(sendableResult, imageResult).then(data =>
         setdistrictInfoId(data.infoId)
       );
+      Boolean(districtInfoId) && goToDetail();
     }
   };
 

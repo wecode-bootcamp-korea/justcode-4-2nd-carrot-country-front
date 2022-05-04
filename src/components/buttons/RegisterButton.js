@@ -8,16 +8,13 @@ import { AiOutlinePlus } from 'react-icons/ai';
 
 function RegisterButton() {
   const navigate = useNavigate();
-  const [isListOpen, setIsListOpen] = useState(false);
   const myInfo = useContext(UserContext);
+  const [isListOpen, setIsListOpen] = useState(false);
 
-  const goToProductRegister = () => {
-    navigate('/product/register');
+  const handleNavigate = path => {
+    navigate(path);
   };
 
-  const goToDistrictRegister = () => {
-    navigate('/district-info/register');
-  };
   return myInfo.id !== '' ? (
     <>
       <Background
@@ -29,8 +26,20 @@ function RegisterButton() {
       <ButtonWrapper>
         <ContentWrapper isListOpen={isListOpen}>
           <ListWrapper isListOpen={isListOpen}>
-            <li onClick={goToProductRegister}>📥 내 물건 팔기</li>
-            <li onClick={goToDistrictRegister}>💌 내 소식 올리기</li>
+            <li
+              onClick={() => {
+                handleNavigate('/product/register');
+              }}
+            >
+              📥 내 물건 팔기
+            </li>
+            <li
+              onClick={() => {
+                handleNavigate('/district-info/register');
+              }}
+            >
+              💌 내 소식 올리기
+            </li>
           </ListWrapper>
         </ContentWrapper>
         <StyledButton
