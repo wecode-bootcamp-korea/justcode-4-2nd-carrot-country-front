@@ -59,7 +59,6 @@ function DIDetail() {
           <div>
             <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
             <span>조회 {data.viewCount ? data.viewCount : 0}</span>
-            {/* <span>좋아요 {data.districtInfoLiked.length}</span> */}
           </div>
         </InfoBottom>
       </InfoWrapper>

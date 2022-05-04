@@ -14,7 +14,6 @@ function CommentInput(props) {
   const { districtInfoId } = props;
   const [data, setData] = useState([]);
   const [commentID, setCommentID] = useState(0);
-  // const [trash, setTrash] = useState();
   const myInfo = useContext(UserContext);
   const [comment, setComment] = useState('');
 
@@ -24,39 +23,22 @@ function CommentInput(props) {
         setData(data.infoComments);
       }
     });
-  }, [districtInfoId]);
+  }, [districtInfoId, comment, commentID]);
 
-  // useEffect(() => {
-  //   deleteTrash(getCommentList).then(data => {
-  //     console.log('sss', deleteTrash)
-  //     if (data.message === "SUCCESS DELETE COMMENT") {
-  //       // setData(data.infoComments);
-  //     }
-  //   });
-  // }, []);
-
-  // }
-
-  // let trashDelete = null;
-
-  // const handleRemove = e => {
-  //   // console.log('key', e.target.key);
-  //   console.log('data', data.id);
-  //   trashDelete = e.target.key;
-  //   deleteTrash(trashDelete);
-  // };
   const handleComment = e => {
     setComment(e.target.value);
   };
 
-  const handleSubmit = () => {
-    comment !== '' && postComment(districtInfoId, comment);
+  useEffect(() => {}, [comment, commentID]);
+
+  const handleSubmit = async () => {
+    comment !== '' && (await postComment(districtInfoId, comment));
     setComment('');
   };
 
   const handleRemove = id => {
+    deleteTrash(id);
     setCommentID(id);
-    deleteTrash(commentID).then(data => console.log(data));
   };
 
   const handleEnter = e => {
@@ -81,7 +63,6 @@ function CommentInput(props) {
                     <BsFillTrashFill
                       className="trashIcon"
                       method="delete"
-                      // onClick={onRemove}
                       onClick={() => handleRemove(item.id)}
                     />
                   )}
@@ -125,8 +106,6 @@ const Comments = styled.div`
     color: #71717199;
   }
   .trashIcon {
-    /* margin-left: 10px; */
-
     width: 15px;
     color: #ababab;
     cursor: pointer;
