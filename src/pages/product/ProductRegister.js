@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-import { usePrompt } from 'hoc/blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
@@ -11,18 +10,13 @@ const Register = () => {
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
   // const [buttonEnable, setButtonEnable] = useState(false);
-  const [productId, setProductId] = useState(0);
+
   const [modalImageInfo, setModalImageInfo] = useState({
     index: 0,
     imageSrc: '',
   });
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
-
-  usePrompt(
-    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
-    !Boolean(productId)
-  );
 
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -136,11 +130,7 @@ const Register = () => {
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor
-          selectedImage={selectedImage}
-          productId={productId}
-          setProductId={setProductId}
-        />
+        <Editor selectedImage={selectedImage} />
       </RegisterWrapper>
     </WholeWrapper>
   );

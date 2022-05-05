@@ -105,6 +105,34 @@ const CommentTitle = styled.div`
   }
 `;
 
+const FixAndDelete = styled.div`
+  display: inline-flex;
+  height: 7px;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: #71717199;
+
+  p:hover {
+    cursor: pointer;
+  }
+  p:nth-child(2) {
+    margin-left: 10px;
+  }
+
+  // 스마트폰
+  @media (max-width: 690px) {
+    width: 58%;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 78%;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 79%;
+  }
+`;
+
 export {
   MainWrapper,
   InfoWrapper,
@@ -114,4 +142,5 @@ export {
   UserInfo,
   CommentsWrapper,
   CommentTitle,
+  FixAndDelete,
 };

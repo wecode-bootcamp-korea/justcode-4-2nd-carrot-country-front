@@ -49,3 +49,12 @@ export async function getSearchDistrictList(districtInfoData) {
     .then(res => res.json())
     .then(data => data);
 }
+
+export async function deleteInfo(infoId) {
+  return await fetch(`${SERVER_PORT}/infos/${infoId}`, {
+    method: 'DELETE',
+    headers: {
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+  });
+}

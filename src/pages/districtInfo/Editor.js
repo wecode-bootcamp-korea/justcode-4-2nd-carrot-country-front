@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePrompt } from 'hoc/blocker';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ import LeavePageButton from 'components/buttons/LeavePageButton';
 import theme from 'styles/theme';
 
 const Editor = props => {
+  let districtInfoId = 0;
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const quillElement = useRef(null);
@@ -19,14 +21,7 @@ const Editor = props => {
     content: '',
   }); //게시글 정보 묶어서 저장
 
-  const { selectedImage, districtInfoId, setdistrictInfoId } = props;
-
-  const goToDetail = () => {
-    navigate(`/district-info/detail`, {
-      state: { districtInfoId: districtInfoId },
-      replace: true,
-    });
-  };
+  const { selectedImage } = props;
 
   const onHandleURLs = () => {
     const formData = new FormData();
@@ -49,6 +44,13 @@ const Editor = props => {
     return { ...allContents, content: contentText };
   };
 
+  const goToDetail = () => {
+    navigate(`/district-info/detail`, {
+      state: { districtInfoId: districtInfoId },
+      replace: true,
+    });
+  };
+
   const onButtonClick = async () => {
     const sendableResult = onHandleSubmit();
     const imageResult = onHandleURLs();
@@ -60,12 +62,19 @@ const Editor = props => {
       alert('제목을 더 입력해주세요');
       return;
     } else {
-      postDistrict(sendableResult, imageResult).then(data =>
-        setdistrictInfoId(data.infoId)
-      );
-      Boolean(districtInfoId) && goToDetail();
+      postDistrict(sendableResult, imageResult).then(data => {
+        districtInfoId = data.infoId;
+        data.infoId && goToDetail();
+      });
     }
   };
+
+  //state가 아니라 변수 써서 해결하려고 이 페이지로 옮겼어요
+  // 흐름상 여기가 더 위치가 맞는거 같기도 합니다.
+  usePrompt(
+    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
+    Boolean(districtInfoId)
+  );
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {

@@ -1,20 +1,26 @@
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+//api 호출
 import { deleteProduct } from 'apis/product';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { deleteInfo } from 'apis/district';
 
 function DetailDeleteModal(props) {
   const navigate = useNavigate();
-  const { openModal, setOpenModal, product } = props;
-  const productId = product.id;
+  const { openModal, setOpenModal, data, isProduct } = props;
+  const detailId = data.id;
 
   const goToList = () => {
-    navigate('/product', {
+    navigate(`${isProduct ? '/product' : '/district-info'}`, {
       replace: true,
     });
   };
 
   const onDelete = () => {
-    deleteProduct(productId);
+    if (isProduct) {
+      deleteProduct(detailId);
+    } else {
+      deleteInfo(detailId);
+    }
     goToList();
   };
 
@@ -32,7 +38,7 @@ function DetailDeleteModal(props) {
               e.stopPropagation();
             }}
           >
-            상품을 삭제하시겠어요?
+            {isProduct ? `상품을 삭제하시겠어요?` : `글을 삭제하시겠어요?`}
           </Confirmation>
         </ConfirmBlock>
         <ConfirmationButton>
@@ -60,9 +66,6 @@ const ModalWrapper = styled.div`
 `;
 
 const DeleteModal = styled.div`
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
   position: fixed;
   background-color: white;
   border-radius: 10px;

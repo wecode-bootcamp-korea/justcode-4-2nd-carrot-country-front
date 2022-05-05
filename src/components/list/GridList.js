@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { priceFormat } from 'utils/format';
 
 import styled from 'styled-components';
+import { BsFillHandbagFill } from 'react-icons/bs';
 
 function GridList({ data }) {
   const myInfo = useContext(UserContext);
@@ -28,10 +29,14 @@ function GridList({ data }) {
               onClick={() => handleNavigate(item.id)}
             >
               <div className="imageWrapper">
-                <img
-                  alt="productImage"
-                  src={`${SERVER_PORT}/${item.productImage[0].imageUrl}`}
-                />
+                {item.productImage[0] ? (
+                  <img
+                    alt="productImage"
+                    src={`${SERVER_PORT}/${item.productImage[0].imageUrl}`}
+                  />
+                ) : (
+                  <BsFillHandbagFill className="noImage" />
+                )}
               </div>
               <div className="infoWrapper">
                 <div>
@@ -79,6 +84,18 @@ const Header = styled.div`
   }
 `;
 const Content = styled.div`
+  .imageWrapper {
+    position: relative;
+    .noImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 50px;
+      color: silver;
+    }
+  }
+
   @media (max-width: 630px) {
     display: grid;
     grid-template-columns: 1fr 1fr;

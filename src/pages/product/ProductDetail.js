@@ -151,7 +151,7 @@ function ProductDetail(props) {
           />
           <div>
             <span>
-              관심{' '}
+              관심
               {product.productIntrested ? product.productIntrested.length : 0}
             </span>
             <span>채팅 {product.chatRoom ? product.chatRoom.length : 0}</span>
@@ -173,7 +173,8 @@ function ProductDetail(props) {
       <DetailDeleteModal
         openModal={openModal}
         setOpenModal={setOpenModal}
-        product={product}
+        data={product}
+        isProduct={true}
       />
     </MainWrapper>
   );
