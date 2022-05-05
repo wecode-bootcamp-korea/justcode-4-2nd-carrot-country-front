@@ -101,6 +101,21 @@ async function getSearchProductList(keyword) {
     .then(data => data);
 }
 
+async function deleteProduct(productId) {
+  return await fetch(`${SERVER_PORT}/products/`, {
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+    method: 'DELETE',
+    body: JSON.stringify({
+      productId,
+    }),
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
 export {
   getProductList,
   getProductListBest,
@@ -110,4 +125,5 @@ export {
   updateIntrested,
   deleteIntrested,
   getSearchProductList,
+  deleteProduct,
 };
