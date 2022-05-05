@@ -39,14 +39,19 @@ function Mypage() {
           </div>
         </div>
         <UserBox>
-          <div>
-            <AiOutlineHeart className="userBoxIcons" />
-            재거래 희망률 <span>100%</span>
+          <div className="userBoxItems">
+            <div>
+              <AiOutlineHeart className="userHeartIcons" />
+              재거래 희망률 <span>100%</span>
+            </div>
             <p>5명 중 5명이 만족</p>
           </div>
-          <div className="userBoxSecond">
-            <BsChatSquareDots className="userBoxIcons" />
-            응답<span>99%</span>
+          {/* <div className="userBoxSecond"> */}
+          <div className="userSecondBoxItems">
+            <div>
+              <BsChatSquareDots className="userBoxIcons" />
+              응답<span>99%</span>
+            </div>
             <p>보통 1시간 이내 응답</p>
           </div>
         </UserBox>
@@ -118,7 +123,6 @@ const InfoWrapper = styled.div`
     font-size: 13px;
   }
   .temp {
-    /* float: right; */
     display: flex;
     align-items: center;
     margin-left: 85%;
@@ -144,7 +148,6 @@ const InfoWrapper = styled.div`
     width: 68.2%;
     height: 19px;
     padding: 0;
-    /* text-align: center; */
     background-color: #319e45;
     color: #111;
     border-radius: 25px;
@@ -161,28 +164,32 @@ const Line = styled.div`
 
 const UserBox = styled.div`
   @media (max-width: 500px) {
-    padding: 20px 30px 20px 20px;
+    padding: 20px;
   }
   @media (min-width: 891px) {
     width: 677px;
   }
-  padding: 25px 35px 25px 25px;
+  /* display: flex; */
+  display: grid;
+  padding: 28px 35px 30px 25px;
   border-radius: 3px;
   background-color: whitesmoke;
-  div {
-    display: inline-block;
+  .userBoxItems {
+    grid-column: 1 / 3;
+    grid-row: 1;
   }
-  div > span {
-    margin-left: 3px;
-    font-weight: 600;
+  .userSecondBoxItems {
+    grid-column: 2.5 / 3;
+    grid-row: 1;
+    margin-left: 40px;
   }
-  .userBoxSecond {
-    float: right;
-    /* margin-left: 40%; */
+  .userHeartIcons {
+    margin-right: 2px;
+    font-size: 18px;
   }
   .userBoxIcons {
-    font-size: 18px;
-    margin: 0px 4px 0px 0px;
+    margin-right: 2px;
+    font-size: 16px;
   }
   p {
     padding: 10px 0px 0px 15px;
@@ -219,17 +226,10 @@ const UserEstimation = styled.div`
     width: 677px;
     margin: 0px auto;
   }
-  /* div {
-    padding: 23px;
-  } */
   .estimateTitle {
     font-weight: 600;
     padding: 3px 23px 5px 23px;
   }
-  /* .comment {
-    font-size: 10px;
-    color: gray;
-  } */
   .rightArrow {
     font-size: 20px;
     float: right;
@@ -240,7 +240,6 @@ const UserEstimation = styled.div`
   }
   .people {
     margin-right: 10px;
-    /* color: #adadad; */
   }
   .estimate {
     display: inline-block;
