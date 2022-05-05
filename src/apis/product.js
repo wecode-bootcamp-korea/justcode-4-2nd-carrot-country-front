@@ -21,7 +21,6 @@ async function getProductListLocation(selectedCity, selectedDistrict) {
     ? `&districtId=${selectedDistrict}`
     : '';
   if (selectedCity === undefined) {
-    console.log('getProductListBest stopped');
     return;
   }
   return await fetch(

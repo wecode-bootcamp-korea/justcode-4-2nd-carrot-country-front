@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { usePrompt } from 'hoc/blocker';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
@@ -10,6 +11,7 @@ import LeavePageButton from 'components/buttons/LeavePageButton';
 
 const Editor = props => {
   //게시글 내용
+  let productId = 0;
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const quillElement = useRef(null); //quill div ref
@@ -27,14 +29,7 @@ const Editor = props => {
     description: '',
   }); //게시글 정보 묶어서 저장
 
-  const { selectedImage, productId, setProductId } = props;
-
-  const goToDetail = () => {
-    navigate(`/product/detail`, {
-      state: { productId: productId },
-      replace: true,
-    });
-  };
+  const { selectedImage } = props;
 
   // 카테고리 받아와서 넘기기 위한 State
   const [category, setCategory] = useState({
@@ -104,6 +99,13 @@ const Editor = props => {
     categorySelection.current.focus();
   };
 
+  const goToDetail = () => {
+    navigate(`/product/detail`, {
+      state: { productId: productId },
+      replace: true,
+    });
+  };
+
   //완료 버튼 클릭시 인풋 값 확인 후 전송
   const onButtonClick = async () => {
     const sendableResult = handleSubmit();
@@ -125,12 +127,17 @@ const Editor = props => {
       alert('사진을 등록해주세요');
       return;
     } else {
-      postProduct(sendableResult, imageResult).then(data =>
-        setProductId(data.productId)
-      );
-      Boolean(productId) && goToDetail();
+      postProduct(sendableResult, imageResult).then(data => {
+        productId = data.productId;
+        data.productId && goToDetail();
+      });
     }
   };
+
+  usePrompt(
+    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
+    Boolean(productId)
+  );
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
