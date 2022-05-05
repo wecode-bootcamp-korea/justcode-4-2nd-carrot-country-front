@@ -1,4 +1,5 @@
 import { useRef, useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
@@ -15,6 +16,7 @@ import LeavePageButton from 'components/buttons/LeavePageButton';
 
 const Editor = props => {
   //게시글 내용
+  const navigate = useNavigate();
   const user = useContext(UserContext);
   const quillElement = useRef(null); //quill div ref
   const quillInstance = useRef(null); //quill 생성용
@@ -31,7 +33,14 @@ const Editor = props => {
     description: '',
   }); //게시글 정보 묶어서 저장
 
-  const { selectedImage, setProductId } = props;
+  const { selectedImage, productId, setProductId } = props;
+
+  const goToDetail = () => {
+    navigate(`/product/detail`, {
+      state: { productId: productId },
+      replace: true,
+    });
+  };
 
   // 카테고리 받아와서 넘기기 위한 State
   const [category, setCategory] = useState({
@@ -63,14 +72,11 @@ const Editor = props => {
 
   //이미지 url 폼데이터로 변환 하는 함수
   const handleURLs = () => {
-    console.log('images', selectedImage);
     const formData = new FormData();
     for (let i = 0; i < selectedImage.length; i++) {
       formData.append('images', selectedImage[i]);
     }
-    for (let value of formData.values()) {
-      console.log(value);
-    }
+
     return formData;
   };
 
@@ -103,7 +109,6 @@ const Editor = props => {
       userId: user.id,
     });
     const descriptionText = quillElement.current.innerText;
-    console.log(allContents);
     return { ...allContents, description: descriptionText };
   };
 
@@ -135,6 +140,7 @@ const Editor = props => {
       postProduct(sendableResult, imageResult).then(data =>
         setProductId(data.productId)
       );
+      Boolean(productId) && goToDetail();
     }
   };
 

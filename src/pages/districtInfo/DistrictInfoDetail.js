@@ -39,7 +39,7 @@ function DIDetail() {
 
   return data ? (
     <MainWrapper>
-      {data.districtInfoImage && (
+      {Boolean(data.districtInfoImage.length) && (
         <ImageSlider images={data.districtInfoImage} />
       )}
       <InfoWrapper>

@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useRef, useEffect } from 'react';
+
 import { usePrompt } from 'hoc/blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
@@ -7,8 +7,6 @@ import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
 
 const Register = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
@@ -25,20 +23,6 @@ const Register = () => {
     '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
     !Boolean(productId)
   );
-
-  useEffect(() => {
-    if (Boolean(productId)) {
-      goToDetail();
-    }
-  }, [productId]);
-
-  const goToDetail = () => {
-    navigate(`/product/detail`, { state: { productId: productId } });
-  };
-
-  useLayoutEffect(() => {
-    document.documentElement.scrollTo(0, 0);
-  }, [location.pathname]);
 
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -152,7 +136,11 @@ const Register = () => {
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor selectedImage={selectedImage} setProductId={setProductId} />
+        <Editor
+          selectedImage={selectedImage}
+          productId={productId}
+          setProductId={setProductId}
+        />
       </RegisterWrapper>
     </WholeWrapper>
   );
