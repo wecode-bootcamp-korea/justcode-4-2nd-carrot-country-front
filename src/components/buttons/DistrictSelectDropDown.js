@@ -2,48 +2,31 @@ import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const DistrictSelectDropDown = props => {
-  const {
-    setSelectedCity,
-    selectedCity,
-    cities,
-    setSelectedDistrict,
-    districts,
-  } = props;
-
-  console.log('District >>> ', districts);
-  const onCityChange = e => {
-    console.log('도시 선택시 >> ', e.target.value);
-    setSelectedCity(e.target.value); //도시 선택시
-  };
-
-  const onDistrictChange = e => {
-    console.log('구 선택시 >> ', e.target.value);
-    setSelectedDistrict(e.target.value);
-  };
+  const { cities, districts, onDistrictChange, onCityChange } = props;
 
   return (
-    // cities.cities && (
-    <DistrictWrapper>
-      <CityDropDown onChange={e => onCityChange(e)}>
-        <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
-        {cities.cities.map(cities => (
-          <option value={cities.id} key={cities.id}>
-            {cities.cityName}
-          </option>
-        ))}
-      </CityDropDown>
-      <DistrictDropDown onChange={e => onDistrictChange(e)}>
-        <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
-        {districts.districts &&
-          districts.districts.map(districts => (
-            <option value={districts.id} key={districts.id}>
-              {districts.districtName}
+    cities && (
+      <DistrictWrapper>
+        <CityDropDown onChange={e => onCityChange(e)}>
+          <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
+          {cities.map(cities => (
+            <option value={cities.id} key={cities.id}>
+              {cities.cityName}
             </option>
           ))}
-      </DistrictDropDown>
-    </DistrictWrapper>
+        </CityDropDown>
+        <DistrictDropDown onChange={e => onDistrictChange(e)}>
+          <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
+          {districts.districts &&
+            districts.districts.map(districts => (
+              <option value={districts.id} key={districts.id}>
+                {districts.districtName}
+              </option>
+            ))}
+        </DistrictDropDown>
+      </DistrictWrapper>
+    )
   );
-  // );
 };
 export default DistrictSelectDropDown;
 

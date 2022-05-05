@@ -3,10 +3,9 @@ import styled from 'styled-components';
 import {
   getProductList,
   getProductListBest,
-  getProductListCity,
-  getProductListDistrict,
+  getProductListLocation,
 } from 'apis/product';
-import { getCities, getDistricts } from 'apis/category';
+import { getCities, getDistricts } from 'apis/area';
 import { UserContext } from 'context/context';
 import Loading from 'components/loading/Loading';
 import ProductInfoList from 'components/list/ProductInfoList';
@@ -34,7 +33,7 @@ const ProductInfoDelay = () => {
           setLoading(false);
         })
       : getProductListBest().then(data => {
-          setProductInfoData(data.bestProduct);
+          setProductInfoData(data.bestProducts);
           setLoading(false);
         });
   }, [isLogin]);
@@ -48,7 +47,7 @@ const ProductInfoDelay = () => {
     </>
   ) : (
     <>
-      <ProductInfo data={productInfoData} /> <RegisterButton />
+      <ProductInfo /> <RegisterButton />
     </>
   );
 };
@@ -66,7 +65,7 @@ const ProductInfoWhenLogin = ({ data, user }) => {
         district={user.district.districtName}
       />
       <WholeWrapper>
-        {productList ? (
+        {productList.length > 0 ? (
           <ListWrapper>
             <ProductInfoList maxWidth={1024} data={productList} />
           </ListWrapper>
@@ -80,14 +79,10 @@ const ProductInfoWhenLogin = ({ data, user }) => {
 
 //비로그인시 인기 매물 리스트, 기본은 베스트, 지역 선택시 해당 지역
 
-const ProductInfo = ({ data }) => {
-  const bestProduct = data;
-  const [cityInfoData, setCityInfoData] = useState([]); //도시 기준 리스트 정보 저장
-  const [districtInfoData, setDistrictInfoData] = useState([]); //구 기준 리스트 정보 저장
-  const [productListResult, setProductListResult] = useState(data);
+const ProductInfo = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(); //선택된 구 정보
   const [selectedCity, setSelectedCity] = useState(); //선택된 도시 정보
-
+  const [productListResult, setProductListResult] = useState();
   const [districts, setDistricts] = useState({
     message: '',
     districts: [],
@@ -99,57 +94,50 @@ const ProductInfo = ({ data }) => {
 
   //지역 선택 드롭다운 코드
 
-  //드롭다운 옵션에 도시 추가
   useEffect(() => {
-    getCities().then(data => setCities(data));
+    getProductListBest().then(data => setProductListResult(data.bestProducts));
   }, []);
 
   useEffect(() => {
-    getProductListCity(selectedCity).then(data => {
-      setCityInfoData(data.message !== 'SUCCESS' ? 0 : data.bestProductsByCity);
+    getCities().then(data => setCities(data.cities));
+  }, []);
+
+  const onCityChange = e => {
+    setSelectedDistrict();
+    setSelectedCity(e.target.value); //도시 선택시
+    getDistricts(e.target.value).then(data => setDistricts(data));
+    getProductListLocation(e.target.value).then(data => {
+      setProductListResult(data.bestProducts);
     });
-    getDistricts(selectedCity).then(data => setDistricts(data));
-    console.log('setDisrict후 >>> ', districts);
-    setSelectedDistrict(0);
-  }, [selectedCity]);
+  };
 
-  //도시 productInfo 뱉어냄
-
-  useEffect(() => {
-    getProductListDistrict(selectedCity, selectedDistrict).then(data => {
-      setDistrictInfoData(
-        data.message !== 'SUCCESS' ? 0 : data.getBestProductsBycityNDistrict
-      );
+  const onDistrictChange = e => {
+    setSelectedDistrict(e.target.value);
+    getProductListLocation(selectedCity, e.target.value).then(data => {
+      setProductListResult(data.bestProducts);
     });
-    console.log('disrict info data >> ', districtInfoData);
-  }, [selectedDistrict]);
+  };
 
-  //뱉어내는 컴포넌트
   return (
-    bestProduct && (
+    productListResult && (
       <>
         <ListTitle title={`중고 거래 인기 매물`} />
         <WholeWrapper>
           <ContentsWrapper>
             <DistrictSelectDropDown
-              setSelectedCity={setSelectedCity}
               selectedCity={selectedCity}
               cities={cities}
-              setSelectedDistrict={setSelectedDistrict}
               districts={districts}
+              onCityChange={onCityChange}
+              onDistrictChange={onDistrictChange}
             />
-            <ListWrapper>
-              <ProductInfoList
-                maxWidth={1024}
-                data={
-                  cityInfoData
-                    ? districtInfoData.length
-                      ? districtInfoData
-                      : cityInfoData
-                    : bestProduct
-                }
-              />
-            </ListWrapper>
+            {productListResult.length > 0 ? (
+              <ListWrapper>
+                <ProductInfoList maxWidth={1024} data={productListResult} />
+              </ListWrapper>
+            ) : (
+              <NoProductInfo />
+            )}
           </ContentsWrapper>
         </WholeWrapper>
       </>
@@ -183,24 +171,5 @@ const ListWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-
-// const NoproductTextWrapper = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   padding: 70px 0 50px 0;
-//   font-size: 150px;
-//   color: silver;
-//   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-//     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-//   :first-child {
-//     padding-bottom: 200px;
-//   }
-//   p {
-//     color: silver;
-//     font-size: 20px;
-//     padding-top: 10px;
-//   }
-// `;
 
 export default ProductInfoDelay;
