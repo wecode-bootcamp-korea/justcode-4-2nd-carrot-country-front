@@ -85,11 +85,16 @@ function ProductDetail(props) {
       ? true
       : false
   );
+
   const isMe = myInfo.id === product.user.id;
   const [openModal, setOpenModal] = useState(false);
 
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
+  };
+
+  const goEditProduct = () => {
+    navigate('/product/edit', { state: { product } });
   };
 
   const handleInterested = () => {
@@ -158,7 +163,7 @@ function ProductDetail(props) {
             <span>조회 {product.viewCount}</span>
             {myInfo.id === product.user.id ? (
               <FixAndDelete>
-                <p>수정 </p>
+                <p onClick={() => goEditProduct()}>수정 </p>
                 <p onClick={() => setOpenModal(true)}>삭제</p>
               </FixAndDelete>
             ) : null}
