@@ -6,7 +6,7 @@ import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 import Editor from './Editor';
 
-const Register = () => {
+const ProductEdit = () => {
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
@@ -316,4 +316,4 @@ const ModalImageContainer = styled.div`
   }
 `;
 
-export default Register;
+export default ProductEdit;

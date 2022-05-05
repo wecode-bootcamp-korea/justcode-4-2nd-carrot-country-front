@@ -3,16 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
-import { type } from '@testing-library/user-event/dist/type';
 import { postProduct } from 'apis/product';
 import { SERVER_PORT } from 'config';
 import { UserContext } from 'context/context';
 import LeavePageButton from 'components/buttons/LeavePageButton';
-// import {
-//   ProductContext,
-//   ProductDispatchContext,
-// } from './ProductRegisterContext';
-// import Responsive from '../common/Responsive';
 
 const Editor = props => {
   //게시글 내용
@@ -61,14 +55,6 @@ const Editor = props => {
         setCategory(data);
       });
   }, []);
-  // useEffect(() => {
-  //   setAllContents({
-  //     ...allContents,
-  //     cityId: user.city.id,
-  //     districtId: user.district.id,
-  //     userId: user.id,
-  //   });
-  // }, []);
 
   //이미지 url 폼데이터로 변환 하는 함수
   const handleURLs = () => {
@@ -191,12 +177,7 @@ const Editor = props => {
         </QuillWrapper>
       </EditorWrapper>
       <ButtonWrapper>
-        <SubmitButton
-          // onClick={buttonEnable ? () => handleSubmit() : null}
-          onClick={() => onButtonClick()}
-        >
-          완료
-        </SubmitButton>
+        <SubmitButton onClick={() => onButtonClick()}>완료</SubmitButton>
         <LeavePageButton content="취소" />
       </ButtonWrapper>
     </EditorBlock>
