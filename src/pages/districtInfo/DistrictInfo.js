@@ -20,10 +20,14 @@ function DistrictInfoDelay() {
   }, [user]);
 
   useEffect(() => {
-    getDistrictList().then(data => {
-      setDistrictInfoData(data.districtInfos);
-      setLoading(false);
-    });
+    getDistrictList()
+      .then(data => {
+        setDistrictInfoData(data.districtInfos);
+        return true;
+      })
+      .then(isOkay => {
+        isOkay && setLoading(false);
+      });
   }, [isLogin]);
 
   return loading ? (
