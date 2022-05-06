@@ -11,6 +11,7 @@
 > 개발 인원: 프론트 4명, 백엔드 1명
 
 > [당근나라](http://3.34.139.60:3000/)
+> 
 > [백엔드 github 링크](https://github.com/wecode-bootcamp-korea/justcode-4-2nd-carrot-country-back)
 
 ### 프로젝트 선정 이유
