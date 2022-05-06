@@ -71,7 +71,7 @@ const EditEditor = props => {
   const handleURLs = () => {
     const formData = new FormData();
     for (let i = 0; i < selectedImage.length; i++) {
-      formData.append('images', selectedImage[i]);
+      formData.append('updateImages', selectedImage[i]);
     }
 
     return formData;

@@ -9,8 +9,14 @@ function DetailDeleteModal(props) {
   const { openModal, setOpenModal, data, isProduct } = props;
   const detailId = data.id;
 
-  const goToList = () => {
-    navigate(`${isProduct ? '/product' : '/district-info'}`, {
+  const goToProducts = () => {
+    navigate(`'/product`, {
+      replace: true,
+    });
+  };
+
+  const goToDistricts = () => {
+    navigate('/district-info', {
       replace: true,
     });
   };
@@ -18,10 +24,11 @@ function DetailDeleteModal(props) {
   const onDelete = () => {
     if (isProduct) {
       deleteProduct(detailId);
+      goToProducts();
     } else {
       deleteInfo(detailId);
+      goToDistricts();
     }
-    goToList();
   };
 
   return openModal ? (
