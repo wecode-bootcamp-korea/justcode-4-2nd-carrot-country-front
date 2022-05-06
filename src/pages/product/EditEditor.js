@@ -31,7 +31,6 @@ const EditEditor = props => {
   const goToDetail = () => {
     navigate(`/product/detail`, {
       state: { productId: productId },
-      replace: true,
     });
   };
 
@@ -181,7 +180,7 @@ const EditEditor = props => {
         </PriceAndCategoryWrapper>
         <EditorWrapper>
           <QuillWrapper>
-            <div ref={quillElement} value={allContents.description} />
+            <div ref={quillElement} />
           </QuillWrapper>
         </EditorWrapper>
         <ButtonWrapper>

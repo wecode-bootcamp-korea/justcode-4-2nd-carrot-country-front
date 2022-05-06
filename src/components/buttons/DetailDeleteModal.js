@@ -1,34 +1,29 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //api 호출
 import { deleteProduct } from 'apis/product';
-import { deleteInfo } from 'apis/district';
+import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { getProductList } from 'apis/product';
 
 function DetailDeleteModal(props) {
   const navigate = useNavigate();
   const { openModal, setOpenModal, data, isProduct } = props;
-  const detailId = data.id;
+  const productId = data.id;
+  const [productInfoData, setProductInfoData] = useState([]);
 
-  const goToProducts = () => {
-    navigate(`'/product`, {
+  const goToList = () => {
+    navigate(`${isProduct ? '/product' : '/district-info'}`, {
       replace: true,
-    });
-  };
-
-  const goToDistricts = () => {
-    navigate('/district-info', {
-      replace: true,
+      productInfoData: productInfoData,
     });
   };
 
   const onDelete = () => {
-    if (isProduct) {
-      deleteProduct(detailId);
-      goToProducts();
-    } else {
-      deleteInfo(detailId);
-      goToDistricts();
-    }
+    deleteProduct(productId);
+    getProductList().then(data => {
+      setProductInfoData(data.productList);
+    });
+    goToList();
   };
 
   return openModal ? (
