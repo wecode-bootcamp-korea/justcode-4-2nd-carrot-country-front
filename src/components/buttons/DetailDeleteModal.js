@@ -1,28 +1,40 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 //api 호출
 import { deleteProduct } from 'apis/product';
-import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect, useContext } from 'react';
+import { deleteInfo } from 'apis/district';
+
 import { getProductList } from 'apis/product';
 
 function DetailDeleteModal(props) {
   const navigate = useNavigate();
   const { openModal, setOpenModal, data, isProduct } = props;
-  const productId = data.id;
+  const detailId = data.id;
   const [productInfoData, setProductInfoData] = useState([]);
 
   const goToList = () => {
-    navigate(`${isProduct ? '/product' : '/district-info'}`, {
-      replace: true,
-      productInfoData: productInfoData,
-    });
+    if (isProduct) {
+      navigate('/product', {
+        replace: true,
+        productInfoData: productInfoData,
+      });
+    } else {
+      navigate('/district-info', {
+        replace: true,
+      });
+    }
   };
 
   const onDelete = () => {
-    deleteProduct(productId);
-    getProductList().then(data => {
-      setProductInfoData(data.productList);
-    });
+    if (isProduct) {
+      deleteProduct(detailId);
+      getProductList().then(data => {
+        setProductInfoData(data.productList);
+      });
+    } else {
+      deleteInfo(detailId);
+    }
     goToList();
   };
 
@@ -40,7 +52,7 @@ function DetailDeleteModal(props) {
               e.stopPropagation();
             }}
           >
-            {isProduct ? `상품을 삭제하시겠어요?` : `정말 글을 삭제하시겠어요?`}
+            {isProduct ? `상품을 삭제하시겠어요?` : `글을 삭제하시겠어요?`}
           </Confirmation>
         </ConfirmBlock>
         <ConfirmationButton>
