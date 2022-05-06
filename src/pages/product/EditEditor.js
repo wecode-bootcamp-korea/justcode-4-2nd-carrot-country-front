@@ -1,27 +1,26 @@
 import { useRef, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePrompt } from 'hoc/blocker';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
-import { postProduct } from 'apis/product';
+import { postProduct, updateProduct } from 'apis/product';
 import { SERVER_PORT } from 'config';
 import { UserContext } from 'context/context';
 import LeavePageButton from 'components/buttons/LeavePageButton';
 
-const Editor = props => {
+const EditEditor = props => {
   //게시글 내용
-  let productId = 0;
+  const { selectedImage, productId, setProductId, product } = props;
   const navigate = useNavigate();
   const user = useContext(UserContext);
   const quillElement = useRef(null); //quill div ref
   const quillInstance = useRef(null); //quill 생성용
   const categorySelection = useRef(null);
   const selectBox = useRef(null);
-  const [priceInput, setPriceInput] = useState(false); //₩ 색 변경위한 state
+  const [priceInput, setPriceInput] = useState(true); //₩ 색 변경위한 state
   const [allContents, setAllContents] = useState({
     title: '',
-    categoryId: NaN,
+    categoryId: 0,
     cityId: NaN,
     districtId: NaN,
     userId: NaN,
@@ -29,8 +28,24 @@ const Editor = props => {
     description: '',
   }); //게시글 정보 묶어서 저장
 
-  const { selectedImage } = props;
+  const goToDetail = () => {
+    navigate(`/product/detail`, {
+      state: { productId: productId },
+    });
+  };
 
+  useEffect(() => {
+    setAllContents({
+      title: `${product.title}`,
+      categoryId: product.category.id,
+      cityId: product.user.city.id,
+      districtId: product.user.district.id,
+      userId: product.user.id,
+      price: `${product.price}`,
+      description: `${product.description}`,
+    });
+    setProductId(product.id);
+  }, []);
   // 카테고리 받아와서 넘기기 위한 State
   const [category, setCategory] = useState({
     categories: [
@@ -55,7 +70,7 @@ const Editor = props => {
   const handleURLs = () => {
     const formData = new FormData();
     for (let i = 0; i < selectedImage.length; i++) {
-      formData.append('images', selectedImage[i]);
+      formData.append('updateImages', selectedImage[i]);
     }
 
     return formData;
@@ -85,25 +100,12 @@ const Editor = props => {
 
   //게시글 내용을 저장하는 함수
   const handleSubmit = () => {
-    setAllContents({
-      ...allContents,
-      cityId: user.city.id,
-      districtId: user.district.id,
-      userId: user.id,
-    });
     const descriptionText = quillElement.current.innerText;
     return { ...allContents, description: descriptionText };
   };
 
   const onCategoryNotSelected = () => {
     categorySelection.current.focus();
-  };
-
-  const goToDetail = () => {
-    navigate(`/product/detail`, {
-      state: { productId: productId },
-      replace: true,
-    });
   };
 
   //완료 버튼 클릭시 인풋 값 확인 후 전송
@@ -127,17 +129,10 @@ const Editor = props => {
       alert('사진을 등록해주세요');
       return;
     } else {
-      postProduct(sendableResult, imageResult).then(data => {
-        productId = data.productId;
-        data.productId && goToDetail();
-      });
+      updateProduct(sendableResult, imageResult, productId).then(data => data);
+      Boolean(productId) && goToDetail();
     }
   };
-
-  usePrompt(
-    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
-    Boolean(productId)
-  );
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
@@ -145,50 +140,56 @@ const Editor = props => {
     });
   }, [user]);
 
-  return user.id ? (
-    <EditorBlock>
-      <TitleInput placeholder=" 글 제목" onChange={e => onChangeTitle(e)} />
-      <PriceAndCategoryWrapper>
-        <PriceWrapper>
-          <Won priceValid={priceInput}>₩</Won>
-          <PriceInput
-            type="number"
-            placeholder=" 가격 (선택사항)"
-            onChange={e => onPriceChange(e)}
-            max="999999999"
-          />
-        </PriceWrapper>
-        <CatergoryWrapper onChange={e => e.target.blur()}>
-          <CategorySelect
-            ref={selectBox}
-            required
-            id="categories"
-            name="categories"
-            placeholder="카테고리"
-            onChange={e => onCategorySelect(e)}
-          >
-            <PlaceHolder value="0" ref={categorySelection}>
-              카테고리 선택
-            </PlaceHolder>
-            {category.categories.map(data => (
-              <DropDown key={data.id} value={data.id}>
-                {data.categoryName}
-              </DropDown>
-            ))}
-          </CategorySelect>
-        </CatergoryWrapper>
-      </PriceAndCategoryWrapper>
-      <EditorWrapper>
-        <QuillWrapper>
-          <div ref={quillElement} />
-        </QuillWrapper>
-      </EditorWrapper>
-      <ButtonWrapper>
-        <SubmitButton onClick={() => onButtonClick()}>완료</SubmitButton>
-        <LeavePageButton content="취소" />
-      </ButtonWrapper>
-    </EditorBlock>
-  ) : null;
+  return (
+    allContents.categoryId && (
+      <EditorBlock>
+        <TitleInput
+          placeholder=" 글 제목"
+          onChange={e => onChangeTitle(e)}
+          value={allContents.title}
+        />
+        <PriceAndCategoryWrapper>
+          <PriceWrapper>
+            <Won priceValid={priceInput}>₩</Won>
+            <PriceInput
+              type="number"
+              placeholder=" 가격 (선택사항)"
+              onChange={e => onPriceChange(e)}
+              value={allContents.price}
+              max="999999999"
+            />
+          </PriceWrapper>
+          <CatergoryWrapper onChange={e => e.target.blur()}>
+            <CategorySelect
+              ref={selectBox}
+              required
+              id="categories"
+              name="categories"
+              placeholder="카테고리"
+              onChange={e => onCategorySelect(e)}
+              defaultValue={allContents.categoryId}
+            >
+              <PlaceHolder ref={categorySelection}>카테고리 선택</PlaceHolder>
+              {category.categories.map(data => (
+                <DropDown key={data.id} value={data.id}>
+                  {data.categoryName}
+                </DropDown>
+              ))}
+            </CategorySelect>
+          </CatergoryWrapper>
+        </PriceAndCategoryWrapper>
+        <EditorWrapper>
+          <QuillWrapper>
+            <div ref={quillElement} />
+          </QuillWrapper>
+        </EditorWrapper>
+        <ButtonWrapper>
+          <SubmitButton onClick={() => onButtonClick()}>완료</SubmitButton>
+          <LeavePageButton content="취소" />
+        </ButtonWrapper>
+      </EditorBlock>
+    )
+  );
 };
 
 const EditorWrapper = styled.div``;
@@ -312,4 +313,4 @@ const SubmitButton = styled.button`
   }
 `;
 
-export default Editor;
+export default EditEditor;

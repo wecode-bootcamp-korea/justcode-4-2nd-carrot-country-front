@@ -10,7 +10,9 @@ export async function postComment(districtInfoId, comment) {
     body: JSON.stringify({ comment: comment }),
   })
     .then(res => res.json())
-    .then(result => result);
+    .then(result => {
+      return result;
+    });
 }
 
 export async function getCommentList(commentId) {

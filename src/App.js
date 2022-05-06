@@ -8,6 +8,7 @@ import Header from 'nav/Header';
 import Footer from 'nav/Footer';
 import Main from 'pages/main/Main';
 import ProductRegister from 'pages/product/ProductRegister';
+import ProductEdit from 'pages/product/ProductEdit';
 import ProductDetail from 'pages/product/ProductDetail';
 import DistrictInfo from 'pages/districtInfo/DistrictInfo';
 import Mypage from 'pages/Mypage';
@@ -27,6 +28,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/product/detail" element={<ProductDetail />} />
           <Route path="/product/register" element={<ProductRegister />} />
+          <Route path="/product/edit" element={<ProductEdit />} />
           <Route path="/district-info" element={<DistrictInfo />} />
           <Route path="/mypage" element={<Mypage />} />
           <Route path="/product" element={<ProductList />} />

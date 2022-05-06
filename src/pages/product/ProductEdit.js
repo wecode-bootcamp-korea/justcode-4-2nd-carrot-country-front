@@ -1,22 +1,28 @@
 import React, { useState, useRef, useEffect } from 'react';
-
+import { useLocation } from 'react-router';
+import { usePrompt } from 'hoc/blocker';
 import styled from 'styled-components';
 import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
-import Editor from './Editor';
+import EditEditor from './EditEditor';
 
-const Register = () => {
+const ProductEdit = () => {
+  const location = useLocation();
+  const { product } = location.state;
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
-  // const [buttonEnable, setButtonEnable] = useState(false);
-
+  const [productId, setProductId] = useState(0);
   const [modalImageInfo, setModalImageInfo] = useState({
     index: 0,
     imageSrc: '',
   });
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
+  usePrompt(
+    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
+    !Boolean(productId)
+  );
 
   const handleClick = event => {
     hiddenFileInput.current.click();
@@ -130,7 +136,12 @@ const Register = () => {
             ))}
           </ModalPhotoLine>
         </PhotoModal>
-        <Editor selectedImage={selectedImage} />
+        <EditEditor
+          selectedImage={selectedImage}
+          productId={productId}
+          setProductId={setProductId}
+          product={product}
+        />
       </RegisterWrapper>
     </WholeWrapper>
   );
@@ -306,4 +317,4 @@ const ModalImageContainer = styled.div`
   }
 `;
 
-export default Register;
+export default ProductEdit;

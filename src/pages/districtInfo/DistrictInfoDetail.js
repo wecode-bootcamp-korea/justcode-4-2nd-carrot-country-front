@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
 import moment from 'moment';
 import { getDistrictDetail } from 'apis/district';
+import { UserContext } from 'context/context';
 import CommentInput from 'components/comment/CommentInput';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
+import DetailDeleteModal from 'components/buttons/DetailDeleteModal';
 import { AiFillHeart } from 'react-icons/ai';
 
 import {
@@ -16,14 +18,17 @@ import {
   UserInfo,
   CommentsWrapper,
   CommentTitle,
+  FixAndDelete,
 } from './DistrictInfoDetailStyled';
 import Loading from 'components/loading/Loading';
 
 function DIDetail() {
   const location = useLocation();
+  const myInfo = useContext(UserContext);
   const { districtInfoId } = location.state;
   const [heart, setHeart] = useState('lightgray');
   const [data, setData] = useState();
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     getDistrictDetail(districtInfoId).then(data => {
@@ -39,7 +44,7 @@ function DIDetail() {
 
   return data ? (
     <MainWrapper>
-      {data.districtInfoImage && (
+      {Boolean(data.districtInfoImage.length) && (
         <ImageSlider images={data.districtInfoImage} />
       )}
       <InfoWrapper>
@@ -59,7 +64,11 @@ function DIDetail() {
           <div>
             <span>{moment(data.createdAt).format('YYYY-MM-DD')}</span>
             <span>조회 {data.viewCount ? data.viewCount : 0}</span>
-            {/* <span>좋아요 {data.districtInfoLiked.length}</span> */}
+            {myInfo.id === data.user.id ? (
+              <FixAndDelete>
+                <p onClick={() => setOpenModal(true)}>삭제</p>
+              </FixAndDelete>
+            ) : null}
           </div>
         </InfoBottom>
       </InfoWrapper>
@@ -74,6 +83,12 @@ function DIDetail() {
         </CommentTitle>
         <CommentInput districtInfoId={districtInfoId} />
       </CommentsWrapper>
+      <DetailDeleteModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        data={data}
+        isProduct={false}
+      />
     </MainWrapper>
   ) : (
     <Loading />

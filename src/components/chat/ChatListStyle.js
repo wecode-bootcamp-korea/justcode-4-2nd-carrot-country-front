@@ -42,7 +42,7 @@ const ChatProfile = styled.div`
 
 const ChatListWrapper = styled.div`
   height: 100%;
-  overflow: scroll;
+  overflow-y: scroll;
   #new {
     background-color: red !important;
   }
@@ -66,7 +66,7 @@ const ItemWrapper = styled.div`
     }
     svg {
       position: absolute;
-      left: 0;
+      right: 0;
       color: ${props => props.theme.signColor};
     }
   }
@@ -112,11 +112,11 @@ const ItemWrapper = styled.div`
 `;
 
 const NotFoundWrapper = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  display: ${props => (props.dropDown ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+  height: 100%;
   padding-bottom: 100px;
   p {
     margin-top: 30px;

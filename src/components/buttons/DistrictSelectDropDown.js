@@ -1,32 +1,14 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Loading from 'components/loading/Loading';
 
 const DistrictSelectDropDown = props => {
-  const {
-    setSelectedCity,
-    selectedCity,
-    cities,
-    setSelectedDistrict,
-    districts,
-  } = props;
-
-  console.log('District >>> ', districts);
-  const onCityChange = e => {
-    console.log('도시 선택시 >> ', e.target.value);
-    setSelectedCity(e.target.value); //도시 선택시
-  };
-
-  const onDistrictChange = e => {
-    console.log('구 선택시 >> ', e.target.value);
-    setSelectedDistrict(e.target.value);
-  };
-
-  return (
-    // cities.cities && (
+  const { cities, districts, onDistrictChange, onCityChange } = props;
+  return cities.length > 0 ? (
     <DistrictWrapper>
       <CityDropDown onChange={e => onCityChange(e)}>
         <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
-        {cities.cities.map(cities => (
+        {cities.map(cities => (
           <option value={cities.id} key={cities.id}>
             {cities.cityName}
           </option>
@@ -42,8 +24,9 @@ const DistrictSelectDropDown = props => {
           ))}
       </DistrictDropDown>
     </DistrictWrapper>
+  ) : (
+    <Loading />
   );
-  // );
 };
 export default DistrictSelectDropDown;
 

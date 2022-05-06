@@ -13,17 +13,21 @@ function DistrictInfoDelay() {
   const user = useContext(UserContext);
   const [loading, setLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(Boolean(user.id));
-  const [districtInfoData, setDistrictInfoData] = useState([]);
+  const [districtInfoData, setDistrictInfoData] = useState(null);
 
   useEffect(() => {
     setIsLogin(Boolean(user.id));
   }, [user]);
 
   useEffect(() => {
-    getDistrictList().then(data => {
-      setDistrictInfoData(data.districtInfos);
-      setLoading(false);
-    });
+    getDistrictList()
+      .then(data => {
+        setDistrictInfoData(data.districtInfos);
+        return Boolean(data.message);
+      })
+      .then(isOkay => {
+        isOkay && setLoading(false);
+      });
   }, [isLogin]);
 
   return loading ? (

@@ -10,7 +10,7 @@ import {
 } from 'apis/product';
 import { UserContext } from 'context/context';
 import { priceFormat, timeFormat } from 'utils/format';
-
+import DetailDeleteModal from 'components/buttons/DetailDeleteModal';
 import UserProfile from 'components/profile/UserProfile';
 import ImageSlider from 'components/slider/ImageSlider';
 import GridList from 'components/list/GridList';
@@ -24,6 +24,8 @@ import {
   InfoTop,
   InfoBottom,
   InfoLike,
+  FixAndDelete,
+  GrayLetters,
 } from 'pages/product/ProductDetailStyle';
 import { BsHeartFill } from 'react-icons/bs';
 
@@ -83,10 +85,16 @@ function ProductDetail(props) {
       ? true
       : false
   );
+
   const isMe = myInfo.id === product.user.id;
+  const [openModal, setOpenModal] = useState(false);
 
   const handleCallback = roomId => {
     navigate(`/chat`, { state: { roomId } });
+  };
+
+  const goEditProduct = () => {
+    navigate('/product/edit', { state: { product } });
   };
 
   const handleInterested = () => {
@@ -108,6 +116,7 @@ function ProductDetail(props) {
       );
     }
   };
+
   return (
     <MainWrapper>
       <ImageSlider images={product.productImage} />
@@ -147,11 +156,17 @@ function ProductDetail(props) {
           />
           <div>
             <span>
-              관심{' '}
+              관심
               {product.productIntrested ? product.productIntrested.length : 0}
             </span>
             <span>채팅 {product.chatRoom ? product.chatRoom.length : 0}</span>
             <span>조회 {product.viewCount}</span>
+            {myInfo.id === product.user.id ? (
+              <FixAndDelete>
+                {/* <p onClick={() => goEditProduct()}>수정 </p> */}
+                <p onClick={() => setOpenModal(true)}>삭제</p>
+              </FixAndDelete>
+            ) : null}
           </div>
         </InfoBottom>
         <InfoLike isIntrested={isIntrested}>
@@ -160,6 +175,12 @@ function ProductDetail(props) {
         </InfoLike>
       </InfoWrapper>
       {products.length > 0 && <GridList data={products} />}
+      <DetailDeleteModal
+        openModal={openModal}
+        setOpenModal={setOpenModal}
+        data={product}
+        isProduct={true}
+      />
     </MainWrapper>
   );
 }

@@ -16,22 +16,15 @@ async function getProductListBest() {
     .then(data => data);
 }
 
-async function getProductListCity(selectedCity) {
-  console.log('get product list city api>> ', selectedCity);
-  return await fetch(`${SERVER_PORT}/products/best?cityId=${selectedCity}`)
-    .then(res => res.json())
-    .then(data => data);
-}
-
-async function getProductListDistrict(selectedCity, selectedDistrict) {
-  console.log(
-    'get product list cisty & district api >>> ',
-    selectedCity,
-    'district>>> ',
-    selectedDistrict
-  );
+async function getProductListLocation(selectedCity, selectedDistrict) {
+  const districtQuery = selectedDistrict
+    ? `&districtId=${selectedDistrict}`
+    : '';
+  if (selectedCity === undefined) {
+    return;
+  }
   return await fetch(
-    `${SERVER_PORT}/products/best?cityId=${selectedCity}&districtId=${selectedDistrict}`
+    `${SERVER_PORT}/products/best?cityId=${selectedCity}` + districtQuery
   )
     .then(res => res.json())
     .then(data => data);
@@ -43,7 +36,7 @@ async function getProductDetail(productId) {
     .then(data => data);
 }
 
-async function postProduct(allContents, imageResult) {
+async function postProduct(sendableResult, imageResult) {
   return await fetch(`${SERVER_PORT}/products`, {
     headers: {
       'Content-Type': 'application/json',
@@ -51,7 +44,7 @@ async function postProduct(allContents, imageResult) {
     },
     method: 'POST',
     body: JSON.stringify({
-      ...allContents,
+      ...sendableResult,
     }),
   })
     .then(res => res.json())
@@ -69,6 +62,31 @@ async function postProduct(allContents, imageResult) {
     );
 }
 
+async function updateProduct(sendableResult, imageResult, productId) {
+  return await fetch(`${SERVER_PORT}/products/${productId}`, {
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+    method: 'PATCH',
+    body: JSON.stringify({
+      ...sendableResult,
+    }),
+  })
+    .then(res => res.json())
+    .then(data =>
+      fetch(`${SERVER_PORT}/products/${productId}/updateImages`, {
+        method: 'PATCH',
+        headers: {
+          token:
+            localStorage.getItem('token') || sessionStorage.getItem('token'),
+        },
+        body: imageResult,
+      })
+        .then(res => res.json())
+        .then(data => data)
+    );
+}
 async function updateIntrested(productId) {
   return await fetch(`${SERVER_PORT}/products/${productId}/interested`, {
     method: 'POST',
@@ -107,14 +125,30 @@ async function getSearchProductList(keyword) {
     .then(data => data);
 }
 
+async function deleteProduct(productId) {
+  return await fetch(`${SERVER_PORT}/products/`, {
+    headers: {
+      'Content-Type': 'application/json',
+      token: localStorage.getItem('token') || sessionStorage.getItem('token'),
+    },
+    method: 'DELETE',
+    body: JSON.stringify({
+      productId,
+    }),
+  })
+    .then(res => res.json())
+    .then(data => data);
+}
+
 export {
   getProductList,
   getProductListBest,
-  getProductListCity,
-  getProductListDistrict,
+  getProductListLocation,
   getProductDetail,
   postProduct,
   updateIntrested,
   deleteIntrested,
   getSearchProductList,
+  deleteProduct,
+  updateProduct,
 };

@@ -156,6 +156,14 @@ const NavButton = styled.button`
     display: none;
   }
 `;
+const ChatButtonWrapper = styled.div`
+  svg {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    color: ${props => props.theme.signColor};
+  }
+`;
 
 const ChatButton = styled.button`
   @media (max-width: 690px) {
@@ -189,4 +197,5 @@ export {
   NavMenu,
   NavButton,
   ChatButton,
+  ChatButtonWrapper,
 };

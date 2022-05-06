@@ -13,10 +13,13 @@ import {
   NavMenu,
   NavButton,
   ChatButton,
+  ChatButtonWrapper,
 } from './HeaderStyled';
 import { IoSearchOutline } from 'react-icons/io5';
 import { AiOutlineMenu } from 'react-icons/ai';
+import { BsFillCircleFill } from 'react-icons/bs';
 import { UserContext, UserDispatchContext } from 'context/context';
+import { socket } from 'apis/socket';
 
 function Header() {
   const location = useLocation();
@@ -29,6 +32,13 @@ function Header() {
   const [useKeyword, setUseKeyword] = useState('');
   const user = useContext(UserContext);
   const dispatch = useContext(UserDispatchContext);
+  const [isNewAlarm, setIsNewAlarm] = useState(false);
+
+  socket.on('new_alarm', (roomId, chat) => {
+    if (location.pathname !== '/chat') {
+      setIsNewAlarm(true);
+    }
+  });
 
   useLayoutEffect(() => {
     setIsButtonClicked(false);
@@ -116,9 +126,19 @@ function Header() {
           )}
         </NavMenu>
         {user.id !== '' && (
-          <ChatButton onClick={() => handleNavigate('/chat')}>
-            당근채팅
-          </ChatButton>
+          <ChatButtonWrapper style={{ position: 'relative' }}>
+            <ChatButton
+              onClick={() => {
+                if (isNewAlarm) {
+                  setIsNewAlarm(false);
+                }
+                handleNavigate('/chat');
+              }}
+            >
+              당근채팅
+            </ChatButton>
+            {isNewAlarm && <BsFillCircleFill size={12} />}
+          </ChatButtonWrapper>
         )}
       </HeaderWrapper>
       {useOpenLogin && (

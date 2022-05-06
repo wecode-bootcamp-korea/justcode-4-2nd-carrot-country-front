@@ -1,6 +1,5 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { usePrompt } from 'hoc/blocker';
+import { useState, useEffect, useRef } from 'react';
+
 import {
   Wrapper,
   PhotoLine,
@@ -15,35 +14,12 @@ import { BsFillCameraFill } from 'react-icons/bs';
 import { TiDelete } from 'react-icons/ti';
 
 function DistrictInfoRegister() {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState([]); //업로드한 이미지들을 저장
   const [imageURLs, setImageURLs] = useState([]); //이미지 src를 저장
   const [openModal, setOpenModal] = useState(false);
-  const [districtInfoId, setdistrictInfoId] = useState(0);
+
   const hiddenFileInput = useRef(null);
   const imageRef = useRef(null);
-
-  usePrompt(
-    '변경내용이 저장되지 않습니다. 페이지를 떠나시겠습니까?',
-    !Boolean(districtInfoId)
-  );
-
-  useEffect(() => {
-    if (Boolean(districtInfoId)) {
-      goToDetail();
-    }
-  }, [districtInfoId]);
-
-  const goToDetail = () => {
-    navigate(`/district-info/detail`, {
-      state: { districtInfoId: districtInfoId },
-    });
-  };
-
-  useLayoutEffect(() => {
-    document.documentElement.scrollTo(0, 0);
-  }, [location.pathname]);
 
   const onPhotoButtonClick = () => {
     hiddenFileInput.current.click();
@@ -144,10 +120,7 @@ function DistrictInfoRegister() {
           </div>
         ))}
       </PhotoLine>
-      <Editor
-        selectedImage={selectedImage}
-        setdistrictInfoId={setdistrictInfoId}
-      />
+      <Editor selectedImage={selectedImage} />
     </Wrapper>
   );
 }

@@ -47,7 +47,7 @@ function Chat() {
 
 const dropDownAnimation = keyframes`
   0%{
-    height:64px;
+    height: 64px;
   }100%{
     height: 100%;
   }
@@ -57,7 +57,7 @@ const dropUpAnimation = keyframes`
  0%{
   height: 100%;
  }100%{
-  height:64px;
+  height: 64px;
  }
 `;
 
@@ -72,6 +72,7 @@ const dropUpStyled = css`
 const MainWrapper = styled.main`
   @media (max-width: 890px) {
     flex-direction: column;
+
     #chatListWrapper {
       ${props => (props.dropDown ? dropDownStyled : dropUpStyled)}
       height: ${props => (props.dropDown ? 100 + '%' : 64 + 'px')};

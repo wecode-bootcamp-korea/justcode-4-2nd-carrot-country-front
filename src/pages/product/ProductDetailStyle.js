@@ -77,13 +77,16 @@ const InfoBottom = styled.div`
   div:nth-child(2) {
     border-bottom: 1px solid #99999940;
     span {
+      display: inline-flex;
       margin-right: 10px;
       color: #71717199;
       font-size: 13px;
     }
   }
 `;
+
 const InfoLike = styled.div`
+  position: relative;
   display: flex;
   padding: 20px 0px;
   margin-bottom: 20px;
@@ -103,6 +106,37 @@ const InfoLike = styled.div`
   }
 `;
 
+const FixAndDelete = styled.div`
+  display: inline-flex;
+  height: 7px;
+  justify-content: flex-end;
+  font-size: 13px;
+  color: #71717199;
+
+  p:hover {
+    cursor: pointer;
+  }
+  p:nth-child(2) {
+    margin-left: 10px;
+  }
+
+  // 스마트폰
+  @media (min-width: 300px) and (max-width: 450px) {
+    width: 55%;
+  }
+  @media (max-width: 690px) and (min-width: 450px) {
+    width: 70%;
+  }
+  // 아이패드 (모바일 버전)
+  @media (min-width: 691px) and (max-width: 890px) {
+    width: 78%;
+  }
+  // 모니터
+  @media (min-width: 891px) {
+    width: 79%;
+  }
+`;
+
 export {
   MainWrapper,
   InfoWrapper,
@@ -111,4 +145,5 @@ export {
   InfoTop,
   InfoBottom,
   InfoLike,
+  FixAndDelete,
 };
