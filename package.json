@@ -6,7 +6,8 @@
     "start": "cross-env NODE_ENV=src react-scripts start",
     "build": "cross-env NODE_ENV=production react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "distribute": "npm i && npm run build && pm2 serve build 3000 --name justcode-4-2nd-carrot-country-front --spa"
   },
   "devDependencies": {
     "@babel/core": "7.17.9",
@@ -16,6 +17,7 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "jest": "27.5.1",
+    "pm2": "^5.2.0",
     "prettier": "^2.6.2"
   },
   "dependencies": {
