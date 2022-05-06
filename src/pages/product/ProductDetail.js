@@ -163,7 +163,7 @@ function ProductDetail(props) {
             <span>조회 {product.viewCount}</span>
             {myInfo.id === product.user.id ? (
               <FixAndDelete>
-                <p onClick={() => goEditProduct()}>수정 </p>
+                {/* <p onClick={() => goEditProduct()}>수정 </p> */}
                 <p onClick={() => setOpenModal(true)}>삭제</p>
               </FixAndDelete>
             ) : null}

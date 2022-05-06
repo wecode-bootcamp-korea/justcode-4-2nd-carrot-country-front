@@ -121,8 +121,11 @@ const FixAndDelete = styled.div`
   }
 
   // 스마트폰
-  @media (max-width: 690px) {
-    width: 58%;
+  @media (min-width: 300px) and (max-width: 450px) {
+    width: 55%;
+  }
+  @media (max-width: 690px) and (min-width: 450px) {
+    width: 70%;
   }
   // 아이패드 (모바일 버전)
   @media (min-width: 691px) and (max-width: 890px) {
