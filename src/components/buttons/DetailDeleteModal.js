@@ -40,7 +40,7 @@ function DetailDeleteModal(props) {
               e.stopPropagation();
             }}
           >
-            {isProduct ? `상품을 삭제하시겠어요?` : `글을 삭제하시겠어요?`}
+            {isProduct ? `상품을 삭제하시겠어요?` : `정말 글을 삭제하시겠어요?`}
           </Confirmation>
         </ConfirmBlock>
         <ConfirmationButton>
