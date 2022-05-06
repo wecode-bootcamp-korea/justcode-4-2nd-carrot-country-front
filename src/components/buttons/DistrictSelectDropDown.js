@@ -4,7 +4,6 @@ import Loading from 'components/loading/Loading';
 
 const DistrictSelectDropDown = props => {
   const { cities, districts, onDistrictChange, onCityChange } = props;
-  console.log(cities);
   return cities.length > 0 ? (
     <DistrictWrapper>
       <CityDropDown onChange={e => onCityChange(e)}>
