@@ -65,7 +65,7 @@ const ProductInfoWhenLogin = ({ data, user }) => {
         district={user.district.districtName}
       />
       <WholeWrapper>
-        {productList && productList.length > 0 ? (
+        {productList ? (
           <ListWrapper>
             <ProductInfoList maxWidth={1024} data={productList} />
           </ListWrapper>
