@@ -61,7 +61,7 @@ function ChatListDelay(props) {
           setDropDown={setDropDown}
         />
       ) : (
-        <NotFoundRooms />
+        <NotFoundRooms dropDown={dropDown} />
       )}
     </MainWrapper>
   );
@@ -173,9 +173,10 @@ function ChatListItem(props) {
   );
 }
 
-function NotFoundRooms() {
+function NotFoundRooms(props) {
+  const { dropDown } = props;
   return (
-    <NotFoundWrapper>
+    <NotFoundWrapper dropDown={dropDown}>
       <ImList size={60} color="silver" />
       <p>대화방이 없네요</p>
     </NotFoundWrapper>
