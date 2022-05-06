@@ -1,31 +1,31 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import Loading from 'components/loading/Loading';
 
 const DistrictSelectDropDown = props => {
   const { cities, districts, onDistrictChange, onCityChange } = props;
-
-  return (
-    cities && (
-      <DistrictWrapper>
-        <CityDropDown onChange={e => onCityChange(e)}>
-          <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
-          {cities.map(cities => (
-            <option value={cities.id} key={cities.id}>
-              {cities.cityName}
+  return cities.length > 0 ? (
+    <DistrictWrapper>
+      <CityDropDown onChange={e => onCityChange(e)}>
+        <option value={`지역을 선택하세요`}>지역을 선택하세요</option>
+        {cities.map(cities => (
+          <option value={cities.id} key={cities.id}>
+            {cities.cityName}
+          </option>
+        ))}
+      </CityDropDown>
+      <DistrictDropDown onChange={e => onDistrictChange(e)}>
+        <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
+        {districts.districts &&
+          districts.districts.map(districts => (
+            <option value={districts.id} key={districts.id}>
+              {districts.districtName}
             </option>
           ))}
-        </CityDropDown>
-        <DistrictDropDown onChange={e => onDistrictChange(e)}>
-          <option value={`동네를 선택하세요`}>동네를 선택하세요</option>
-          {districts.districts &&
-            districts.districts.map(districts => (
-              <option value={districts.id} key={districts.id}>
-                {districts.districtName}
-              </option>
-            ))}
-        </DistrictDropDown>
-      </DistrictWrapper>
-    )
+      </DistrictDropDown>
+    </DistrictWrapper>
+  ) : (
+    <Loading />
   );
 };
 export default DistrictSelectDropDown;
