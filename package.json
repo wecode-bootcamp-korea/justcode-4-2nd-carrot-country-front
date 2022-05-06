@@ -7,7 +7,7 @@
     "build": "cross-env NODE_ENV=production react-scripts build",
     "test": "jest",
     "eject": "react-scripts eject",
-    "distribute": "npm i && npm run build && pm2 serve build 3000 --name justcode-4-2nd-carrot-country-front --spa"
+    "distribute": "GENERATE_SOURCEMAP=false react-scripts build"
   },
   "devDependencies": {
     "@babel/core": "7.17.9",
